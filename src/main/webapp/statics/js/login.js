@@ -22,7 +22,7 @@ layui.use(['form', 'layer', 'jquery'], function () {
     $("#imgCodeimg").on("click", function (e) {
         this.src = "/imageCode?method=getImageCode&" + Math.random();
     });
-    var flag=false;
+   /* var flag=false;
     $("#code").blur(function () {
         $.ajax({
             url: "imageCode",
@@ -34,7 +34,7 @@ layui.use(['form', 'layer', 'jquery'], function () {
             dataType: "json",
             success: function (data) {
                 if (data.status == 200) {
-                    /*layer.msg(data.msg);*/
+                    /!*layer.msg(data.msg);*!/
                     flag=true;
                 } else {
                     layer.msg(data.msg);
@@ -42,10 +42,9 @@ layui.use(['form', 'layer', 'jquery'], function () {
                 }
             }
         });
-    });
+    });*/
     //登录按钮
     form.on("submit(login)", function (data) {
-        if (flag) {
             $(this).text("登录中...").attr("disabled", "disabled").addClass("layui-disabled");
             setTimeout(function () {
                 $.ajax({
@@ -57,13 +56,15 @@ layui.use(['form', 'layer', 'jquery'], function () {
                         method: "login",
                         userCode: $("#userName").val(),
                         password: $("#password").val(),
+                        imgCode: $("#code").val()
                     },
                     success: function (result) {
-                        if (result.status == 200) {
+                        if (result.code == 200) {
                             layer.msg(result.msg);
                             /* $.cookie('token', result.data.accessToken, {path: '/'});*/
                             $.cookie('truename', result.data.userName, {path: '/'});
                             $.cookie('userRole', result.data.role, {path: '/'});
+                            $.cookie('uid', result.data.id, {path: '/'});
                             setTimeout(function () {
                                 window.location.href = "index.html";
                             }, 1000);
@@ -76,9 +77,6 @@ layui.use(['form', 'layer', 'jquery'], function () {
                 });
             }, 1000);
             return false;
-        }else {
-            layer.msg("请先填写正确的验证码！");
-        }
     });
 
     //表单输入效果

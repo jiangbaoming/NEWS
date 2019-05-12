@@ -26,19 +26,24 @@ layui.use(['form', 'layer'], function () {
         const index = layer.msg('提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         setTimeout(function () {
             $.ajax({
-                url: $.cookie("tempUrl") + "admin/updateByPassword?token=" + $.cookie("token"),
-                type: "PUT",
-                datatype: "application/json",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify({
+                url:"/user",
+                type: "post",
+                dataType: "json",
+                data: {
+                    method:"modifyPwd",
+                    uid:$.cookie("uid"),
                     newPassword: $("#newPwd").val(),
                     oldPassword: $("#oldPwd").val()
-                }),
+                },
                 success: function (result) {
                     if (result.httpStatus === 200) {
                         layer.msg("修改成功,请重新登陆...");
                         setTimeout(function () {
-                            $.ajax({
+                            top.layer.close(index);
+                            layer.closeAll("iframe");
+                            //跳转至登陆界面
+                            top.location.replace("/login.html");
+                          /*  $.ajax({
                                 url: $.cookie("tempUrl") + "admin/logout?token=" + $.cookie("token"),
                                 type: "POST",
                                 success: function (result) {
@@ -50,10 +55,10 @@ layui.use(['form', 'layer'], function () {
                                         top.location.replace("/statics/login.html");
                                     }
                                 }
-                            });
+                            });*/
                         }, 500);
                     } else {
-                        layer.alert(result.exception, {icon: 7, anim: 6});
+                        layer.alert(result.data.msg, {icon: 7, anim: 6});
                     }
                 }
             });

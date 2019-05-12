@@ -12,19 +12,19 @@ import java.util.Date;
  */
 public class Organization {
 
-    private Long oid;//机构ID
+    private Integer oid;//机构ID
     private String oname;//机构名称
-    private Long parentId;//机构上级部门
+    private Integer parentId;//机构上级部门
     private String creator;//数据创建人
     private Date createDate;//创建时间
     private String modifier;//数据修改人
     private Date modifyDate;//修改时间
 
-    public Long getOid() {
+    public Integer getOid() {
         return oid;
     }
 
-    public void setOid(Long oid) {
+    public void setOid(Integer oid) {
         this.oid = oid;
     }
 
@@ -36,11 +36,11 @@ public class Organization {
         this.oname = oname;
     }
 
-    public Long getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 

@@ -47,15 +47,9 @@
       "spread": false
     },
     {
-      "title": "部门管理",
-      "icon": "&#xe60a;",
-      "href": "page/member/memberList.html",
-      "spread": false
-    },
-    {
       "title": "用户管理",
       "icon": "&#xe770;",
-      "href": "page/member/memberList.html",
+      "href": "page/admin/adminList.html",
       "spread": false
     },
     {

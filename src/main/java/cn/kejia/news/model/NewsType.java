@@ -9,14 +9,14 @@ package cn.kejia.news.model;
  */
 public class NewsType {
 
-    private Long tid;//新闻分类ID
+    private Integer tid;//新闻分类ID
     private String tName;//分类名称
 
-    public Long getTid() {
+    public Integer getTid() {
         return tid;
     }
 
-    public void setTid(Long tid) {
+    public void setTid(Integer tid) {
         this.tid = tid;
     }
 
@@ -27,6 +27,4 @@ public class NewsType {
     public void settName(String tName) {
         this.tName = tName;
     }
-
-
 }

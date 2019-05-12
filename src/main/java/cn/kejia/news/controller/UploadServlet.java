@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 //使用@WebServlet配置UploadServlet的访问路径
-@WebServlet(name="UploadServlet",urlPatterns="/UploadServlet")
+@WebServlet(name="UploadServlet",urlPatterns="/uploadServlet")
 //使用注解@MultipartConfig将一个Servlet标识为支持文件上传
 @MultipartConfig//标识Servlet支持文件上传
 public class UploadServlet extends HttpServlet {

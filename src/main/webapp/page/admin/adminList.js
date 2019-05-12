@@ -10,7 +10,7 @@ layui.use(['form', 'layer', 'table'], function () {
         type: "GET",
         success: function (result) {
             if (result.data.status !== 8) {
-                window.location.href = "../405.html";
+                window.location.href = "/405.html";
             }
         }
     });
@@ -19,7 +19,7 @@ layui.use(['form', 'layer', 'table'], function () {
     const tableIns = table.render({
         elem: '#list',
         url: $.cookie("tempUrl") + 'admin/selectList',
-        where: {token: $.cookie("token")},
+        //where: {token: $.cookie("token")},
         method: "GET",
         request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
@@ -27,10 +27,10 @@ layui.use(['form', 'layer', 'table'], function () {
         },
         response: {
             statusName: 'code' //数据状态的字段名称，默认：code
-            , statusCode: 0 //成功的状态码，默认：0
-            , msgName: 'httpStatus' //状态信息的字段名称，默认：msg
-            , countName: 'totalElements' //数据总数的字段名称，默认：count
-            , dataName: 'content' //数据列表的字段名称，默认：data
+            , statusCode: 200 //成功的状态码，默认：0
+            , msgName: 'msg' //状态信息的字段名称，默认：msg
+            , countName: 'totalCount' //数据总数的字段名称，默认：count
+            , dataName: 'data' //数据列表的字段名称，默认：data
         },
         cellMinWidth: 95,
         page: true,
@@ -43,11 +43,11 @@ layui.use(['form', 'layer', 'table'], function () {
         cols: [[
             {field: 'id', title: 'ID', width: 90, align: 'center'},
             {
-                field: 'account', title: '用户名', minWidth: 200, align: "center", templet: function (d) {
+                field: 'userCode', title: '用户名', minWidth: 200, align: "center", templet: function (d) {
                     return '<a lay-event="edit" style="cursor:pointer;">' + d.account + '</a>';
                 }
             },
-            {field: 'name', title: '真实姓名', minWidth: 100, align: "center"},
+            {field: 'userName', title: '真实姓名', minWidth: 100, align: "center"},
             {field: 'phone', title: '手机号', align: 'center'},
             {
                 field: 'createDate', title: '创建时间', minWidth: 200, align: "center", templet: function (d) {

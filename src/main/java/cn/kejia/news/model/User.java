@@ -14,7 +14,7 @@ public class User {
 
     private String userCode;//登陆账号
     private String userName;//真实姓名
-    private Long id;//ID
+    private Integer id;//ID
     private String password;//密码
     private Integer oid;//部门编号
     private String phone;//联系电话
@@ -40,11 +40,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -110,5 +110,22 @@ public class User {
 
     public void setRole(Integer role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userCode='" + userCode + '\'' +
+                ", userName='" + userName + '\'' +
+                ", id=" + id +
+                ", password='" + password + '\'' +
+                ", oid=" + oid +
+                ", phone='" + phone + '\'' +
+                ", creator='" + creator + '\'' +
+                ", createDate=" + createDate +
+                ", modifier='" + modifier + '\'' +
+                ", modifyDate=" + modifyDate +
+                ", role=" + role +
+                '}';
     }
 }

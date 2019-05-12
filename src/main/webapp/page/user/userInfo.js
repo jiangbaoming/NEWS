@@ -30,6 +30,7 @@ layui.use(['form', 'layer'], function () {
         $.ajax({
             url: $.cookie("tempUrl") + "admin/updateByPhone?token=" + $.cookie("token") + "&phone=" + $(".phone").val(),
             type: "put",
+            dataType:"json",
             success: function (result) {
                 if (result.httpStatus === 200) {
                     layer.msg("更新成功,请重新登陆...");

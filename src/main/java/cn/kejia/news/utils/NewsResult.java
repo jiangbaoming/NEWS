@@ -7,7 +7,7 @@ package cn.kejia.news.utils;
  * @Modified By：
  */
 public class NewsResult {
-    private Integer status;//状态码
+    private Integer code;//状态码
     private String msg;//描述信息
     private Object data;//数据
 
@@ -22,36 +22,33 @@ public class NewsResult {
     }
 
     //自定义带数据
-    public static NewsResult build(Integer status, String msg, Object data) {
-        return new NewsResult(status, msg, data);
+    public static NewsResult build(Integer code, String msg, Object data) {
+        return new NewsResult(code, msg, data);
     }
 
     //自定义不带数据
-    public static NewsResult build(Integer status, String msg) {
-        return new NewsResult(status, msg, null);
-    }
-
-    public NewsResult() {
+    public static NewsResult build(Integer code, String msg) {
+        return new NewsResult(code, msg, null);
     }
 
     public NewsResult(Object data) {
-        this.status = 200;
-        this.msg = "ok";
+        this.code=200;
+        this.msg="ok";
         this.data = data;
     }
 
-    public NewsResult(int status, String msg, Object data) {
-        this.status = status;
+    public NewsResult(Integer code, String msg, Object data) {
+        this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getCode() {
+        return code;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public String getMsg() {

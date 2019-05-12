@@ -13,28 +13,28 @@ import java.util.Locale;
  */
 public class News {
 
-    private Long nid;//新闻编号
-    private Long uid;//用户编号
+    private Integer nid;//新闻编号
+    private Integer uid;//用户编号
     private String title;//新闻标题
     private String banner;//新闻轮播图
-    private Locale times;//浏览次数
+    private Integer times;//浏览次数
     private String content;//内容
     private Date releaseDate;//发布时间
-    private Long tid;//新闻分类
+    private Integer tid;//新闻分类
 
-    public Long getNid() {
+    public Integer getNid() {
         return nid;
     }
 
-    public void setNid(Long nid) {
+    public void setNid(Integer nid) {
         this.nid = nid;
     }
 
-    public Long getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(Long uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
@@ -54,11 +54,11 @@ public class News {
         this.banner = banner;
     }
 
-    public Locale getTimes() {
+    public Integer getTimes() {
         return times;
     }
 
-    public void setTimes(Locale times) {
+    public void setTimes(Integer times) {
         this.times = times;
     }
 
@@ -78,11 +78,11 @@ public class News {
         this.releaseDate = releaseDate;
     }
 
-    public Long getTid() {
+    public Integer getTid() {
         return tid;
     }
 
-    public void setTid(Long tid) {
+    public void setTid(Integer tid) {
         this.tid = tid;
     }
 }

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
@@ -18,6 +19,7 @@ import java.util.Random;
  * @Date:2019/05/09
  * @Modified By：
  */
+@WebServlet(name = "ImageCode",urlPatterns = "/imageCode")
 public class ImageCode extends BaseServlet {
 
     public static final int WIDTH = 120; // 生成的图片的宽度
@@ -55,18 +57,7 @@ public class ImageCode extends BaseServlet {
         ImageIO.write(bi, "jpg", response.getOutputStream());
     }
 
-    public void checkImageCode(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String imgCode = request.getParameter("imgCode");
-        System.out.println("用户输入验证码————————" + imgCode);
-        String oimgCode = (String) request.getSession().getAttribute("code");
-        System.out.println("原始保存验证码————————" + oimgCode);
-        if (imgCode.equalsIgnoreCase(oimgCode)) {
-            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
-        } else {
-            response.getWriter().write(JSON.toJSONString(NewsResult.build(500, "验证码不正确！")));
-        }
-    }
+
 
     /**
      * 设置图片的背景色
