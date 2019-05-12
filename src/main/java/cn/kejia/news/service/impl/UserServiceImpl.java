@@ -22,13 +22,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-
-        return null;
+    public List<User> getUsers(Integer pageNum, Integer pageSize) {
+        List<User> users = userDao.getUsers((pageNum-1)*pageSize,pageSize);
+        return users;
     }
+
 
     @Override
     public int getTotalCount() {
-        return 0;
+        int totalCount = userDao.getTotalCount();
+        return totalCount;
     }
 }

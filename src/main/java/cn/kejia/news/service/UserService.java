@@ -23,7 +23,7 @@ public interface UserService {
      * 获取所有用户
      * @return
      */
-    List<User> getUsers();
+    List<User> getUsers(Integer pageNum,Integer pageSize);
 
     /**
      * 获取用户总数

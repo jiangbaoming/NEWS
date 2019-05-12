@@ -52,10 +52,12 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers(Integer pageNum,Integer pageSize) {
         List<User> users=new ArrayList<>();
-        String sql = "select * from user";
-        rs=executeQuriy(sql, null);
+        System.out.println("pageNum:"+pageNum+"__pageSize:"+pageSize);
+        String sql = "select * from user limit ?,?";
+        Object[]params={pageNum,pageSize};
+        rs=executeQuriy(sql, params);
         try {
             while (rs.next()) {
                 User user=(User)tableToObject(rs);

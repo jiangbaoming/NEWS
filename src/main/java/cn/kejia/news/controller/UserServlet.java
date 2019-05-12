@@ -21,7 +21,7 @@ import java.util.Map;
  * @Date:2019/05/09
  * @Modified By：
  */
-@WebServlet(name = "UserServlet",urlPatterns = "/user")
+@WebServlet(name = "UserServlet", urlPatterns = "/user")
 public class UserServlet extends BaseServlet {
 
     private UserService userService = new UserServiceImpl();
@@ -61,11 +61,14 @@ public class UserServlet extends BaseServlet {
             response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "验证码不正确！")));
         }*/
     }
+
     public void getUsers(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<User> users =userService.getUsers();
-        int totalCount=userService.getTotalCount();
-        Map<String,Object> result=new HashMap<>();
+        Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
+        Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        List<User> users = userService.getUsers(pageNum,pageSize);
+        int totalCount = userService.getTotalCount();
+        Map<String, Object> result = new HashMap<>();
         result.put("code", 200);
         result.put("msg", "ok");
         result.put("totalCount", totalCount);

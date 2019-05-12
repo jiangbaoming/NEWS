@@ -14,7 +14,7 @@ public interface UserDao {
 
     User getUserByUserCode(String userCode);
 
-    List<User> getUsers();
+    List<User> getUsers(Integer pageNum,Integer pageSize);
 
     int getTotalCount();
 

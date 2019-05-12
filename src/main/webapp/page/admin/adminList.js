@@ -18,9 +18,9 @@ layui.use(['form', 'layer', 'table'], function () {
     //列表
     const tableIns = table.render({
         elem: '#list',
-        url: $.cookie("tempUrl") + 'admin/selectList',
-        //where: {token: $.cookie("token")},
-        method: "GET",
+        url: '/user',
+        where: {method: 'getUsers'},
+        method: "POST",
         request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -43,11 +43,11 @@ layui.use(['form', 'layer', 'table'], function () {
         cols: [[
             {field: 'id', title: 'ID', width: 90, align: 'center'},
             {
-                field: 'userCode', title: '用户名', minWidth: 200, align: "center", templet: function (d) {
-                    return '<a lay-event="edit" style="cursor:pointer;">' + d.account + '</a>';
+                field: 'userCode', title: '登录名', minWidth: 200, align: "center", templet: function (d) {
+                    return '<a lay-event="edit" style="cursor:pointer;">' + d.userCode + '</a>';
                 }
             },
-            {field: 'userName', title: '真实姓名', minWidth: 100, align: "center"},
+            {field: 'userName', title: '用户姓名', minWidth: 100, align: "center"},
             {field: 'phone', title: '手机号', align: 'center'},
             {
                 field: 'createDate', title: '创建时间', minWidth: 200, align: "center", templet: function (d) {
@@ -55,12 +55,12 @@ layui.use(['form', 'layer', 'table'], function () {
                 }
             },
             {
-                field: 'status', title: '状态', width: 100, align: 'center', templet: function (d) {
-                    switch (d.status) {
+                field: 'role', title: '是否管理员', width: 100, align: 'center', templet: function (d) {
+                    switch (d.role) {
                         case 0:
-                            return '<input type="checkbox" lay-filter="status" lay-skin="switch" value=' + d.id + ' lay-text="启用|禁用" >';
+                            return '<input type="checkbox" lay-filter="status" lay-skin="switch" value=' + d.id + ' lay-text="是|否" >';
                         case 1:
-                            return '<input type="checkbox" lay-filter="status" lay-skin="switch" value=' + d.id + ' lay-text="启用|禁用" checked>';
+                            return '<input type="checkbox" lay-filter="status" lay-skin="switch" value=' + d.id + ' lay-text="是|否" checked>';
                     }
                 }
             },
