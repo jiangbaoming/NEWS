@@ -155,4 +155,28 @@ public class UserServlet extends BaseServlet {
         result.put("data", users);
         response.getWriter().write(JSON.toJSONString(result));
     }
+
+    public void update(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String userName = request.getParameter("userName");
+        String phone = request.getParameter("phone");
+        Integer id=Integer.parseInt(request.getParameter("id"));
+        Integer oid = Integer.parseInt(request.getParameter("oid"));
+        Integer role = Integer.parseInt(request.getParameter("role"));
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User user = new User();
+        user.setId(id);
+        user.setUserName(userName);
+        user.setPhone(phone);
+        user.setOid(oid);
+        user.setRole(role);
+        user.setModifier(loginUser.getUserName());
+        user.setModifyDate(new Date());
+        boolean result = userService.update(user);
+        if (result) {
+            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+        } else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
+        }
+    }
 }

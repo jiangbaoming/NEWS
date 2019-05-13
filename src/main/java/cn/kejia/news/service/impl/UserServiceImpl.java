@@ -71,4 +71,10 @@ public class UserServiceImpl implements UserService {
         int rows = userDao.changeRole(id, role);
         return rows > 0;
     }
+
+    @Override
+    public boolean update(User user) {
+        int rows = userDao.update(user);
+        return rows > 0;
+    }
 }

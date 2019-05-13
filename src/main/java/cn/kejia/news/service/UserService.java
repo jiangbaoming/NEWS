@@ -75,4 +75,11 @@ public interface UserService {
      * @return
      */
     boolean changeRole(Integer id, Integer role);
+
+    /**
+     * 修改
+     * @param user
+     * @return
+     */
+    boolean update(User user);
 }
