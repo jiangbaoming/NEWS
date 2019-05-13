@@ -71,7 +71,7 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
                     //刷新父页面
                     parent.location.reload();
                 } else {
-                    layer.alert(result.data.msg, {icon: 7, anim: 6});
+                    layer.alert(result.msg, {icon: 7, anim: 6});
                 }
             }
         });
