@@ -30,4 +30,11 @@ public interface UserService {
      * @return
      */
     int getTotalCount();
+
+    /**
+     * 根据ID删除
+     * @param parseInt
+     * @return
+     */
+    boolean delete(int parseInt);
 }

@@ -4,7 +4,7 @@ layui.use(['form', 'layer', 'table'], function () {
         $ = layui.jquery,
         table = layui.table;
 
-    //验证权限
+/*    //验证权限
     $.ajax({
         url: $.cookie("tempUrl") + "admin/selectBySession?token=" + $.cookie("token"),
         type: "GET",
@@ -13,7 +13,7 @@ layui.use(['form', 'layer', 'table'], function () {
                 window.location.href = "/405.html";
             }
         }
-    });
+    });*/
 
     //列表
     const tableIns = table.render({
@@ -48,6 +48,7 @@ layui.use(['form', 'layer', 'table'], function () {
                 }
             },
             {field: 'userName', title: '用户姓名', minWidth: 100, align: "center"},
+            {field: 'oname', title: '机构名称', minWidth: 100, align: "center"},
             {field: 'phone', title: '手机号', align: 'center'},
             {
                 field: 'createDate', title: '创建时间', minWidth: 200, align: "center", templet: function (d) {
@@ -86,7 +87,7 @@ layui.use(['form', 'layer', 'table'], function () {
                 break;
             case 'add_btn':
                 const index = layui.layer.open({
-                    title: "新增管理员",
+                    title: "新增用户",
                     type: 2,
                     area: ["500px", "450px"],
                     content: "adminAdd.html",
@@ -103,7 +104,7 @@ layui.use(['form', 'layer', 'table'], function () {
         switch (layEvent) {
             case 'edit'://编辑
                 const index = layui.layer.open({
-                    title: "编辑管理员",
+                    title: "编辑用户",
                     type: 2,
                     area: ["500px", "350px"],
                     content: "adminUpd.html",
@@ -119,18 +120,24 @@ layui.use(['form', 'layer', 'table'], function () {
                 });
                 break;
             case 'del'://删除
-                layer.confirm('确定删除此管理员？', {icon: 3, title: '提示信息'}, function (index) {
+                layer.confirm('确定删除此用户？', {icon: 3, title: '提示信息'}, function (index) {
                     $.ajax({
-                        url: $.cookie("tempUrl") + "admin/deleteByPrimaryKey?token=" + $.cookie("token") + "&id=" + data.id,
-                        type: "DELETE",
+                        url: '/user',
+                        data:{
+                            method:'delete',
+                            id:data.id,
+                        },
+                        type: "post",
+                        dataType:"json",
                         success: function (result) {
+                            if(result.code==200){}
                             layer.msg("删除成功");
                             // window.location.href = "adminList.html";
+                            obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                            // tableIns.reload();
+                            layer.close(index);
                         }
                     });
-                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                    // tableIns.reload();
-                    layer.close(index);
                 });
                 break;
         }

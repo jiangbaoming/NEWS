@@ -66,7 +66,7 @@ public class UserServlet extends BaseServlet {
             throws ServletException, IOException {
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        List<User> users = userService.getUsers(pageNum,pageSize);
+        List<User> users = userService.getUsers(pageNum, pageSize);
         int totalCount = userService.getTotalCount();
         Map<String, Object> result = new HashMap<>();
         result.put("code", 200);
@@ -75,5 +75,16 @@ public class UserServlet extends BaseServlet {
         result.put("data", users);
         response.getWriter().write(JSON.toJSONString(result));
 
+    }
+
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String id = request.getParameter("id");
+       boolean result= userService.delete(Integer.parseInt(id));
+       if (result){
+           response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+       }else {
+           response.getWriter().write(JSON.toJSONString(NewsResult.build(500, "服务器出错！")));
+       }
     }
 }

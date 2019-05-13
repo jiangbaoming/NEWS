@@ -17,14 +17,16 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao = new UserDaoImpl();
 
+
     public User getUserByUserCode(String userCode) {
-        return null;
+        User user = userDao.getUserByUserCode(userCode);
+        return user;
     }
 
     @Override
     public List<User> getUsers(Integer pageNum, Integer pageSize) {
-        List<User> users = userDao.getUsers((pageNum-1)*pageSize,pageSize);
-        return users;
+        List<User> userList = userDao.getUsers((pageNum - 1) * pageSize, pageSize);
+        return userList;
     }
 
 
@@ -32,5 +34,11 @@ public class UserServiceImpl implements UserService {
     public int getTotalCount() {
         int totalCount = userDao.getTotalCount();
         return totalCount;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        int rows = userDao.delete(id);
+        return rows > 0 ? true : false;
     }
 }

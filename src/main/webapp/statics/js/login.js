@@ -51,7 +51,6 @@ layui.use(['form', 'layer', 'jquery'], function () {
                     url: "user?method=login",
                     type: "POST",
                     dataType: "json",
-                    /* contentType: "application/json;charset=utf-8",*/
                     data: {
                         method: "login",
                         userCode: $("#userName").val(),
