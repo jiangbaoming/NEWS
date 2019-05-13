@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 /**
  * @Author: 江宝明
@@ -30,6 +31,10 @@ public class BaseServlet extends javax.servlet.http.HttpServlet {
         Method method = null;
         try {
             method = clazz.getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+           /* Parameter[] parameters = method.getParameters();
+            for (Parameter parameter : parameters) {
+                System.out.println("方法参数:_______>"+parameter.getName());
+            }*/
         } catch (NoSuchMethodException e) {
             System.out.println("方法不存在！");
             e.printStackTrace();

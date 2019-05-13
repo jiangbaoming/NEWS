@@ -48,7 +48,7 @@ layui.use(['form', 'layer', 'table'], function () {
                 }
             },
             {field: 'userName', title: '用户姓名', minWidth: 100, align: "center"},
-            {field: 'oname', title: '机构名称', minWidth: 100, align: "center"},
+            {field: 'oid', title: '机构名称', minWidth: 100, align: "center"},
             {field: 'phone', title: '手机号', align: 'center'},
             {
                 field: 'createDate', title: '创建时间', minWidth: 200, align: "center", templet: function (d) {
@@ -75,10 +75,10 @@ layui.use(['form', 'layer', 'table'], function () {
         switch (obj.event) {
             case 'search_btn':
                 table.reload("dataTable", {
-                    url: $.cookie("tempUrl") + 'admin/selectListByPhone',
+                    url: "/user",
                     where: {
-                        phone: $(".searchVal").val(),
-                        token: $.cookie("token")
+                        param: $(".searchVal").val(),
+                        method: "search",
                     }
                 });
                 break;
@@ -112,9 +112,11 @@ layui.use(['form', 'layer', 'table'], function () {
                     success: function (layero, index) {
                         const body = layui.layer.getChildFrame('body', index);
                         body.find("input[name=id]").val(data.id);
-                        body.find("input[name=account]").val(data.account);
-                        body.find("input[name=trueName]").val(data.name);
+                        body.find("input[name=userCode]").val(data.userCode);
+                        body.find("input[name=userName]").val(data.userName);
+                        body.find("input[name=oid]").val(data.oid);
                         body.find("input[name=phone]").val(data.phone);
+                        body.find("input[name=role]").val(data.role);
                         form.render();
                     }
                 });
@@ -148,19 +150,19 @@ layui.use(['form', 'layer', 'table'], function () {
         // console.log(data.elem.checked); //开关是否开启，true或者false
         // console.log(data.value); //开关value值，也可以通过data.elem.value得到
         $.ajax({
-            url: $.cookie("tempUrl") + "admin/updateByStatus?token=" + $.cookie("token"),
-            type: "PUT",
-            datatype: "application/json",
-            contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({
-                "id": data.value,
-                "status": data.elem.checked ? "1" : "0"
-            }),
+            url: "/user",
+            type: "post",
+            dataType: "json",
+            data:{
+                method:"changeRole",
+                id: data.value,
+                role: data.elem.checked ? "1" : "0"
+            },
             success: function (result) {
-                if (result.httpStatus === 200) {
-                    layer.msg("状态修改成功");
+                if (result.code === 200) {
+                    layer.msg("修改成功");
                 } else {
-                    layer.alert(result.exception, {icon: 7, anim: 6});
+                    layer.alert(result.msg, {icon: 7, anim: 6});
                 }
             }
         });

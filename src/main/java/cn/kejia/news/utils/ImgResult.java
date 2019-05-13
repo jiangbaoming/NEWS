@@ -13,11 +13,14 @@ public class ImgResult {
     private Integer code;
     private String msg;
     private ImageFiled data;
-    public static ImgResult ok(ImageFiled data){
-        return new ImgResult(0,"",data);
+
+
+    public static ImgResult ok(ImageFiled data) {
+        return new ImgResult(0, "", data);
     }
-    public static ImgResult failed(String msg){
-        return new ImgResult(1,msg,null);
+
+    public static ImgResult failed(String msg) {
+        return new ImgResult(1, msg, null);
     }
 
     public ImgResult(Integer code, String msg, ImageFiled data) {

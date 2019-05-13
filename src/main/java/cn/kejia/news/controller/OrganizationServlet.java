@@ -1,10 +1,19 @@
 package cn.kejia.news.controller;
 
+import cn.kejia.news.model.Organization;
+import cn.kejia.news.service.OrganizationService;
+import cn.kejia.news.service.impl.OrganizationServiceImpl;
+import com.alibaba.fastjson.JSON;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 江宝明
@@ -12,147 +21,39 @@ import java.io.IOException;
  * @Date:2019/05/13
  * @Modified By：
  */
-@WebServlet(name = "OrganizationServlet",urlPatterns = "/organization")
+@WebServlet(name = "OrganizationServlet", urlPatterns = "/organization")
 public class OrganizationServlet extends BaseServlet {
+
+    private OrganizationService organizationService = new OrganizationServiceImpl();
 
     public void getAll(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.getWriter().write("[\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"zzz\",\n" +
-                "      \"open\": true,\n" +
-                "      \"children\": [\n" +
-                "        {\n" +
-                "          \"id\": 2,\n" +
-                "          \"name\": \"1\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": true\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 3,\n" +
-                "          \"name\": \"2\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": true\n" +
-                "\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 17,\n" +
-                "          \"name\": \"3z\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": true\n" +
-                "        }\n" +
-                "      ],\n" +
-                "      \"checked\": true\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": 4,\n" +
-                "      \"name\": \"评论\",\n" +
-                "      \"open\": false,\n" +
-                "      \"children\": [\n" +
-                "        {\n" +
-                "          \"id\": 5,\n" +
-                "          \"name\": \"留言列表\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": false\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 6,\n" +
-                "          \"name\": \"发表留言\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": false\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 333,\n" +
-                "          \"name\": \"233333\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": false\n" +
-                "        }\n" +
-                "      ],\n" +
-                "      \"checked\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": 10,\n" +
-                "      \"name\": \"权限管理\",\n" +
-                "      \"open\": false,\n" +
-                "      \"children\": [\n" +
-                "        {\n" +
-                "          \"id\": 8,\n" +
-                "          \"name\": \"用户列表\",\n" +
-                "          \"open\": false,\n" +
-                "          \"children\": [\n" +
-                "            {\n" +
-                "              \"id\": 40,\n" +
-                "              \"name\": \"添加用户\",\n" +
-                "              \"open\": false,\n" +
-                "              \n" +
-                "              \"url\": null,\n" +
-                "              \"title\": \"40\",\n" +
-                "              \"checked\": false,\n" +
-                "              \"level\": 2,\n" +
-                "              \"check_Child_State\": 0,\n" +
-                "              \"check_Focus\": false,\n" +
-                "              \"checkedOld\": false,\n" +
-                "              \"dropInner\": false,\n" +
-                "              \"drag\": false,\n" +
-                "              \"parent\": false\n" +
-                "            },\n" +
-                "            {\n" +
-                "              \"id\": 41,\n" +
-                "              \"name\": \"编辑用户\",\n" +
-                "              \"open\": false,\n" +
-                "              \"checked\": false\n" +
-                "            },\n" +
-                "            {\n" +
-                "              \"id\": 42,\n" +
-                "              \"name\": \"删除用户\",\n" +
-                "              \"open\": false,\n" +
-                "              \"checked\": false\n" +
-                "            }\n" +
-                "          ],\n" +
-                "          \"checked\": false\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 11,\n" +
-                "          \"name\": \"角色列表\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": false\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 13,\n" +
-                "          \"name\": \"所有权限\",\n" +
-                "          \"open\": false,\n" +
-                "          \"children\": [\n" +
-                "            {\n" +
-                "              \"id\": 34,\n" +
-                "              \"name\": \"添加权限\",\n" +
-                "              \"open\": false,\n" +
-                "              \"checked\": false\n" +
-                "            },\n" +
-                "            {\n" +
-                "              \"id\": 37,\n" +
-                "              \"name\": \"编辑权限\",\n" +
-                "              \"open\": false,\n" +
-                "              \"checked\": false\n" +
-                "            },\n" +
-                "            {\n" +
-                "              \"id\": 38,\n" +
-                "              \"name\": \"删除权限\",\n" +
-                "              \"open\": false,\n" +
-                "              \"checked\": false\n" +
-                "            }\n" +
-                "          ],\n" +
-                "          \"checked\": false\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"id\": 15,\n" +
-                "          \"name\": \"操作日志\",\n" +
-                "          \"open\": false,\n" +
-                "          \"checked\": false\n" +
-                "        }\n" +
-                "      ],\n" +
-                "      \"checked\": false\n" +
-                "    }\n" +
-                "  ]");
+        List<Map<String, Object>> mapList = getByPid(0);
+        response.getWriter().write(JSON.toJSONString(mapList));
+    }
+
+
+    private List<Map<String, Object>> getByPid(int pid) {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        //获取根节点
+        List<Organization> rootList = organizationService.getBySuperId(pid);
+        for (Organization organization : rootList) {
+            //判断是否为父节点
+            List<Organization> departmentListBySuperId = organizationService.getBySuperId(organization.getOid());
+            if (departmentListBySuperId.size() > 0) {
+                Map<String, Object> departmentListVo = new HashMap<>();
+                departmentListVo.put("id", organization.getOid());
+                departmentListVo.put("name", organization.getOname());
+                //递归调用
+                departmentListVo.put("children", getByPid(organization.getOid()));
+                mapList.add(departmentListVo);
+            } else {
+                Map<String, Object> departmentListVo = new HashMap<>();
+                departmentListVo.put("id", organization.getOid());
+                departmentListVo.put("name", organization.getOname());
+                mapList.add(departmentListVo);
+            }
+        }
+        return mapList;
     }
 }

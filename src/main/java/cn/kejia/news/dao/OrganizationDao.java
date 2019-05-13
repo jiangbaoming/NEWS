@@ -34,4 +34,11 @@ public interface OrganizationDao {
      * @return
      */
     boolean add(Organization oz);
+
+    /**
+     * 获取子部门列表
+     * @param pid
+     * @return
+     */
+    List<Organization> getListByPid(int pid);
 }

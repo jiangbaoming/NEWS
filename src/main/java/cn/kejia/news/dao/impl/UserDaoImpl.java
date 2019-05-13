@@ -18,7 +18,7 @@ import java.util.List;
 public class UserDaoImpl extends BaseDao implements UserDao {
     @Override
     public Object tableToObject(ResultSet rs) throws SQLException {
-        User user=new User();
+        User user = new User();
         user.setId(rs.getInt("id"));
         user.setUserCode(rs.getString("userCode"));
         user.setUserName(rs.getString("userName"));
@@ -52,15 +52,33 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     }
 
     @Override
-    public List<User> getUsers(Integer pageNum,Integer pageSize) {
-        List<User> users=new ArrayList<>();
-        System.out.println("pageNum:"+pageNum+"__pageSize:"+pageSize);
+    public List<User> getUsers(Integer pageNum, Integer pageSize) {
+        List<User> users = new ArrayList<>();
         String sql = "select * from user limit ?,?";
-        Object[]params={pageNum,pageSize};
-        rs=executeQuriy(sql, params);
+        Object[] params = {pageNum, pageSize};
+        rs = executeQuriy(sql, params);
         try {
             while (rs.next()) {
-                User user=(User)tableToObject(rs);
+                User user = (User) tableToObject(rs);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> getUsers(Integer pageNum, Integer pageSize, String param) {
+        List<User> users = new ArrayList<>();
+        String sql = "select * from user where userCode = ? or userName = ? or phone = ? limit ?,?";
+        Object[] params = {param, param, param, pageNum, pageSize};
+        rs = executeQuriy(sql, params);
+        try {
+            while (rs.next()) {
+                User user = (User) tableToObject(rs);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -73,12 +91,30 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public int getTotalCount() {
-        String sql="select count(1) from user";
-        rs=executeQuriy(sql, null);
-        int total=0;
+        String sql = "select count(1) from user";
+        rs = executeQuriy(sql, null);
+        int total = 0;
         try {
             while (rs.next()) {
-               total=rs.getInt(1);
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return total;
+    }
+
+    @Override
+    public int getTotalCount(String param) {
+        String sql = "select count(1) from user where userCode like ? or userName = ? or phone = ?";
+        Object[] params = {param, param, param};
+        rs = executeQuriy(sql, params);
+        int total = 0;
+        try {
+            while (rs.next()) {
+                total = rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,33 +126,41 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public int updatePassword(Integer id, String newPassword) {
-        String sql="update user set password = ? where id = ?";
-        Object[] params={newPassword,id};
-        int rows=executeUpdata(sql, params);
+        String sql = "update user set password = ? where id = ?";
+        Object[] params = {newPassword, id};
+        int rows = executeUpdata(sql, params);
         return rows;
     }
 
     @Override
     public int update(User user) {
-        String sql="update user set  userName = ?, phone = ?, oid = ?, modifier = ?, modifyDate = ?, role = ? where id = ?";
-        Object[]params={user.getUserName(),user.getPhone(),user.getOid(),user.getModifier(),user.getModifyDate(),user.getRole(),user.getId()};
-        int rows=executeUpdata(sql, params);
+        String sql = "update user set  userName = ?, phone = ?, oid = ?, modifier = ?, modifyDate = ?, role = ? where id = ?";
+        Object[] params = {user.getUserName(), user.getPhone(), user.getOid(), user.getModifier(), user.getModifyDate(), user.getRole(), user.getId()};
+        int rows = executeUpdata(sql, params);
         return rows;
     }
 
     @Override
     public int delete(Integer uid) {
-        String sql="delete from user where id= ?";
-        Object[] params={uid};
-        int rows=executeUpdata(sql, params);
+        String sql = "delete from user where id= ?";
+        Object[] params = {uid};
+        int rows = executeUpdata(sql, params);
         return rows;
     }
 
     @Override
     public int add(User user) {
-        String sql="insert into user(userCode, userName,password,phone,oid,creator,createDate,modifier,modifyDate,role)values(?,?,?,?,?,?,?,?,?,?)";
-        Object[] params={user.getUserCode(),user.getUserName(),user.getPassword(),user.getPhone(),user.getOid(),user.getCreator(),user.getCreateDate(),user.getModifier(),user.getModifyDate(),user.getRole()};
-        int rows=executeUpdata(sql, params);
+        String sql = "insert into user(userCode, userName,password,phone,oid,creator,createDate,modifier,modifyDate,role)values(?,?,?,?,?,?,?,?,?,?)";
+        Object[] params = {user.getUserCode(), user.getUserName(), user.getPassword(), user.getPhone(), user.getOid(), user.getCreator(), user.getCreateDate(), user.getModifier(), user.getModifyDate(), user.getRole()};
+        int rows = executeUpdata(sql, params);
+        return rows;
+    }
+
+    @Override
+    public int changeRole(Integer id, Integer role) {
+        String sql = "update user set  role = ? where id = ?";
+        Object[] params = {role, id};
+        int rows = executeUpdata(sql, params);
         return rows;
     }
 }

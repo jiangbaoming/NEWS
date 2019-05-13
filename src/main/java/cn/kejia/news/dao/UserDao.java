@@ -16,7 +16,11 @@ public interface UserDao {
 
     List<User> getUsers(Integer pageNum,Integer pageSize);
 
+    List<User> getUsers(Integer pageNum,Integer pageSize,String param);
+
     int getTotalCount();
+
+    int getTotalCount(String param);
 
     int updatePassword(Integer id,String newPassword);
 
@@ -25,4 +29,6 @@ public interface UserDao {
     int delete(Integer uid);
 
     int add(User user);
+
+    int changeRole(Integer id, Integer role);
 }

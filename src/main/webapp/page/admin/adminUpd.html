@@ -23,20 +23,26 @@
     <div class="layui-form-item">
         <label class="layui-form-label">登陆账号：</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" lay-filter="account" lay-verify="required" name="account" disabled>
+            <input type="text" class="layui-input" lay-filter="userCode" lay-verify="required" name="userCode" disabled>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户姓名：</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" lay-filter="trueName" lay-verify="required" name="trueName"
+            <input type="text" class="layui-input" lay-filter="userName" lay-verify="required" name="userName"
                    placeholder="请输入姓名">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">所属部门：</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" lay-filter="oid" lay-verify="required" name="oid">
+            <input type="text" id="tree" lay-filter="tree"  name="oid" lay-verify="required" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户角色：</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" lay-filter="role" lay-verify="required" name="role">
         </div>
     </div>
     <div class="layui-form-item">
