@@ -31,7 +31,7 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
         // 点击回调
         click: function (d) {
             //console.log(d);
-            updataDid = d.current.id;
+            modifyOid = d.current.id;
             // layer.msg(updataDid);
         },
 //      加载完成后的回调函数
