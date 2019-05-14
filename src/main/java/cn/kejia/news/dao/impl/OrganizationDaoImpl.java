@@ -166,4 +166,12 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao {
         }
         return totalCount;
     }
+
+    @Override
+    public boolean reName(String oname, Integer oid) {
+        String sql = "update organization set oname = ?,WHERE oid = ?";
+        Object[] params = {oname,oid};
+        int rows = executeUpdata(sql, params);
+        return rows > 0;
+    }
 }

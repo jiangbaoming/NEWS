@@ -68,4 +68,25 @@ public class OrganizationServiceImpl implements OrganizationService {
         int totalCount = organizationDao.getTotalCount(pid);
         return totalCount;
     }
+
+    @Override
+    public boolean add(Organization oz) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        boolean result=organizationDao.add(oz);
+        return result;
+    }
+
+    @Override
+    public boolean reName(String oname, Integer oid) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+       boolean result= organizationDao.reName(oname,oid);
+        return result;
+    }
+
+    @Override
+    public boolean delete(Integer oid) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        boolean result = organizationDao.delete(oid);
+        return result;
+    }
 }

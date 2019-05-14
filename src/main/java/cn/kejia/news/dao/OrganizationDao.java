@@ -56,4 +56,6 @@ public interface OrganizationDao {
     List<Organization> getList(Integer pageNum, Integer pageSize, Integer pid);
 
     int getTotalCount(Integer pid);
+
+    boolean reName(String oname, Integer oid);
 }

@@ -22,4 +22,10 @@ public interface OrganizationService {
     List<Organization> getList(Integer pageNum, Integer pageSize, Integer pid);
 
     int getTotalCount(Integer pid);
+
+    boolean add(Organization oz);
+
+    boolean reName(String oname, Integer oid);
+
+    boolean delete(Integer oid);
 }
