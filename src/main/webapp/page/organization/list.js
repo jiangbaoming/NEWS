@@ -72,7 +72,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'tree', 'table'], function () {
     tableReload(null);
 //添加顶级分类
     $("#addcate").on("click", function () {
-        layer.prompt({title: '输入分类名称，并确认', formType: 0}, function (text, index) {
+        layer.prompt({title: '输入机构名称，并确认', formType: 0}, function (text, index) {
             layer.close(index);
             //TODO 可以ajax到后台操作，这里只做模拟
             layer.load(2);
@@ -97,7 +97,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'tree', 'table'], function () {
             event.stopPropagation();
             $(this).children(".select").removeClass("hide")
         },
-
         mouseout: function (event) {
             event.stopPropagation();
             $(this).children(".select").addClass("hide")
@@ -110,7 +109,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'tree', 'table'], function () {
 
         var pid = $(this).closest("li").attr("id");//将父级类目的id作为父类id
         var that = $(this).closest("li");
-        layer.prompt({title: '输入子分类名称，并确认', formType: 0}, function (text, index) {
+        layer.prompt({title: '输入子机构名称，并确认', formType: 0}, function (text, index) {
             layer.close(index);
 
             //TODO 可以ajax到后台操作，这里只做模拟
