@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>机构列表--Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/statics/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/statics/css/public.css" media="all"/>
+    <link rel="stylesheet" href="list.css">
+</head>
+<body class="childrenBody">
+<div class="layui-inline">
+    <div style="width: 250px; height:800px; ">
+        <div>
+            <h3 style="text-align: center;">机构管理</h3>
+            <ul unselectable="on" id="demo"
+                style="margin-top: 30px; -moz-user-select: none; -webkit-user-select: none;"
+                onselectstart="return false;"></ul>
+            <button id="addcate" class="layui-btn  layui-btn-primary"
+                    style="margin-top:20px; margin-left:28px; width:70%;">添加顶级机构
+            </button>
+        </div>
+    </div>
+</div>
+<div class="layui-inline" style="height:800px;">
+    <table id="list" lay-filter="test"></table>
+</div>
+<script type="text/javascript" src="/statics/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/statics/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/statics/layui/layui.js"></script>
+<script type="text/javascript" src="list.js"></script>
+</body>
+</html>

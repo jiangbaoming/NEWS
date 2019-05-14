@@ -15,12 +15,57 @@ import java.util.List;
  */
 public class OrganizationServiceImpl implements OrganizationService {
 
-    private OrganizationDao organizationDao = new OrganizationDaoImpl();
+ //   private OrganizationDao organizationDao = new OrganizationDaoImpl();
 
 
     @Override
     public List<Organization> getBySuperId(Integer pid) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
         List<Organization> list = organizationDao.getListByPid(pid);
         return list;
+    }
+
+    @Override
+    public List<Organization> getList(Integer pageNum, Integer pageSize) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        List<Organization> organizations = organizationDao.getList((pageNum - 1) * pageSize, pageSize);
+        for (Organization organization : organizations) {
+            if (organization.getParentId() == 0) {
+                organization.setPname("顶级部门");
+            } else {
+                Organization oz = organizationDao.getOrganizationById(organization.getParentId());
+                organization.setPname(oz.getOname());
+            }
+        }
+        return organizations;
+    }
+
+    @Override
+    public int getTotalCount() {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        int totalCount = organizationDao.getTotalCount();
+        return totalCount;
+    }
+
+    @Override
+    public List<Organization> getList(Integer pageNum, Integer pageSize, Integer pid) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        List<Organization> organizations = organizationDao.getList((pageNum - 1) * pageSize, pageSize,pid);
+        for (Organization organization : organizations) {
+            if (organization.getParentId() == 0) {
+                organization.setPname("顶级部门");
+            } else {
+                Organization oz = organizationDao.getOrganizationById(organization.getParentId());
+                organization.setPname(oz.getOname());
+            }
+        }
+        return organizations;
+    }
+
+    @Override
+    public int getTotalCount(Integer pid) {
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        int totalCount = organizationDao.getTotalCount(pid);
+        return totalCount;
     }
 }

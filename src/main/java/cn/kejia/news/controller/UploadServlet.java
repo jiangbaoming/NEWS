@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 //使用@WebServlet配置UploadServlet的访问路径
-@WebServlet(name="UploadServlet",urlPatterns="/uploadServlet")
+@WebServlet(name = "UploadServlet", urlPatterns = "/uploadServlet")
 //使用注解@MultipartConfig将一个Servlet标识为支持文件上传
 @MultipartConfig//标识Servlet支持文件上传
 public class UploadServlet extends HttpServlet {
@@ -37,16 +37,16 @@ public class UploadServlet extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         //存储路径
-        String savePath =request.getServletContext().getRealPath("upload");// "D:\\IdeaProjects\\testFileUPload\\src\\main\\webapp\\uploadFile";//  request.getServletContext().getRealPath("upload");
-        System.out.println("存储路径>>>>>>>>>>>>>>>>>"+savePath);
-        File file=new File(savePath);
-        if (!file.exists()){
+        String savePath = request.getServletContext().getRealPath("upload");
+        System.out.println("存储路径>>>>>>>>>>>>>>>>>" + savePath);
+        File file = new File(savePath);
+        if (!file.exists()) {
             file.mkdirs();
         }
         //获取上传的文件集合
         Collection<Part> parts = request.getParts();
         //上传单个文件
-        if (parts.size()==1) {
+        if (parts.size() == 1) {
             //Servlet3.0将multipart/form-data的POST请求封装成Part，通过Part对上传的文件进行操作。
             //Part part = parts[0];//从上传的文件集合中获取Part对象
             Part part = request.getPart("file");//通过表单file控件(<input type="file" name="file">)的名字直接获取Part对象
@@ -57,27 +57,27 @@ public class UploadServlet extends HttpServlet {
             String fileName = getFileName(header);
             //获取后缀
             int i = fileName.lastIndexOf(".");
-            String fileSuffix=fileName.substring(i);
+            String fileSuffix = fileName.substring(i);
             //文件重命名
-            String newFileName= IDUtils.genImageName() +fileSuffix;
-            System.out.println("文件重命名---------------------"+newFileName);
+            String newFileName = IDUtils.genImageName() + fileSuffix;
+            System.out.println("文件重命名---------------------" + newFileName);
             //把文件写到指定路径
-            part.write(savePath+File.separator+newFileName);
-            String fileUrl="http://192.168.1.141:8080/upload/"+newFileName;
-            ImageFiled imageFiled=new ImageFiled(fileUrl,fileName,newFileName);
+            part.write(savePath + File.separator + newFileName);
+            String fileUrl = "http://192.168.1.141:8080/upload/" + newFileName;
+            ImageFiled imageFiled = new ImageFiled(fileUrl, fileName, newFileName);
             response.getWriter().write(JSON.toJSONString(ImgResult.ok(imageFiled)));
-            System.out.println("文件>>>>>>>>>>>>>"+savePath+File.separator+newFileName);
-        }else {
+            System.out.println("文件>>>>>>>>>>>>>" + savePath + File.separator + newFileName);
+        } else {
             //一次性上传多个文件
-            List<String> filesUrlList=new ArrayList<>();
+            List<String> filesUrlList = new ArrayList<>();
             for (Part part : parts) {//循环处理上传的文件
                 //获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
                 String header = part.getHeader("content-disposition");
                 //获取文件名
                 String fileName = getFileName(header);
                 //把文件写到指定路径
-                part.write(savePath+File.separator+fileName);
-                String fileUrl="http://192.168.1.141:8080/upload/"+fileName;
+                part.write(savePath + File.separator + fileName);
+                String fileUrl = "http://192.168.1.141:8080/upload/" + fileName;
                 filesUrlList.add(fileUrl);
             }
             response.getWriter().write(JSONArray.toJSONString(filesUrlList));
@@ -87,7 +87,8 @@ public class UploadServlet extends HttpServlet {
     /**
      * 根据请求头解析出文件名
      * 请求头的格式：火狐和google浏览器下：form-data; name="file"; filename="snmp4j--api.zip"
-     *                 IE浏览器下：form-data; name="file"; filename="E:\snmp4j--api.zip"
+     * IE浏览器下：form-data; name="file"; filename="E:\snmp4j--api.zip"
+     *
      * @param header 请求头
      * @return 文件名
      */
@@ -104,7 +105,7 @@ public class UploadServlet extends HttpServlet {
          */
         String[] tempArr2 = tempArr1[2].split("=");
         //获取文件名，兼容各种浏览器的写法
-        String fileName = tempArr2[1].substring(tempArr2[1].lastIndexOf("\\")+1).replaceAll("\"", "");
+        String fileName = tempArr2[1].substring(tempArr2[1].lastIndexOf("\\") + 1).replaceAll("\"", "");
         return fileName;
     }
 

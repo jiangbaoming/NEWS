@@ -41,4 +41,19 @@ public interface OrganizationDao {
      * @return
      */
     List<Organization> getListByPid(int pid);
+
+    /**
+     * 根据oid获取Organization
+     * @param oid
+     * @return
+     */
+    Organization getOrganizationById(Integer oid);
+
+    List<Organization> getList(Integer pageNum, Integer pageSize);
+
+    int getTotalCount();
+
+    List<Organization> getList(Integer pageNum, Integer pageSize, Integer pid);
+
+    int getTotalCount(Integer pid);
 }

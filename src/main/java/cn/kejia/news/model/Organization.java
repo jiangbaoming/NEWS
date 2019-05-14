@@ -1,5 +1,6 @@
 package cn.kejia.news.model;
 
+import java.io.PrintStream;
 import java.util.Date;
 
 /**
@@ -19,6 +20,16 @@ public class Organization {
     private Date createDate;//创建时间
     private String modifier;//数据修改人
     private Date modifyDate;//修改时间
+
+    private String pname;//上级部门名称
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
+    }
 
     public Integer getOid() {
         return oid;

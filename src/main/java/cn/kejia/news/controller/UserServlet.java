@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.interfaces.RSAKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ public class UserServlet extends BaseServlet {
         User user = new User();
         user.setUserName("admin");
         user.setRole(1);
+        user.setId(1);
         request.getSession().setAttribute("loginUser", user);
         response.getWriter().write(JSON.toJSONString(NewsResult.success(user)));
         /*String imgCode = request.getParameter("imgCode");
@@ -133,10 +135,11 @@ public class UserServlet extends BaseServlet {
             throws ServletException, IOException {
         Integer role = Integer.parseInt(request.getParameter("role"));
         Integer id = Integer.parseInt(request.getParameter("id"));
-        boolean result = userService.changeRole(id, role);
-        if (result){
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        boolean result = userService.changeRole(id, role, loginUser);
+        if (result) {
             response.getWriter().write(JSON.toJSONString(NewsResult.success()));
-        }else {
+        } else {
             response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
         }
     }
@@ -146,7 +149,7 @@ public class UserServlet extends BaseServlet {
         String param = request.getParameter("param");
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        List<User> users = userService.getUsers(pageNum, pageSize,param);
+        List<User> users = userService.getUsers(pageNum, pageSize, param);
         int totalCount = userService.getTotalCount(param);
         Map<String, Object> result = new HashMap<>();
         result.put("code", 200);
@@ -160,16 +163,16 @@ public class UserServlet extends BaseServlet {
             throws ServletException, IOException {
         String userName = request.getParameter("userName");
         String phone = request.getParameter("phone");
-        Integer id=Integer.parseInt(request.getParameter("id"));
+        Integer id = Integer.parseInt(request.getParameter("id"));
         Integer oid = Integer.parseInt(request.getParameter("oid"));
-        Integer role = Integer.parseInt(request.getParameter("role"));
+        /*Integer role = Integer.parseInt(request.getParameter("role"));*/
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         User user = new User();
         user.setId(id);
         user.setUserName(userName);
         user.setPhone(phone);
         user.setOid(oid);
-        user.setRole(role);
+        /*user.setRole(role);*/
         user.setModifier(loginUser.getUserName());
         user.setModifyDate(new Date());
         boolean result = userService.update(user);
@@ -178,5 +181,50 @@ public class UserServlet extends BaseServlet {
         } else {
             response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
         }
+    }
+
+    public void modify(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String userName = request.getParameter("userName");
+        String phone = request.getParameter("phone");
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User user = new User();
+        user.setId(id);
+        user.setUserName(userName);
+        user.setPhone(phone);
+        user.setModifier(loginUser.getUserName());
+        user.setModifyDate(new Date());
+        boolean result = userService.modify(user);
+        if (result) {
+            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+        } else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
+        }
+    }
+
+    public void modifyPwd(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Integer uid = Integer.parseInt(request.getParameter("uid"));
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+        User user=userService.getUserById(uid);
+        if (oldPassword.equals(user.getPassword())){
+            boolean result=   userService.modifyPwd(uid,newPassword);
+            if (result){
+                response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+            }else {
+                response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错!")));
+            }
+        }else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "原密码错误")));
+        }
+    }
+
+    public void getUserInfo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Integer id=Integer.parseInt(request.getParameter("id"));
+        User user=userService.getUserById(id);
+        response.getWriter().write(JSON.toJSONString(NewsResult.success(user)));
     }
 }

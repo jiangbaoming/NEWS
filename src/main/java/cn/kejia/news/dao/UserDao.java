@@ -30,5 +30,9 @@ public interface UserDao {
 
     int add(User user);
 
-    int changeRole(Integer id, Integer role);
+    int changeRole(Integer id, Integer role,User loginUser);
+
+    User getUserById(Integer uid);
+
+    int modify(User user);
 }

@@ -7,6 +7,7 @@ import cn.kejia.news.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -134,8 +135,8 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public int update(User user) {
-        String sql = "update user set  userName = ?, phone = ?, oid = ?, modifier = ?, modifyDate = ?, role = ? where id = ?";
-        Object[] params = {user.getUserName(), user.getPhone(), user.getOid(), user.getModifier(), user.getModifyDate(), user.getRole(), user.getId()};
+        String sql = "update user set  userName = ?, phone = ?, oid = ?, modifier = ?, modifyDate = ? where id = ?";
+        Object[] params = {user.getUserName(), user.getPhone(), user.getOid(), user.getModifier(), user.getModifyDate(), user.getId()};
         int rows = executeUpdata(sql, params);
         return rows;
     }
@@ -157,9 +158,35 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     }
 
     @Override
-    public int changeRole(Integer id, Integer role) {
-        String sql = "update user set  role = ? where id = ?";
-        Object[] params = {role, id};
+    public int changeRole(Integer id, Integer role,User loginUser) {
+        String sql = "update user set  role = ?,modifier = ?, modifyDate = ? where id = ?";
+        Object[] params = {role,loginUser.getUserName(),new Date(), id};
+        int rows = executeUpdata(sql, params);
+        return rows;
+    }
+
+    @Override
+    public User getUserById(Integer uid) {
+        String sql="select * from user where id = ?";
+        Object[]params={uid};
+        rs=executeQuriy(sql, params);
+        User user=null;
+        try {
+            while (rs.next()) {
+                user = (User) tableToObject(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return user;
+    }
+
+    @Override
+    public int modify(User user) {
+        String sql = "update user set  userName = ?, phone = ?, modifier = ?, modifyDate = ? where id = ?";
+        Object[] params = {user.getUserName(), user.getPhone(), user.getModifier(), user.getModifyDate(), user.getId()};
         int rows = executeUpdata(sql, params);
         return rows;
     }

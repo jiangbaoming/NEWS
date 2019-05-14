@@ -48,7 +48,7 @@ layui.use(['form', 'layer', 'table'], function () {
                 }
             },
             {field: 'userName', title: '用户姓名', minWidth: 100, align: "center"},
-            {field: 'oid', title: '机构名称', minWidth: 100, align: "center"},
+            {field: 'organizationName', title: '机构名称', minWidth: 100, align: "center"},
             {field: 'phone', title: '手机号', align: 'center'},
             {
                 field: 'createDate', title: '创建时间', minWidth: 200, align: "center", templet: function (d) {
@@ -116,7 +116,7 @@ layui.use(['form', 'layer', 'table'], function () {
                         body.find("input[name=userName]").val(data.userName);
                         body.find("input[name=oid]").val(data.oid);
                         body.find("input[name=phone]").val(data.phone);
-                        body.find("input[name=role]").val(data.role);
+                       /* body.find("input[name=role]").val(data.role);*/
                         form.render();
                     }
                 });

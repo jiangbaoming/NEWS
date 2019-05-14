@@ -9,7 +9,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     const editIndex = layedit.build('news_content', {
         height: 500,
         uploadImage: {
-            url: "http://localhost:8080/UploadServlet"
+            url: "http://localhost:8080/uploadServlet"
         }
     });
 
@@ -17,7 +17,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     let coverUrl = null;
     const uploadInst = upload.render({
         elem: '#test1'
-        , url: "http://localhost:8080/UploadServlet"
+        , url: "http://localhost:8080/uploadServlet"
         , method: 'post'  //可选项。HTTP类型，默认post
         , before: function (obj) {
             //预读本地文件示例，不支持ie8

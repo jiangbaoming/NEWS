@@ -7,9 +7,13 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
     const form = layui.form,
         layer = layui.layer,
         treeSelect = layui.treeSelect;
-
     var modifyOid = $("#tree").val();
-
+   /* var role = $("#role").val();
+    if (role==1) {
+        $("#role1").attr("selected")
+    }else {
+        $("#role2").attr("selected")
+    };*/
     treeSelect.render({
         // 选择器
         elem: '#tree',
@@ -60,7 +64,7 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
                 "id": field.id,
                 "phone": field.phone,
                 "userName": field.userName,
-                "role": field.role,
+                /*"role": field.role,*/
                 "oid": modifyOid
             },
             success: function (result) {

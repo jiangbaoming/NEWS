@@ -74,7 +74,7 @@ public interface UserService {
      * @param role
      * @return
      */
-    boolean changeRole(Integer id, Integer role);
+    boolean changeRole(Integer id, Integer role,User loginUser);
 
     /**
      * 修改
@@ -82,4 +82,21 @@ public interface UserService {
      * @return
      */
     boolean update(User user);
+
+    /**
+     * 根据ID获取用户
+     * @param uid
+     * @return
+     */
+    User getUserById(Integer uid);
+
+    /**
+     * 修改密码
+     * @param uid
+     * @param newPassword
+     * @return
+     */
+    boolean modifyPwd(Integer uid, String newPassword);
+
+    boolean modify(User user);
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 @WebServlet(name = "OrganizationServlet", urlPatterns = "/organization")
 public class OrganizationServlet extends BaseServlet {
 
-    private OrganizationService organizationService = new OrganizationServiceImpl();
+    // private OrganizationService organizationService = new OrganizationServiceImpl();
 
     public void getAll(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,6 +34,7 @@ public class OrganizationServlet extends BaseServlet {
 
 
     private List<Map<String, Object>> getByPid(int pid) {
+        OrganizationService organizationService = new OrganizationServiceImpl();
         List<Map<String, Object>> mapList = new ArrayList<>();
         //获取根节点
         List<Organization> rootList = organizationService.getBySuperId(pid);
@@ -55,5 +56,28 @@ public class OrganizationServlet extends BaseServlet {
             }
         }
         return mapList;
+    }
+
+    public void list(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        OrganizationService organizationService = new OrganizationServiceImpl();
+        Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
+        Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        String pid = request.getParameter("pid");
+        List<Organization> organizations = null;
+        int totalCount = 0;
+        if (null != pid && !"".equals(pid)) {
+            organizations = organizationService.getList(pageNum, pageSize, Integer.parseInt(pid));
+            totalCount = organizationService.getTotalCount(Integer.parseInt(pid));
+        } else {
+            organizations = organizationService.getList(pageNum, pageSize);
+            totalCount = organizationService.getTotalCount();
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 200);
+        result.put("msg", "ok");
+        result.put("totalCount", totalCount);
+        result.put("data", organizations);
+        response.getWriter().write(JSON.toJSONString(result));
     }
 }

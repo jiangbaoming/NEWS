@@ -36,7 +36,7 @@ layui.use(['form', 'layer'], function () {
                     oldPassword: $("#oldPwd").val()
                 },
                 success: function (result) {
-                    if (result.httpStatus === 200) {
+                    if (result.code === 200) {
                         layer.msg("修改成功,请重新登陆...");
                         setTimeout(function () {
                             top.layer.close(index);
@@ -58,7 +58,7 @@ layui.use(['form', 'layer'], function () {
                             });*/
                         }, 500);
                     } else {
-                        layer.alert(result.data.msg, {icon: 7, anim: 6});
+                        layer.alert(result.msg, {icon: 7, anim: 6});
                     }
                 }
             });

@@ -24,6 +24,8 @@ public class User {
     private Date modifyDate;//修改时间
     private Integer role;//用户角色（权限）
 
+    private String organizationName;//机构名称
+
     public String getUserCode() {
         return userCode;
     }
@@ -112,6 +114,14 @@ public class User {
         this.role = role;
     }
 
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -126,6 +136,7 @@ public class User {
                 ", modifier='" + modifier + '\'' +
                 ", modifyDate=" + modifyDate +
                 ", role=" + role +
+                ", organizationName='" + organizationName + '\'' +
                 '}';
     }
 }

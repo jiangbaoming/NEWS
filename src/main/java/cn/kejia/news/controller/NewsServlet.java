@@ -22,6 +22,6 @@ public class NewsServlet extends BaseServlet {
             throws ServletException, IOException {
         String content = request.getParameter("content");
         System.out.println(content);
-        response.getWriter().write(JSON.toJSONString(NewsResult.build(500, "失败！！！！")));
+        response.getWriter().write(JSON.toJSONString(NewsResult.build(200, "失败！！！！")));
     }
 }

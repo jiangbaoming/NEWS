@@ -1,7 +1,10 @@
 package cn.kejia.news.service.impl;
 
+import cn.kejia.news.dao.OrganizationDao;
 import cn.kejia.news.dao.UserDao;
+import cn.kejia.news.dao.impl.OrganizationDaoImpl;
 import cn.kejia.news.dao.impl.UserDaoImpl;
+import cn.kejia.news.model.Organization;
 import cn.kejia.news.model.User;
 import cn.kejia.news.service.UserService;
 
@@ -17,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao = new UserDaoImpl();
 
+    private OrganizationDao organizationDao = new OrganizationDaoImpl();
+
 
     public User getUserByUserCode(String userCode) {
         User user = userDao.getUserByUserCode(userCode);
@@ -26,12 +31,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsers(Integer pageNum, Integer pageSize) {
         List<User> userList = userDao.getUsers((pageNum - 1) * pageSize, pageSize);
+        for (User user : userList) {
+            Organization organization = organizationDao.getOrganizationById(user.getOid());
+            user.setOrganizationName(organization.getOname());
+        }
         return userList;
     }
 
     @Override
     public List<User> getUsers(Integer pageNum, Integer pageSize, String param) {
-        List<User> userList = userDao.getUsers((pageNum - 1) * pageSize, pageSize,param);
+        List<User> userList = userDao.getUsers((pageNum - 1) * pageSize, pageSize, param);
         return userList;
     }
 
@@ -67,14 +76,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changeRole(Integer id, Integer role) {
-        int rows = userDao.changeRole(id, role);
+    public boolean changeRole(Integer id, Integer role, User loginUser) {
+        int rows = userDao.changeRole(id, role, loginUser);
         return rows > 0;
     }
 
     @Override
     public boolean update(User user) {
         int rows = userDao.update(user);
+        return rows > 0;
+    }
+
+    @Override
+    public User getUserById(Integer uid) {
+        User user = userDao.getUserById(uid);
+        return user;
+    }
+
+    @Override
+    public boolean modifyPwd(Integer uid, String newPassword) {
+        int rows = userDao.updatePassword(uid, newPassword);
+        return rows > 0;
+    }
+
+    @Override
+    public boolean modify(User user) {
+        int rows = userDao.modify(user);
         return rows > 0;
     }
 }

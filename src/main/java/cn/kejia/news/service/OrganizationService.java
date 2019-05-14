@@ -14,4 +14,12 @@ public interface OrganizationService {
 
 
     List<Organization> getBySuperId(Integer pid);
+
+    List<Organization> getList(Integer pageNum, Integer pageSize);
+
+    int getTotalCount();
+
+    List<Organization> getList(Integer pageNum, Integer pageSize, Integer pid);
+
+    int getTotalCount(Integer pid);
 }

@@ -43,7 +43,7 @@
     {
       "title": "机构管理",
       "icon": "&#xe60a;",
-      "href": "page/member/memberList.html",
+      "href": "page/organization/list.html",
       "spread": false
     },
     {
