@@ -134,7 +134,6 @@ layui.use(['form', 'layer', 'table'], function () {
                         success: function (result) {
                             if(result.code==200){}
                             layer.msg("删除成功");
-                            // window.location.href = "adminList.html";
                             obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                             // tableIns.reload();
                             layer.close(index);

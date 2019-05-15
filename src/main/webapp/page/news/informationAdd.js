@@ -5,6 +5,31 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         layedit = layui.layedit,
         $ = layui.jquery;
 
+
+
+    //获取分类
+    $.ajax({
+        url:"/newsType",
+        type: "POST",
+        dataType: "json",
+        data: {
+           method:"getList",
+        },
+        success: function (result) {
+            if (result.code ===200) {
+                var str='<option value="">请选择类别</option>';
+                for ( var i=0;i<result.data.length;i++) {
+                    str+='<option value="'+result.data[i].tid+'">'+result.data[i].tName+'</option>';
+                }
+                $("select").html(str);
+                form.on('select(type)', function(data){
+                    $(".category").val(data.value);
+                });
+                form.render('select');
+            } 
+        }
+    });
+
     //创建一个编辑器
     const editIndex = layedit.build('news_content', {
         height: 500,
@@ -32,6 +57,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
             } else {
                 //上传成功
                 coverUrl = res.data;
+                return layer.msg('上传成功');
             }
         }
         , error: function () {
@@ -66,21 +92,22 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 type: "POST",
                 dataType: "json",
                 data: {
+                    method:'add',
                     title: $(".articleTitle").val(),
                     introduction: $(".introduction").val(),
-                    category: $(".category").val(),
+                    tid: $(".category").val(),
                     banner: coverUrl.src,
                     content: layedit.getContent(editIndex)
                 },
                 success: function (result) {
-                    if (result.status ===200) {
+                    if (result.code ===200) {
                         layer.msg("新增成功");
                         setTimeout(function () {
                             top.layer.close(index);
                             layer.closeAll("iframe");
                             //刷新父页面
                             parent.location.reload();
-                        }, 1000);
+                        }, 500);
                     } else {
                         layer.msg("新增失败!");
                     }

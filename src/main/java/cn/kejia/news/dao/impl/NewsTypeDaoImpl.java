@@ -51,6 +51,43 @@ public class NewsTypeDaoImpl extends BaseDao implements NewsTypeDao {
     }
 
     @Override
+    public List<NewsType> getAllNewsType(Integer pageNum, Integer pageSize) {
+        String sql = "select * from newstype limit ? ,?";
+        Object[] params = {pageNum, pageSize};
+        rs = executeQuriy(sql, params);
+        NewsType newsType = null;
+        List<NewsType> newsTypeList = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                newsType = (NewsType) tableToObject(rs);
+                newsTypeList.add(newsType);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return newsTypeList;
+    }
+
+    @Override
+    public int getTotalCount() {
+        String sql = "select count(1) from newstype";
+        rs = executeQuriy(sql, null);
+        int totalCount = 0;
+        try {
+            while (rs.next()) {
+                totalCount = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return totalCount;
+    }
+
+    @Override
     public List<NewsType> getAllNewsType() {
         String sql = "select * from newstype";
         rs = executeQuriy(sql, null);

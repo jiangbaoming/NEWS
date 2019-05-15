@@ -1,5 +1,9 @@
 package cn.kejia.news.service;
 
+import cn.kejia.news.model.NewsType;
+
+import java.util.List;
+
 /**
  * @Author: 江宝明
  * @Description:
@@ -7,4 +11,16 @@ package cn.kejia.news.service;
  * @Modified By：
  */
 public interface NewsTypeService {
+    
+    List<NewsType> getList(Integer pageNum, Integer pageSize);
+
+    int getTotalCount();
+
+    boolean add(String tName);
+
+    boolean update(NewsType newsType);
+
+    boolean delete(Integer tid);
+
+    List<NewsType> getAll();
 }

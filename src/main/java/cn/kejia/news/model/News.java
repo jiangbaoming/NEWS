@@ -21,6 +21,7 @@ public class News {
     private String content;//内容
     private Date releaseDate;//发布时间
     private Integer tid;//新闻分类
+    private String introduction;//新闻简介
 
     public Integer getNid() {
         return nid;
@@ -84,5 +85,13 @@ public class News {
 
     public void setTid(Integer tid) {
         this.tid = tid;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 }

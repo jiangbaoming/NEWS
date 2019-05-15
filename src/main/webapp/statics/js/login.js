@@ -22,27 +22,6 @@ layui.use(['form', 'layer', 'jquery'], function () {
     $("#imgCodeimg").on("click", function (e) {
         this.src = "/imageCode?method=getImageCode&" + Math.random();
     });
-   /* var flag=false;
-    $("#code").blur(function () {
-        $.ajax({
-            url: "imageCode",
-            type: "post",
-            data: {
-                method: "checkImageCode",
-                imgCode: $("#code").val()
-            },
-            dataType: "json",
-            success: function (data) {
-                if (data.status == 200) {
-                    /!*layer.msg(data.msg);*!/
-                    flag=true;
-                } else {
-                    layer.msg(data.msg);
-                    flag=false;
-                }
-            }
-        });
-    });*/
     //登录按钮
     form.on("submit(login)", function (data) {
             $(this).text("登录中...").attr("disabled", "disabled").addClass("layui-disabled");
@@ -53,14 +32,13 @@ layui.use(['form', 'layer', 'jquery'], function () {
                     dataType: "json",
                     data: {
                         method: "login",
-                        userCode: $("#userName").val(),
+                        userCode: $("#userCode").val(),
                         password: $("#password").val(),
                         imgCode: $("#code").val()
                     },
                     success: function (result) {
                         if (result.code == 200) {
-                            layer.msg(result.msg);
-                            /* $.cookie('token', result.data.accessToken, {path: '/'});*/
+                            layer.msg('登陆成功！');
                             $.cookie('truename', result.data.userName, {path: '/'});
                             $.cookie('userRole', result.data.role, {path: '/'});
                             $.cookie('uid', result.data.id, {path: '/'});

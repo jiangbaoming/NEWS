@@ -26,20 +26,13 @@ import java.util.Map;
 @WebServlet(name = "UserServlet", urlPatterns = "/user")
 public class UserServlet extends BaseServlet {
 
-    private UserService userService = new UserServiceImpl();
-
     public void login(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = new User();
-        user.setUserName("admin");
-        user.setRole(1);
-        user.setId(1);
-        request.getSession().setAttribute("loginUser", user);
-        response.getWriter().write(JSON.toJSONString(NewsResult.success(user)));
-        /*String imgCode = request.getParameter("imgCode");
-        System.out.println("用户输入验证码————————" + imgCode);
+        UserService userService = new UserServiceImpl();
+        //用户输入验证码
+        String imgCode = request.getParameter("imgCode");
+        //原始保存验证码
         String oimgCode = (String) request.getSession().getAttribute("code");
-        System.out.println("原始保存验证码————————" + oimgCode);
         boolean flag = false;
         if (imgCode.equalsIgnoreCase(oimgCode)) {
             flag = true;
@@ -54,6 +47,7 @@ public class UserServlet extends BaseServlet {
                 if (password.equals(user.getPassword())) {//密码正确
                     //清空密码
                     user.setPassword(null);
+                    request.getSession().setAttribute("loginUser", user);
                     response.getWriter().write(JSON.toJSONString(NewsResult.success(user)));
                 } else {//密码不正确
                     response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "密码不正确！")));
@@ -63,11 +57,12 @@ public class UserServlet extends BaseServlet {
             }
         }else { //验证码不正确
             response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "验证码不正确！")));
-        }*/
+        }
     }
 
     public void getUsers(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         List<User> users = userService.getUsers(pageNum, pageSize);
@@ -83,6 +78,7 @@ public class UserServlet extends BaseServlet {
 
     public void delete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         String id = request.getParameter("id");
         boolean result = userService.delete(Integer.parseInt(id));
         if (result) {
@@ -94,6 +90,7 @@ public class UserServlet extends BaseServlet {
 
     public void userCodeIsExit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         String userCode = request.getParameter("userCode");
         boolean result = userService.userCodeIsExit(userCode);
         if (result) {
@@ -105,6 +102,7 @@ public class UserServlet extends BaseServlet {
 
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         String userCode = request.getParameter("userCode");
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
@@ -133,6 +131,7 @@ public class UserServlet extends BaseServlet {
 
     public void changeRole(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         Integer role = Integer.parseInt(request.getParameter("role"));
         Integer id = Integer.parseInt(request.getParameter("id"));
         User loginUser = (User) request.getSession().getAttribute("loginUser");
@@ -146,6 +145,7 @@ public class UserServlet extends BaseServlet {
 
     public void search(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         String param = request.getParameter("param");
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
@@ -161,6 +161,7 @@ public class UserServlet extends BaseServlet {
 
     public void update(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         String userName = request.getParameter("userName");
         String phone = request.getParameter("phone");
         Integer id = Integer.parseInt(request.getParameter("id"));
@@ -185,6 +186,7 @@ public class UserServlet extends BaseServlet {
 
     public void modify(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         String userName = request.getParameter("userName");
         String phone = request.getParameter("phone");
         Integer id = Integer.parseInt(request.getParameter("id"));
@@ -205,6 +207,7 @@ public class UserServlet extends BaseServlet {
 
     public void modifyPwd(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         Integer uid = Integer.parseInt(request.getParameter("uid"));
         String oldPassword = request.getParameter("oldPassword");
         String newPassword = request.getParameter("newPassword");
@@ -223,6 +226,7 @@ public class UserServlet extends BaseServlet {
 
     public void getUserInfo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
         Integer id=Integer.parseInt(request.getParameter("id"));
         User user=userService.getUserById(id);
         response.getWriter().write(JSON.toJSONString(NewsResult.success(user)));

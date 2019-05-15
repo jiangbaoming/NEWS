@@ -37,5 +37,9 @@ public interface NewsTypeDao {
      * 获取所有新闻分类
      * @return
      */
+    List<NewsType> getAllNewsType(Integer pageNum,Integer paeSize);
+
+    int getTotalCount();
+
     List<NewsType> getAllNewsType();
 }

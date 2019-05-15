@@ -44,7 +44,6 @@ public class ImageCode extends BaseServlet {
         //String random = drawRandomNum((Graphics2D) g,"n");//生成纯数字的验证码图片
         //String random = drawRandomNum((Graphics2D) g,"l");//生成纯字母的验证码图片
         String random = drawRandomNum((Graphics2D) g, createTypeFlag);//根据客户端传递的createTypeFlag标识生成验证码图片
-        System.out.println("生成验证码————————" + random);
         //7.将随机数存在session中
         request.getSession().setAttribute("code", random);
         //8.设置响应头通知浏览器以图片的形式打开

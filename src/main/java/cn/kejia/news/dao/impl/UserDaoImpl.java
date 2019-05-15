@@ -1,5 +1,6 @@
 package cn.kejia.news.dao.impl;
 
+
 import cn.kejia.news.dao.BaseDao;
 import cn.kejia.news.dao.UserDao;
 import cn.kejia.news.model.User;
@@ -36,20 +37,20 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public User getUserByUserCode(String userCode) {
-        User user = null;
-        String sql = "select * from user where userCode = ?";
+        User test = null;
+        String sql = "select * from user where userCode = ? ";
         Object[] params = {userCode};
         rs = executeQuriy(sql, params);
         try {
             while (rs.next()) {
-                user = (User) tableToObject(rs);
+                test = (User) tableToObject(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeConnection(conn, rs, pstmt);
         }
-        return user;
+        return test;
     }
 
     @Override
@@ -158,19 +159,19 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     }
 
     @Override
-    public int changeRole(Integer id, Integer role,User loginUser) {
+    public int changeRole(Integer id, Integer role, User loginUser) {
         String sql = "update user set  role = ?,modifier = ?, modifyDate = ? where id = ?";
-        Object[] params = {role,loginUser.getUserName(),new Date(), id};
+        Object[] params = {role, loginUser.getUserName(), new Date(), id};
         int rows = executeUpdata(sql, params);
         return rows;
     }
 
     @Override
     public User getUserById(Integer uid) {
-        String sql="select * from user where id = ?";
-        Object[]params={uid};
-        rs=executeQuriy(sql, params);
-        User user=null;
+        String sql = "select * from user where id = ?";
+        Object[] params = {uid};
+        rs = executeQuriy(sql, params);
+        User user = null;
         try {
             while (rs.next()) {
                 user = (User) tableToObject(rs);

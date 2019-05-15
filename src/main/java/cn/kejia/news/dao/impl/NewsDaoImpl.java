@@ -29,13 +29,14 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         news.setContent(rs.getString("content"));
         news.setReleaseDate(rs.getDate("releaseDate"));
         news.setTimes(rs.getInt("times"));
+        news.setIntroduction(rs.getString("introduction"));
         return news;
     }
 
     @Override
     public boolean add(News news) {
-        String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid)values(?,?,?,?,?,?,?)";
-        Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid()};
+        String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid,introduction)values(?,?,?,?,?,?,?,?)";
+        Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(),news.getIntroduction()};
         int rows = executeUpdata(sql, params);
         return rows > 0;
     }
@@ -50,8 +51,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
 
     @Override
     public boolean update(News news) {
-        String sql = "update news set  title = ?, banner = ?,times = ?,content = ?,releaseDate = ?, tid= ? WHERE nid = ? ";
-        Object[] params = {news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getNid()};
+        String sql = "update news set  title = ?, banner = ?,times = ?,content = ?,releaseDate = ?, tid= ? ,introduction=? WHERE nid = ? ";
+        Object[] params = {news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction(),news.getNid()};
         int rows = executeUpdata(sql, params);
         return rows > 0;
     }
@@ -63,10 +64,11 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         News news = null;
         List<News> newsList = new ArrayList<>();
         if (isAdmin) {
-            sql = "select * from news";
+            sql = "select * from news limit ? ,?";
+            params = new Object[]{pageNum,pageSize};
         } else {
-            sql = "select * from news where uid= ?";
-            params = new Object[]{uid};
+            sql = "select * from news where uid= ? limit ? , ?";
+            params = new Object[]{uid,pageNum,pageSize};
         }
         rs = executeQuriy(sql, params);
         try {

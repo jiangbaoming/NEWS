@@ -42,11 +42,14 @@ public class UploadServlet extends HttpServlet {
         File file = new File(savePath);
         if (!file.exists()) {
             file.mkdirs();
+            System.out.println("创建文件夹");
         }
         //获取上传的文件集合
         Collection<Part> parts = request.getParts();
+        System.out.println("获取文件集合");
         //上传单个文件
         if (parts.size() == 1) {
+            System.out.println("上传文件");
             //Servlet3.0将multipart/form-data的POST请求封装成Part，通过Part对上传的文件进行操作。
             //Part part = parts[0];//从上传的文件集合中获取Part对象
             Part part = request.getPart("file");//通过表单file控件(<input type="file" name="file">)的名字直接获取Part对象
@@ -63,6 +66,7 @@ public class UploadServlet extends HttpServlet {
             System.out.println("文件重命名---------------------" + newFileName);
             //把文件写到指定路径
             part.write(savePath + File.separator + newFileName);
+            System.out.println("上传成功！");
             String fileUrl = "http://192.168.1.141:8080/upload/" + newFileName;
             ImageFiled imageFiled = new ImageFiled(fileUrl, fileName, newFileName);
             response.getWriter().write(JSON.toJSONString(ImgResult.ok(imageFiled)));
@@ -103,9 +107,12 @@ public class UploadServlet extends HttpServlet {
          *火狐或者google浏览器下：tempArr2={filename,"snmp4j--api.zip"}
          *IE浏览器下：tempArr2={filename,"E:\snmp4j--api.zip"}
          */
-        String[] tempArr2 = tempArr1[2].split("=");
+        int begin=tempArr1[2].indexOf("\"")+1;
+        int stop=tempArr1[2].length()-1;
+        String fileName=tempArr1[2].substring(begin,stop);
+       /* String[] tempArr2 = tempArr1[2].split("=");
         //获取文件名，兼容各种浏览器的写法
-        String fileName = tempArr2[1].substring(tempArr2[1].lastIndexOf("\\") + 1).replaceAll("\"", "");
+        String fileName = tempArr2[1].substring(tempArr2[1].lastIndexOf("\\") + 1).replaceAll("\"", "");*/
         return fileName;
     }
 
