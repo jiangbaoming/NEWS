@@ -105,11 +105,11 @@ layui.use(['form', 'layer', 'table'], function () {
                         success: function (layero, index) {
                             const body = layui.layer.getChildFrame('body', index);
                             body.find("#demo1").attr("src", data.banner);  //封面图
-                            body.find(".id").val(data.nid);
+                            body.find(".id").val(data.nid);//新闻编号
                             body.find(".articleTitle").val(data.title);  //文章标题
                             body.find(".introduction").val(data.introduction);  //文章简介
-                            // body.find('.category').siblings("div.layui-form-select").find('dl').find('dd[lay-value=' + data.category + ']').click();  //文章分类
-                            body.find(".createDate").val(data.releaseDate);
+                            body.find(".createDate").val(data.releaseDate);//发布时间
+                            body.find("#newsContent").val(data.content);//内容
                             form.render();
                             setTimeout(function () {
                                 layui.layer.tips('点击此处关闭', '.layui-layer-setwin .layui-layer-close', {

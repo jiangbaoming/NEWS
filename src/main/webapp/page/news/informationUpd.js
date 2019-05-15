@@ -4,23 +4,48 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         upload = layui.upload,
         layedit = layui.layedit,
         $ = layui.jquery;
-
-    //创建一个编辑器
-    const editIndex = layedit.build('content', {
-        height: 500,
-        uploadImage: {
-            url: $.cookie("tempUrl") + 'file/uploadImageEdit?token=' + $.cookie("token")
+//获取分类
+    $.ajax({
+        url:"/newsType",
+        type: "POST",
+        dataType: "json",
+        data: {
+            method:"getList",
+        },
+        success: function (result) {
+            if (result.code ===200) {
+                var str='<option value="">请选择类别</option>';
+                for ( var i=0;i<result.data.length;i++) {
+                    if(result.data[i].tid==$(".category").val()){
+                        str+='<option value="'+result.data[i].tid+'" selected>'+result.data[i].tName+'</option>';
+                    }else{
+                        str+='<option value="'+result.data[i].tid+'">'+result.data[i].tName+'</option>';
+                    }
+                }
+                $("select").html(str);
+                form.on('select(type)', function(data){
+                    $(".category").val(data.value);
+                });
+                form.render('select');
+            }
         }
     });
-
+    //创建一个编辑器
+    const editIndex = layedit.build('news_content', {
+        height: 500,
+        uploadImage: {
+            url: "http://localhost:8080/uploadServlet"
+        }
+    });
+    layedit.setContent(editIndex,$("#newsContent").val(),false);
     //用于同步编辑器内容到textarea
     // layedit.sync(editIndex);
 
-    //普通图片上传
+    //封面图上传
     let coverUrl = null;
     const uploadInst = upload.render({
         elem: '#test1'
-        , url: $.cookie("tempUrl") + 'file/uploadImage?token=' + $.cookie("token")
+        , url: "http://localhost:8080/uploadServlet"
         , method: 'post'  //可选项。HTTP类型，默认post
         , before: function (obj) {
             //预读本地文件示例，不支持ie8
@@ -35,6 +60,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
             } else {
                 //上传成功
                 coverUrl = res.data;
+                return layer.msg('上传成功');
             }
         }
         , error: function () {
@@ -69,12 +95,11 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
             datatype: "application/json",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify({
-                id: $(".id").val(),
+                nid: $(".id").val(),
                 title: $(".articleTitle").val(),
-                cover: coverUrl,
+                banner: coverUrl,
                 introduction: $(".introduction").val(),
-                category: $(".category").val(),
-                picture: "无",
+                tid: $(".category").val(),
                 content: layedit.getContent(editIndex)
             }),
             success: function (result) {
