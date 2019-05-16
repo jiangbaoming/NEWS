@@ -53,11 +53,11 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         , done: function (res) {
             //如果上传失败
             if (res.code > 0) {
-                return layer.msg('上传失败');
+                return layer.msg('图片上传失败');
             } else {
                 //上传成功
                 coverUrl = res.data;
-                return layer.msg('上传成功');
+                return layer.msg('图片上传成功');
             }
         }
         , error: function () {

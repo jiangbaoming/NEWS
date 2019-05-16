@@ -29,7 +29,7 @@
             <version>4.12</version>
         </dependency>
         <!-- JSP相关 -->
-        <dependency>
+        <!--<dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
@@ -43,7 +43,7 @@
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>javax.servlet.jsp-api</artifactId>
             <version>2.3.0</version>
-        </dependency>
+        </dependency>-->
         <!--json-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -56,5 +56,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.47</version>
         </dependency>
+
     </dependencies>
 </project>

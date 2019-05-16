@@ -34,6 +34,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                     //  drag: true,
                     spreadAll: true,
                     props: {
+                        renameBtnLabel: '修改',
                         addBtnLabel: '新增',
                         deleteBtnLabel: '删除',
                         name: 'name',
@@ -41,7 +42,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                         children: 'children',
                     },
                     click: function (item) { //点击节点回调
-                        layer.msg(item.id + "====" + item.name);
+                        //layer.msg(item.id + "====" + item.name);
                         tableReload(item.id);
                     },
                     addClick: function (item, elem, add) {
@@ -69,6 +70,21 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                     }
                                 }
                             });
+                        });
+                    },
+                    renameClick:function(item, elem, rename){
+                        var node=$(this).parent().children("a").children("cite");
+                        console.log(node)
+                        var id=$(this).parent().attr("id")
+                        var that= $(this).closest("li");
+                        layer.prompt({title: '输入新的分类名称，并确认',value:node.text(), formType:0}, function(text, index){
+                            layer.close(index);
+                            //TODO 可以ajax到后台操作，这里只做模拟
+                            layer.load(2);
+                            setTimeout(function(){
+                                layer.closeAll("loading");
+                                node.text(text);
+                            },1000)
                         });
                     },
                     deleteClick: function (item, elem, done) {

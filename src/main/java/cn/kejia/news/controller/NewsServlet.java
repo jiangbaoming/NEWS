@@ -63,12 +63,12 @@ public class NewsServlet extends BaseServlet {
         int totalCount = 0;
         switch (userRole) {
             case 1:
-                newsList = newsService.getList(pageNum, pageSize,null);
-                totalCount = newsService.getTotalCount(null);
+                newsList = newsService.getList(pageNum, pageSize,null,null);
+                totalCount = newsService.getTotalCount(null,null);
                 break;
             case 0:
-                newsList = newsService.getList(pageNum, pageSize,loginUser.getId());
-                totalCount = newsService.getTotalCount(loginUser.getId());
+                newsList = newsService.getList(pageNum, pageSize,loginUser.getId(),null);
+                totalCount = newsService.getTotalCount(loginUser.getId(),null);
                 break;
             default:
                 break;
@@ -81,4 +81,60 @@ public class NewsServlet extends BaseServlet {
         response.getWriter().write(JSON.toJSONString(result));
 
     }
+
+    public void update(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        NewsService newsService = new NewsServiceImpl();
+        String content = request.getParameter("content");
+        String title = request.getParameter("title");
+        String introduction = request.getParameter("introduction");
+        String banner = request.getParameter("banner");
+        Integer tid = Integer.parseInt(request.getParameter("tid"));
+        Integer nid=Integer.parseInt(request.getParameter("nid"));
+        News news = new News();
+        news.setNid(nid);
+        news.setTitle(title);
+        news.setIntroduction(introduction);
+        news.setTid(tid);
+        news.setBanner(banner);
+        news.setContent(content);
+        news.setReleaseDate(new Date());
+        boolean result = newsService.update(news);
+        if (result) {
+            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+        } else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
+        }
+    }
+    public void search(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NewsService newsService = new NewsServiceImpl();
+        Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
+        Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        String title=request.getParameter("title");
+        User loginUser= (User) request.getSession().getAttribute("loginUser");
+        Integer userRole = loginUser.getRole();
+        List<News> newsList = null;
+        int totalCount = 0;
+        switch (userRole) {
+            case 1:
+                newsList = newsService.getList(pageNum, pageSize,null,title);
+                totalCount = newsService.getTotalCount(null,title);
+                break;
+            case 0:
+                newsList = newsService.getList(pageNum, pageSize,loginUser.getId(),title);
+                totalCount = newsService.getTotalCount(loginUser.getId(),title);
+                break;
+            default:
+                break;
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 200);
+        result.put("msg", "ok");
+        result.put("totalCount", totalCount);
+        result.put("data", newsList);
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
 }

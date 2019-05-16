@@ -40,5 +40,7 @@ public interface NewsDao {
      * @param uid   当前登录用户ID
      * @return
      */
-    List<News> getNewsList(Integer pageNum, Integer pageSize,boolean isAdmin,Integer uid);
+    List<News> getNewsList(Integer pageNum, Integer pageSize,boolean isAdmin,Integer uid,String title);
+
+    int getTotalCount(Integer uid ,String title);
 }

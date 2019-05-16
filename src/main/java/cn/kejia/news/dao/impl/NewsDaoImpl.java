@@ -36,7 +36,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
     @Override
     public boolean add(News news) {
         String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid,introduction)values(?,?,?,?,?,?,?,?)";
-        Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(),news.getIntroduction()};
+        Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction()};
         int rows = executeUpdata(sql, params);
         return rows > 0;
     }
@@ -51,24 +51,36 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
 
     @Override
     public boolean update(News news) {
-        String sql = "update news set  title = ?, banner = ?,times = ?,content = ?,releaseDate = ?, tid= ? ,introduction=? WHERE nid = ? ";
-        Object[] params = {news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction(),news.getNid()};
+        String sql = "update news set  title = ?, banner = ?,content = ?,releaseDate = ?, tid= ? ,introduction=? WHERE nid = ? ";
+        Object[] params = {news.getTitle(), news.getBanner(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction(), news.getNid()};
         int rows = executeUpdata(sql, params);
         return rows > 0;
     }
 
     @Override
-    public List<News> getNewsList(Integer pageNum, Integer pageSize, boolean isAdmin, Integer uid) {
+    public List<News> getNewsList(Integer pageNum, Integer pageSize, boolean isAdmin, Integer uid, String title) {
         String sql = "";
         Object[] params = null;
         News news = null;
         List<News> newsList = new ArrayList<>();
         if (isAdmin) {
-            sql = "select * from news limit ? ,?";
-            params = new Object[]{pageNum,pageSize};
+            if (null != title){
+                sql = "select * from news where title like \"%\"?\"%\" limit ? ,?";
+                params = new Object[]{title,pageNum, pageSize};
+            }else {
+                sql = "select * from news limit ? ,?";
+                params = new Object[]{pageNum, pageSize};
+            }
+
         } else {
-            sql = "select * from news where uid= ? limit ? , ?";
-            params = new Object[]{uid,pageNum,pageSize};
+            if (null != title){
+                sql = "select * from news where uid= ? and title like \"%\"?\"%\" limit ? , ?";
+                params = new Object[]{uid, title,pageNum, pageSize};
+            }else {
+                sql = "select * from news where uid= ? limit ? , ?";
+                params = new Object[]{uid, pageNum, pageSize};
+            }
+
         }
         rs = executeQuriy(sql, params);
         try {
@@ -82,5 +94,41 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
             closeConnection(conn, rs, pstmt);
         }
         return newsList;
+    }
+
+    @Override
+    public int getTotalCount(Integer uid,String title) {
+        String sql = "";
+        Object[] params = null;
+        int totalCount = 0;
+        if (null != uid) {
+            if (null != title){
+                sql = "select count(1) from news where uid = ? and title like \"%\"?\"%\" ";
+                params = new Object[]{uid,title};
+            }else {
+                sql = "select count(1) from news where uid = ?";
+                params = new Object[]{uid};
+            }
+
+        } else {
+            if (null != title){
+                sql = "select count(1) from news where title like \"%\"?\"%\" ";
+                params = new Object[]{title};
+            }else {
+                sql = "select count(1) from news ";
+            }
+
+        }
+        rs = executeQuriy(sql, params);
+        try {
+            while (rs.next()) {
+                totalCount = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return totalCount;
     }
 }

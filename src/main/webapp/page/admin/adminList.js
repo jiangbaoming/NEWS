@@ -4,16 +4,6 @@ layui.use(['form', 'layer', 'table'], function () {
         $ = layui.jquery,
         table = layui.table;
 
-/*    //验证权限
-    $.ajax({
-        url: $.cookie("tempUrl") + "admin/selectBySession?token=" + $.cookie("token"),
-        type: "GET",
-        success: function (result) {
-            if (result.data.status !== 8) {
-                window.location.href = "/405.html";
-            }
-        }
-    });*/
 
     //列表
     const tableIns = table.render({

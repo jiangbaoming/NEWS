@@ -8,48 +8,46 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
         layer = layui.layer,
         treeSelect = layui.treeSelect;
     var modifyOid = $("#tree").val();
-   /* var role = $("#role").val();
-    if (role==1) {
-        $("#role1").attr("selected")
-    }else {
-        $("#role2").attr("selected")
-    };*/
-    treeSelect.render({
-        // 选择器
-        elem: '#tree',
-        // 数据
-        data: '/organization?method=getAll',
-        // 异步加载方式：get/post，默认get
-        type: 'get',
-        // 占位符
-        //placeholder: '请选择部门',
-        // 一些可定制的样式
-        style: {
-            folder: {
-                enable: true
+    //加载下拉Tree
+    setTimeout(function () {
+        treeSelect.render({
+            // 选择器
+            elem: '#tree',
+            // 数据
+            data: '/organization?method=getAll',
+            // 异步加载方式：get/post，默认get
+            type: 'get',
+            // 占位符
+            //placeholder: '请选择部门',
+            // 一些可定制的样式
+            style: {
+                folder: {
+                    enable: true
+                },
+                line: {
+                    enable: true
+                }
             },
-            line: {
-                enable: true
-            }
-        },
-        // 点击回调
-        click: function (d) {
-            //console.log(d);
-            modifyOid = d.current.id;
-            // layer.msg(updataDid);
-        },
+            // 点击回调
+            click: function (d) {
+                //console.log(d);
+                modifyOid = d.current.id;
+                // layer.msg(updataDid);
+            },
 //      加载完成后的回调函数
-        success: function (d) {
+            success: function (d) {
 //               console.log(d);
 //                选中节点，根据id筛选
-            treeSelect.checkNode('tree', modifyOid);
+                treeSelect.checkNode('tree', modifyOid);
 //                获取zTree对象，可以调用zTree方法
 //               var treeObj = treeSelect.zTree('tree');
 //               console.log(treeObj);
 //                刷新树结构
-            treeSelect.refresh('tree');
-        }
-    });
+                treeSelect.refresh('tree');
+            }
+        });
+    }, 100);
+
     //提交
     form.on("submit(submit)", function (data) {
         const field = data.field;

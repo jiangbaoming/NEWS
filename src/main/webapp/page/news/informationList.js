@@ -33,14 +33,14 @@ layui.use(['form', 'layer', 'table'], function () {
             defaultToolbar: [],
             cols: [[
                 {field: 'nid', title: 'ID', width: 90, align: 'center'},
-                {field: 'id', title: '作者', width: 90, align: 'center'},
+                {field: 'uName', title: '作者', width: 110, align: 'center'},
                 {
                     field: 'title', title: '标题', minWidth: 200, align: "left", templet: function (d) {
                         return '<a lay-event="edit" style="cursor:pointer;color: #01AAED">' + d.title + '</a>';
                     }
                 },
                 {field: 'introduction', title: '简介', minWidth: 300, align: 'left'},
-                {field: 'tid', title: '文章类别', width: 90, align: 'center'},
+                {field: 'tName', title: '文章类别', width: 90, align: 'center'},
                 {
                     field: 'releaseDate', title: '发布时间', width: 200, align: "center", templet: function (d) {
                         return d.releaseDate;
@@ -53,14 +53,13 @@ layui.use(['form', 'layer', 'table'], function () {
 
         //头工具栏事件
         table.on('toolbar(test)', function (obj) {
-            const checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'search_btn':
                     table.reload("dataTable", {
-                        url: $.cookie("tempUrl") + 'information/selectListByTitle',
+                        url: '/news',
                         where: {
                             title: $(".searchVal").val(),
-                            token: $.cookie("token")
+                            method: "search",
                         }
                     });
                     break;
@@ -109,6 +108,7 @@ layui.use(['form', 'layer', 'table'], function () {
                             body.find(".articleTitle").val(data.title);  //文章标题
                             body.find(".introduction").val(data.introduction);  //文章简介
                             body.find(".createDate").val(data.releaseDate);//发布时间
+                            body.find("#tid").val(data.tid);//类别
                             body.find("#newsContent").val(data.content);//内容
                             form.render();
                             setTimeout(function () {

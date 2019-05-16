@@ -14,7 +14,10 @@ public interface NewsService {
 
     boolean add(News news);
 
-    List<News> getList(Integer pageNum, Integer pageSize, Integer uid);
+    List<News> getList(Integer pageNum, Integer pageSize, Integer uid,String title);
 
-    int getTotalCount(Integer uid);
+    int getTotalCount(Integer uid,String title);
+
+    boolean update(News news);
+
 }

@@ -75,7 +75,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     @Override
     public List<User> getUsers(Integer pageNum, Integer pageSize, String param) {
         List<User> users = new ArrayList<>();
-        String sql = "select * from user where userCode = ? or userName = ? or phone = ? limit ?,?";
+        String sql = "select * from user where userCode like \"%\"?\"%\" or userName like \"%\"?\"%\" or phone like \"%\"?\"%\" limit ?,?";
         Object[] params = {param, param, param, pageNum, pageSize};
         rs = executeQuriy(sql, params);
         try {
@@ -110,7 +110,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public int getTotalCount(String param) {
-        String sql = "select count(1) from user where userCode like ? or userName = ? or phone = ?";
+        String sql = "select count(1) from user where userCode like \"%\"?\"%\" or userName like \"%\"?\"%\" or phone like \"%\"?\"%\"";
         Object[] params = {param, param, param};
         rs = executeQuriy(sql, params);
         int total = 0;

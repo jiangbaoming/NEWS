@@ -23,6 +23,10 @@ public class News {
     private Integer tid;//新闻分类
     private String introduction;//新闻简介
 
+    private String uName;//作者名
+
+    private String tName;//分类名
+
     public Integer getNid() {
         return nid;
     }
@@ -93,5 +97,21 @@ public class News {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
+    }
+
+    public String gettName() {
+        return tName;
+    }
+
+    public void settName(String tName) {
+        this.tName = tName;
     }
 }

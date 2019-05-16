@@ -4,45 +4,48 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         upload = layui.upload,
         layedit = layui.layedit,
         $ = layui.jquery;
-//获取分类
-    $.ajax({
-        url:"/newsType",
-        type: "POST",
-        dataType: "json",
-        data: {
-            method:"getList",
-        },
-        success: function (result) {
-            if (result.code ===200) {
-                var str='<option value="">请选择类别</option>';
-                for ( var i=0;i<result.data.length;i++) {
-                    if(result.data[i].tid==$(".category").val()){
-                        str+='<option value="'+result.data[i].tid+'" selected>'+result.data[i].tName+'</option>';
-                    }else{
-                        str+='<option value="'+result.data[i].tid+'">'+result.data[i].tName+'</option>';
+
+    //获取分类
+    function getNewsType() {
+        $.ajax({
+            url: "/newsType",
+            type: "POST",
+            dataType: "json",
+            data: {
+                method: "getList",
+            },
+            success: function (result) {
+                if (result.code === 200) {
+                    selected = $("#tid").val();
+                    var str = '<option value="">请选择类别</option>';
+                    for (let i = 0; i < result.data.length; i++) {
+                        if (result.data[i].tid == selected) {
+                            str += '<option value="' + result.data[i].tid + '" selected>' + result.data[i].tName + '</option>';
+                        } else {
+                            str += '<option value="' + result.data[i].tid + '">' + result.data[i].tName + '</option>';
+                        }
                     }
+                    $("select").html(str);
+                    form.on('select(type)', function (data) {
+                        $(".category").val(data.value);
+                    });
+                    form.render('select');
                 }
-                $("select").html(str);
-                form.on('select(type)', function(data){
-                    $(".category").val(data.value);
-                });
-                form.render('select');
             }
-        }
-    });
+        });
+    }
+
+
     //创建一个编辑器
-    const editIndex = layedit.build('news_content', {
+    const editIndex = layedit.build('content', {
         height: 500,
         uploadImage: {
             url: "http://localhost:8080/uploadServlet"
         }
     });
-    layedit.setContent(editIndex,$("#newsContent").val(),false);
-    //用于同步编辑器内容到textarea
-    // layedit.sync(editIndex);
 
     //封面图上传
-    let coverUrl = null;
+    let coverUrl = $("#demo1").attr("src");
     const uploadInst = upload.render({
         elem: '#test1'
         , url: "http://localhost:8080/uploadServlet"
@@ -90,20 +93,20 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         //弹出loading
         const index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         $.ajax({
-            url: $.cookie("tempUrl") + "information/updateByPrimaryKeySelective?token=" + $.cookie("token"),
-            type: "PUT",
-            datatype: "application/json",
-            contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({
+            url: '/news',
+            type: "post",
+            dataType: "json",
+            data: {
+                method: 'update',
                 nid: $(".id").val(),
                 title: $(".articleTitle").val(),
                 banner: coverUrl,
                 introduction: $(".introduction").val(),
                 tid: $(".category").val(),
                 content: layedit.getContent(editIndex)
-            }),
+            },
             success: function (result) {
-                if (result.code === 0) {
+                if (result.code == 200) {
                     layer.msg("更新成功");
                     setTimeout(function () {
                         top.layer.close(index);
@@ -112,24 +115,31 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                         parent.location.reload();
                     }, 500);
                 } else {
-                    layer.msg(result.exception, {icon: 7, anim: 6});
+                    layer.msg(result.msg, {icon: 7, anim: 6});
                 }
             }
         });
         return false;
     });
-
+    //layedit赋值
     setTimeout(function () {
-        $.ajax({
-            url: $.cookie("tempUrl") + "information/selectInfoByPrimaryKey?token=" + $.cookie("token") + "&id=" + $(".id").val(),
-            type: "GET",
+        getNewsType();
+        layedit.setContent(editIndex, $("#newsContent").val());
+        /*$.ajax({
+            url: '/news',
+            type: "post",
+            dataType:'json',
+            data:{
+                method:'getInfoByNid',
+                nid:$(".id").val(),
+            },
             success: function (result) {
-                if (result.code === 0) {
+                if (result.code === 200) {
                     layedit.setContent(editIndex, result.data.content);
                 } else {
-                    layer.msg(result.exception, {icon: 7, anim: 6});
+                    layer.msg(result.msg, {icon: 7, anim: 6});
                 }
             }
-        });
+        });*/
     }, 500);
 });

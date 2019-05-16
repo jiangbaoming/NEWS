@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsers(Integer pageNum, Integer pageSize, String param) {
         UserDao userDao = new UserDaoImpl();
         List<User> userList = userDao.getUsers((pageNum - 1) * pageSize, pageSize, param);
+        OrganizationDao organizationDao = new OrganizationDaoImpl();
+        for (User user : userList) {
+            Organization organization = organizationDao.getOrganizationById(user.getOid());
+            user.setOrganizationName(organization.getOname());
+        }
         return userList;
     }
 

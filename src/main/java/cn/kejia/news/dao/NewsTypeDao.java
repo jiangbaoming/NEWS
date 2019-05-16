@@ -42,4 +42,6 @@ public interface NewsTypeDao {
     int getTotalCount();
 
     List<NewsType> getAllNewsType();
+
+    String getTname(Integer tid);
 }

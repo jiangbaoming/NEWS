@@ -105,4 +105,22 @@ public class NewsTypeDaoImpl extends BaseDao implements NewsTypeDao {
         }
         return newsTypeList;
     }
+
+    @Override
+    public String getTname(Integer tid) {
+        String sql="select tName from newstype where tid = ? ";
+        Object[] params={tid};
+        rs=executeQuriy(sql, params);
+        String tName=null;
+        try {
+            while (rs.next()) {
+                tName = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return tName;
+    }
 }
