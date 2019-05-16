@@ -75,7 +75,7 @@ public abstract class BaseDao {
         conn = getConnection();
         int rows = 0;
         try {
-            pstmt = conn.prepareStatement(sql, new String[]{"DID"});
+            pstmt = conn.prepareStatement(sql);
             if (params != null) {
                 for (int i = 0; i < params.length; i++) {
                     pstmt.setObject(i + 1, params[i]);

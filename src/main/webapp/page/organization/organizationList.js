@@ -59,7 +59,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                 },
                                 dataType: 'json',
                                 type: 'post',
-                                async: false,
                                 success: function (result) {
                                     if (result.code == 200) {
                                         layer.msg('添加成功');
@@ -73,21 +72,34 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                         });
                     },
                     renameClick:function(item, elem, rename){
-                        var node=$(this).parent().children("a").children("cite");
-                        console.log(node)
-                        var id=$(this).parent().attr("id")
-                        var that= $(this).closest("li");
-                        layer.prompt({title: '输入新的分类名称，并确认',value:node.text(), formType:0}, function(text, index){
+                        layer.prompt({title: '输入新的分类名称，并确认',value:item.name, formType:0}, function(text, index){
                             layer.close(index);
+                            console.log(text);
                             //TODO 可以ajax到后台操作，这里只做模拟
                             layer.load(2);
-                            setTimeout(function(){
-                                layer.closeAll("loading");
-                                node.text(text);
-                            },1000)
+                            $.ajax({
+                                url: '/organization',
+                                data: {
+                                    method: 'reName',
+                                    oname: text,
+                                    oid: item.id,
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function (result) {
+                                    if (result.code == 200) {
+                                        layer.msg('修改成功');
+                                        treeReload();
+                                        setTimeout(function () {
+                                            layer.closeAll("loading");
+                                        }, 500);
+                                    }
+                                }
+                            });
                         });
                     },
                     deleteClick: function (item, elem, done) {
+                        console.log(done);
                         if ( item.children !==undefined &&item.children.length > 0) {
                             layer.msg("该分类下含有子分类不能删除")
                             return;
@@ -104,7 +116,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                 },
                                 dataType: 'json',
                                 type: 'post',
-                                async: false,
                                 success: function (result) {
                                     if (result.code == 200) {
                                         layer.msg('删除成功');

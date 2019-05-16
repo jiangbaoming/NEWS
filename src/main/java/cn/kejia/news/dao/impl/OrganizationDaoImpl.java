@@ -169,7 +169,7 @@ public class OrganizationDaoImpl extends BaseDao implements OrganizationDao {
 
     @Override
     public boolean reName(String oname, Integer oid) {
-        String sql = "update organization set oname = ?,WHERE oid = ?";
+        String sql = "update organization set oname = ? WHERE oid = ?";
         Object[] params = {oname,oid};
         int rows = executeUpdata(sql, params);
         return rows > 0;

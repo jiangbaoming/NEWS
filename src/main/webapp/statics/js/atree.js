@@ -219,6 +219,7 @@ layui.define('jquery', function (exports) {
             layui.stope(e);
             var _addEvent = {
                 add: function (itemAddObj) {
+                    console.log(itemAddObj);
                     if (!item[that.childrenKey]) {
                         item[that.childrenKey] = [];
                     }
@@ -255,12 +256,14 @@ layui.define('jquery', function (exports) {
         var arrow = node.children('.layui-atree-spread')
         var ul = elem.children('ul'),
             a = node.children('a'),
-            cite=a.children('cite');
+            cite = a.children('cite');
         var renameEvent = function (e) {
             layui.stope(e);
             var _renameEvent = {
                 rename: function (nodename) {
                     cite.val(nodename);
+                    console.log('回调一波？');
+                    elem.render();
                 }
             }
             options.renameClick(item, elem, _renameEvent.rename)
