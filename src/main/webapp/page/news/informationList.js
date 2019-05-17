@@ -128,7 +128,7 @@ layui.use(['form', 'layer', 'table'], function () {
                 case 'del'://删除
                     layer.confirm('确定删除此资讯？', {icon: 3, title: '提示信息'}, function (index) {
                         $.ajax({
-                            url:'news',
+                            url:'/news',
                             type: "post",
                             data:{
                                 method:'delete',

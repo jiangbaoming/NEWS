@@ -36,16 +36,17 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     }
 
 
-    //创建一个编辑器
+   /* //创建一个编辑器
     const editIndex = layedit.build('content', {
         height: 500,
         uploadImage: {
             url: "http://localhost:8080/uploadServlet"
         }
-    });
-
+    });*/
+    var ue = UE.getEditor('content',{zIndex: 100});
     //封面图上传
     let coverUrl = $("#demo1").attr("src");
+    console.log(coverUrl);
     const uploadInst = upload.render({
         elem: '#test1'
         , url: "http://localhost:8080/uploadServlet"
@@ -62,7 +63,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 return layer.msg('上传失败');
             } else {
                 //上传成功
-                coverUrl = res.data;
+                coverUrl = res.data.src;
                 return layer.msg('上传成功');
             }
         }
@@ -103,7 +104,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 banner: coverUrl,
                 introduction: $(".introduction").val(),
                 tid: $(".category").val(),
-                content: layedit.getContent(editIndex)
+                content: ue.getContent()
             },
             success: function (result) {
                 if (result.code == 200) {
@@ -124,7 +125,8 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     //layedit赋值
     setTimeout(function () {
         getNewsType();
-        layedit.setContent(editIndex, $("#newsContent").val());
+        ue.setContent($("#newsContent").val());
+       // layedit.setContent(editIndex, $("#newsContent").val());
         /*$.ajax({
             url: '/news',
             type: "post",

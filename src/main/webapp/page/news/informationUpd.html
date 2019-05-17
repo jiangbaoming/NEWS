@@ -2,13 +2,18 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8">
-    <title>资讯列表--Layui</title>
+    <title>修改资讯--Layui</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
+    <script type="text/javascript" charset="utf-8" src="/statics/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/statics/ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="/statics/ueditor/lang/zh-cn/zh-cn.js"></script>
     <link rel="stylesheet" href="/statics/layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="/statics/css/public.css" media="all"/>
 </head>
@@ -58,14 +63,14 @@
             </div>
             <div class="layui-col-md5 layui-col-xs5">
                 <div class="layui-upload-list thumbBox mag0 magt3" id="test1">
-                    <img class="layui-upload-img thumbImg" id="demo1">
+                    <img class="layui-upload-img thumbImg" id="demo1"/>
                 </div>
             </div>
         </div>
         <div class="layui-form-item magb0">
             <label class="layui-form-label">文章内容</label>
             <div class="layui-input-block">
-                  <textarea class="layui-textarea layui-hide" name="content" id="content"></textarea>
+                  <textarea style="width:1024px;height:500px;" name="content" id="content"></textarea>
             </div>
         </div>
         <div class="layui-form-item magb0">

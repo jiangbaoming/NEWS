@@ -32,8 +32,12 @@ public class UserServiceImpl implements UserService {
         OrganizationDao organizationDao = new OrganizationDaoImpl();
         List<User> userList = userDao.getUsers((pageNum - 1) * pageSize, pageSize);
         for (User user : userList) {
-            Organization organization = organizationDao.getOrganizationById(user.getOid());
-            user.setOrganizationName(organization.getOname());
+            if (user.getOid()==0){
+                user.setOrganizationName("管理员");
+            }else{
+                Organization organization = organizationDao.getOrganizationById(user.getOid());
+                user.setOrganizationName(organization.getOname());
+            }
         }
         return userList;
     }

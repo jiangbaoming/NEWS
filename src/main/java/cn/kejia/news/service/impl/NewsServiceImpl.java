@@ -81,4 +81,11 @@ public class NewsServiceImpl implements NewsService {
         boolean result = newsDao.update(news);
         return result;
     }
+
+    @Override
+    public boolean delete(Integer nid) {
+        NewsDao newsDao = new NewsDaoImpl();
+        boolean result=newsDao.delete(nid);
+        return result;
+    }
 }

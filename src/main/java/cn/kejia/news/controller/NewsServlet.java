@@ -57,18 +57,18 @@ public class NewsServlet extends BaseServlet {
         NewsService newsService = new NewsServiceImpl();
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        User loginUser= (User) request.getSession().getAttribute("loginUser");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;
         switch (userRole) {
             case 1:
-                newsList = newsService.getList(pageNum, pageSize,null,null);
-                totalCount = newsService.getTotalCount(null,null);
+                newsList = newsService.getList(pageNum, pageSize, null, null);
+                totalCount = newsService.getTotalCount(null, null);
                 break;
             case 0:
-                newsList = newsService.getList(pageNum, pageSize,loginUser.getId(),null);
-                totalCount = newsService.getTotalCount(loginUser.getId(),null);
+                newsList = newsService.getList(pageNum, pageSize, loginUser.getId(), null);
+                totalCount = newsService.getTotalCount(loginUser.getId(), null);
                 break;
             default:
                 break;
@@ -91,7 +91,7 @@ public class NewsServlet extends BaseServlet {
         String introduction = request.getParameter("introduction");
         String banner = request.getParameter("banner");
         Integer tid = Integer.parseInt(request.getParameter("tid"));
-        Integer nid=Integer.parseInt(request.getParameter("nid"));
+        Integer nid = Integer.parseInt(request.getParameter("nid"));
         News news = new News();
         news.setNid(nid);
         news.setTitle(title);
@@ -107,24 +107,25 @@ public class NewsServlet extends BaseServlet {
             response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
         }
     }
+
     public void search(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NewsService newsService = new NewsServiceImpl();
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        String title=request.getParameter("title");
-        User loginUser= (User) request.getSession().getAttribute("loginUser");
+        String title = request.getParameter("title");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;
         switch (userRole) {
             case 1:
-                newsList = newsService.getList(pageNum, pageSize,null,title);
-                totalCount = newsService.getTotalCount(null,title);
+                newsList = newsService.getList(pageNum, pageSize, null, title);
+                totalCount = newsService.getTotalCount(null, title);
                 break;
             case 0:
-                newsList = newsService.getList(pageNum, pageSize,loginUser.getId(),title);
-                totalCount = newsService.getTotalCount(loginUser.getId(),title);
+                newsList = newsService.getList(pageNum, pageSize, loginUser.getId(), title);
+                totalCount = newsService.getTotalCount(loginUser.getId(), title);
                 break;
             default:
                 break;
@@ -135,6 +136,18 @@ public class NewsServlet extends BaseServlet {
         result.put("totalCount", totalCount);
         result.put("data", newsList);
         response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NewsService newsService = new NewsServiceImpl();
+        Integer nid = Integer.parseInt(request.getParameter("nid"));
+        boolean result = newsService.delete(nid);
+        if (result) {
+            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+        } else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
+        }
     }
 
 }

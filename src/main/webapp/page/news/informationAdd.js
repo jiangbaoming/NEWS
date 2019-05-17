@@ -31,12 +31,13 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     });
 
     //创建一个编辑器
-    const editIndex = layedit.build('news_content', {
+   /* const editIndex = layedit.build('news_content', {
         height: 500,
         uploadImage: {
             url: "http://localhost:8080/uploadServlet"
         }
-    });
+    });*/
+    var ue = UE.getEditor('ueditor',{zIndex: 100});
 
     //封面图上传
     let coverUrl = null;
@@ -56,7 +57,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 return layer.msg('图片上传失败');
             } else {
                 //上传成功
-                coverUrl = res.data;
+                coverUrl = res.data.src;
                 return layer.msg('图片上传成功');
             }
         }
@@ -96,8 +97,8 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     title: $(".articleTitle").val(),
                     introduction: $(".introduction").val(),
                     tid: $(".category").val(),
-                    banner: coverUrl.src,
-                    content: layedit.getContent(editIndex)
+                    banner: coverUrl,
+                    content: ue.getContent()
                 },
                 success: function (result) {
                     if (result.code ===200) {
@@ -113,7 +114,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     }
                 }
             });
-        },5000);
+        },1000);
         return false;
     });
 });

@@ -20,4 +20,5 @@ public interface NewsService {
 
     boolean update(News news);
 
+    boolean delete(Integer nid);
 }
