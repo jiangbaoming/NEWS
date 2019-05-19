@@ -131,4 +131,22 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         }
         return totalCount;
     }
+
+    @Override
+    public News getNewsByNid(Integer nid) {
+        String sql="select * from news where nid = ?";
+        Object[] param={nid};
+        rs=executeQuriy(sql, param);
+        News news=null;
+        try {
+            while (rs.next()) {
+                news = (News) tableToObject(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return news;
+    }
 }

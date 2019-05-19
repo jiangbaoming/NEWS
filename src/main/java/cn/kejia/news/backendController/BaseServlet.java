@@ -1,4 +1,4 @@
-package cn.kejia.news.controller;
+package cn.kejia.news.backendController;
 
 
 import javax.servlet.ServletException;

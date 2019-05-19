@@ -1,7 +1,6 @@
-package cn.kejia.news.controller;
+package cn.kejia.news.backendController;
 
 import cn.kejia.news.model.NewsType;
-import cn.kejia.news.model.User;
 import cn.kejia.news.service.NewsTypeService;
 import cn.kejia.news.service.impl.NewsTypeServiceImpl;
 import cn.kejia.news.utils.NewsResult;

@@ -1,4 +1,4 @@
-package cn.kejia.news.controller;
+package cn.kejia.news.backendController;
 
 /**
  * @Author: 江宝明
@@ -67,7 +67,7 @@ public class UploadServlet extends HttpServlet {
             //把文件写到指定路径
             part.write(savePath + File.separator + newFileName);
             System.out.println("上传成功！");
-            String fileUrl = "http://192.168.1.141:8080/upload/" + newFileName;
+            String fileUrl = "/upload/" + newFileName;
             ImageFiled imageFiled = new ImageFiled(fileUrl, fileName, newFileName);
             response.getWriter().write(JSON.toJSONString(ImgResult.ok(imageFiled)));
             System.out.println("文件>>>>>>>>>>>>>" + savePath + File.separator + newFileName);

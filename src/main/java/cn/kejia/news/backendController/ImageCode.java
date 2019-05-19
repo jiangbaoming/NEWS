@@ -1,7 +1,4 @@
-package cn.kejia.news.controller;
-
-import cn.kejia.news.utils.NewsResult;
-import com.alibaba.fastjson.JSON;
+package cn.kejia.news.backendController;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;

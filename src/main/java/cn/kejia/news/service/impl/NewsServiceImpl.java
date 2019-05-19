@@ -7,6 +7,7 @@ import cn.kejia.news.dao.impl.NewsDaoImpl;
 import cn.kejia.news.dao.impl.NewsTypeDaoImpl;
 import cn.kejia.news.dao.impl.UserDaoImpl;
 import cn.kejia.news.model.News;
+import cn.kejia.news.model.NewsType;
 import cn.kejia.news.model.User;
 import cn.kejia.news.service.NewsService;
 
@@ -33,15 +34,15 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = null;
         if (null != uid) {
             if (null != title) {
-                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, false, uid,title);
+                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, false, uid, title);
             } else {
-                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, false, uid,null);
+                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, false, uid, null);
             }
         } else {
             if (null != title) {
-                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, true, null,title);
+                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, true, null, title);
             } else {
-                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, true, null,null);
+                newsList = newsDao.getNewsList((pageNum - 1) * pageSize, pageSize, true, null, null);
             }
         }
         UserDao userDao = new UserDaoImpl();
@@ -60,16 +61,16 @@ public class NewsServiceImpl implements NewsService {
         NewsDao newsDao = new NewsDaoImpl();
         int totalCount = 0;
         if (null != uid) {
-            if (null != title){
-                totalCount = newsDao.getTotalCount(uid,title);
-            }else {
-                totalCount = newsDao.getTotalCount(uid,null);
+            if (null != title) {
+                totalCount = newsDao.getTotalCount(uid, title);
+            } else {
+                totalCount = newsDao.getTotalCount(uid, null);
             }
         } else {
-            if (null != title){
-                totalCount = newsDao.getTotalCount(null,title);
-            }else {
-                totalCount = newsDao.getTotalCount(null,null);
+            if (null != title) {
+                totalCount = newsDao.getTotalCount(null, title);
+            } else {
+                totalCount = newsDao.getTotalCount(null, null);
             }
         }
         return totalCount;
@@ -85,7 +86,18 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public boolean delete(Integer nid) {
         NewsDao newsDao = new NewsDaoImpl();
-        boolean result=newsDao.delete(nid);
+        boolean result = newsDao.delete(nid);
         return result;
+    }
+
+    @Override
+    public News getNewsByNid(Integer nid) {
+        UserDao userDao=new UserDaoImpl();
+        NewsDao newsDao = new NewsDaoImpl();
+        News news = newsDao.getNewsByNid(nid);
+        NewsTypeDao newsTypeDao=new NewsTypeDaoImpl();
+        news.settName(newsTypeDao.getTname(news.getTid()));
+        news.setuName(userDao.getUserById(news.getUid()).getUserName());
+        return news;
     }
 }

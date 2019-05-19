@@ -1,4 +1,4 @@
-package cn.kejia.news.controller;
+package cn.kejia.news.backendController;
 
 import cn.kejia.news.model.News;
 import cn.kejia.news.model.User;

@@ -261,9 +261,8 @@ layui.define('jquery', function (exports) {
             layui.stope(e);
             var _renameEvent = {
                 rename: function (nodename) {
-                    cite.val(nodename);
+                    cite.innerHTML=nodename;
                     console.log('回调一波？');
-                    elem.render();
                 }
             }
             options.renameClick(item, elem, _renameEvent.rename)
