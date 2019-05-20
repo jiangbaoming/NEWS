@@ -19,6 +19,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
             dataType: "json",
             data: {
                 "method": "getAll",
+                user:$.cookie('user'),
             },
             success: function (result) {
                 nodeData = result;
@@ -56,6 +57,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                     method: 'addChild',
                                     oname: text,
                                     pid: item.id,
+                                    user:$.cookie('user'),
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -83,6 +85,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                     method: 'reName',
                                     oname: text,
                                     oid: item.id,
+                                    user:$.cookie('user'),
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -113,6 +116,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                 data: {
                                     method: 'delete',
                                     oid: item.id,
+                                    user:$.cookie('user'),
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -138,7 +142,11 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
         table.render({
             elem: '#list',
             url: '/organization',
-            where: {method: 'list', pid: num},
+            where: {
+                method: 'list',
+                pid: num,
+                user:$.cookie('user'),
+            },
             method: "POST",
             request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
@@ -180,6 +188,7 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                 data: {
                     method: 'addParent',
                     oname: text,
+                    user:$.cookie('user'),
                 },
                 dataType: 'json',
                 type: 'post',

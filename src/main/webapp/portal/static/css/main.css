@@ -65,14 +65,16 @@ html, body{height: 100%;}
 .micronews-container .layui-flow-more{margin:50px 0;}
 .micronews-container .layui-fluid{padding:0;}
 .micronews-container .main{padding-right: 50px;}
-.micronews-container .item{overflow:hidden; padding:20px 0; border-bottom: 1px solid #eaeaea;}
+.micronews-container .item{overflow:hidden; padding:20px 0;}
 .micronews-container .item img{float: left; margin-right: 30px;}
 .micronews-container .item h4{font-size: 20px; color: #222222; font-weight: bold; line-height: 32px; margin-bottom: 14px;}
 .micronews-container .b-txt .label{display:inline-block; padding: 0 4px; height:18px; line-height: 18px; background: #6294b5; font-size: 12px; cursor: pointer; color: #fff; border-radius: 2px; margin-right: 30px;}
 .micronews-container .b-txt .message{margin-right: 20px;}
 .micronews-container .b-txt .icon{color:#d2d6da; position: relative; top: 2px; cursor: pointer;}
+.micronews-container .item h4 span{text-align: right}
+.micronews-container .item h4 a{text-align: left}
 
-
+.heat-icon{display:inline-block; width: 12px;  height: 16px; background: url(../images/heat.png) no-repeat center center; position: relative; top: 3px;}
 
 .micronews-container .popular-info{background: #f5f6f7; border-top: 2px solid #6294b5; padding-bottom: 25px;}
 .micronews-container .popular-info .list{padding:16px 0;}

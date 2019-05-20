@@ -81,6 +81,11 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
             if (val.length > 127) {
                 return "简介内容过长";
             }
+        },
+        type:function (val) {
+            if ($(".category").val()==''|| $(".category").val() ==null) {
+                return "请选择栏目类别";
+            }
         }
     });
 
@@ -98,7 +103,8 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     introduction: $(".introduction").val(),
                     tid: $(".category").val(),
                     banner: coverUrl,
-                    content: ue.getContent()
+                    content: ue.getContent(),
+                    user:$.cookie('user'),
                 },
                 success: function (result) {
                     if (result.code ===200) {

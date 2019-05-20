@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 江宝明
@@ -28,8 +30,15 @@ public class IndexServlet extends HttpServlet {
         System.out.println("首页");
         NewsTypeService newsTypeService=new NewsTypeServiceImpl();
         NewsService newsService=new NewsServiceImpl();
+        //导航分类
         List<NewsType> newsTypes = newsTypeService.getAll();
-        List<News> bannerList = newsService.getList(1, 5, null, null);
+        //轮播图
+        List<News> bannerList = newsService.getList(1, 4, null, null);
+        //栏目列表
+        for (NewsType newsType : newsTypes) {
+            List<News> listByTid = newsService.getListByTid(newsType.getTid());
+            newsType.setNewsList(listByTid);
+        }
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("newsTypes", newsTypes);
         request.getRequestDispatcher("/portal/index.jsp").forward(request, response);

@@ -3,6 +3,7 @@ layui.use(['form', 'layer', 'table'], function () {
             layer = parent.layer === undefined ? layui.layer : top.layer,
             $ = layui.jquery,
             table = layui.table;
+
         //根据用户角色获取不同的news列表
         //列表
         const tableIns = table.render({
@@ -10,6 +11,7 @@ layui.use(['form', 'layer', 'table'], function () {
             url: '/news',
             where: {
                 method:'getList',
+                user:$.cookie('user'),
             },
             method: "GET",
             request: {
@@ -60,6 +62,7 @@ layui.use(['form', 'layer', 'table'], function () {
                         where: {
                             title: $(".searchVal").val(),
                             method: "search",
+                            user:$.cookie('user'),
                         }
                     });
                     break;

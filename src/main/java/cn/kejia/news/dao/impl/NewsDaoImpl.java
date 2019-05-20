@@ -65,19 +65,19 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         List<News> newsList = new ArrayList<>();
         if (isAdmin) {
             if (null != title){
-                sql = "select * from news where title like \"%\"?\"%\" limit ? ,?";
+                sql = "select * from news where title like \"%\"?\"%\"  order by releaseDate  desc limit ? ,?";
                 params = new Object[]{title,pageNum, pageSize};
             }else {
-                sql = "select * from news limit ? ,?";
+                sql = "select * from news order by releaseDate  desc limit ? ,?";
                 params = new Object[]{pageNum, pageSize};
             }
 
         } else {
             if (null != title){
-                sql = "select * from news where uid= ? and title like \"%\"?\"%\" limit ? , ?";
+                sql = "select * from news where uid= ? and title like \"%\"?\"%\" order by releaseDate  desc limit ? , ?";
                 params = new Object[]{uid, title,pageNum, pageSize};
             }else {
-                sql = "select * from news where uid= ? limit ? , ?";
+                sql = "select * from news where uid= ? order by releaseDate  desc limit ? , ?";
                 params = new Object[]{uid, pageNum, pageSize};
             }
 
@@ -148,5 +148,33 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
             closeConnection(conn, rs, pstmt);
         }
         return news;
+    }
+
+    @Override
+    public boolean updateTimes(Integer nid, Integer num) {
+        String sql = "update news set  times = ? WHERE nid = ? ";
+        Object[] params = {num,nid};
+        int rows = executeUpdata(sql, params);
+        return rows > 0;
+    }
+
+    @Override
+    public List<News> getListByTid(Integer tid) {
+        String sql="select * from news where tid = ?";
+        Object[] params={tid};
+        rs=executeQuriy(sql, params);
+        List<News> newsList=new ArrayList<>();
+        News news=null;
+        try {
+            while (rs.next()) {
+                news = (News) tableToObject(rs);
+                newsList.add(news);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return newsList;
     }
 }

@@ -23,7 +23,7 @@ function getLangDate() {
     const second = dateObj.getSeconds(); //当前系统时间的秒钟值
     const timeValue = "" + ((hour >= 12) ? (hour >= 18) ? "晚上" : "下午" : "上午"); //当前时间属于上午、晚上还是下午
     newDate = dateFilter(year) + "年" + dateFilter(month) + "月" + dateFilter(date) + "日 " + " " + dateFilter(hour) + ":" + dateFilter(minute) + ":" + dateFilter(second);
-    document.getElementById("nowTime").innerHTML = "亲爱的" + $.cookie("truename") + "，" + timeValue + "好！ 欢迎使用后台管理系统。当前时间为： " + newDate + "　" + week;
+    document.getElementById("nowTime").innerHTML = "亲爱的" + $.cookie("truename") + "，" + timeValue + "好！ 欢迎使用后台管理系统。当前时间为： " + newDate + "　" + week+"（清除浏览器缓存后，请刷新地址栏！）";
     setTimeout("getLangDate()", 1000);
 }
 layui.use(['form', 'layer', 'table'], function () {
@@ -31,6 +31,11 @@ layui.use(['form', 'layer', 'table'], function () {
             layer = parent.layer === undefined ? layui.layer : top.layer,
             $ = layui.jquery,
             table = layui.table;
+
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
+    $(".truename").append($.cookie("truename"));
         //根据用户角色获取不同的news列表
         //列表
         const tableIns = table.render({
@@ -38,6 +43,7 @@ layui.use(['form', 'layer', 'table'], function () {
             url: '/news',
             where: {
                 method:'getList',
+                user:$.cookie('user'),
             },
             method: "GET",
             request: {
@@ -53,6 +59,7 @@ layui.use(['form', 'layer', 'table'], function () {
             },
             cellMinWidth: 95,
             page: true,
+          /*  height: "full-25",*/
             limits: [5, 10, 15, 20, 25],
             limit: 15,
             id: "dataTable",
@@ -74,6 +81,7 @@ layui.use(['form', 'layer', 'table'], function () {
                     }
                 },
                 {field: 'times', title: '浏览次数', width: 90, align: 'center'},
+                {title: '操作', width: 145, templet: '#userListBar', fixed: "right", align: "center"}
             ]]
         });
 
@@ -86,11 +94,34 @@ layui.use(['form', 'layer', 'table'], function () {
                         where: {
                             title: $(".searchVal").val(),
                             method: "search",
+                            user:$.cookie('user'),
                         }
                     });
                     break;
                 case 'flash_btn':
                     window.location.reload();
+                    break;
+                case 'add_btn':
+                    const index = layui.layer.open({
+                        title: "新增资讯",
+                        type: 2,
+                        area: ["500px", "450px"],
+                        content: "/page/news/informationAdd.html",
+                        shadeClose: true,
+                        success: function () {
+                            setTimeout(function () {
+                                layui.layer.tips('点击此处关闭', '.layui-layer-setwin .layui-layer-close', {
+                                    tips: 3
+                                });
+                            }, 100)
+                        }
+                    });
+                    layui.layer.full(index);
+                    window.sessionStorage.setItem("index", index);
+                    //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                    $(window).on("resize", function () {
+                        layui.layer.full(window.sessionStorage.getItem("index"));
+                    });
                     break;
             }
         });
@@ -104,7 +135,7 @@ layui.use(['form', 'layer', 'table'], function () {
                     const index = layui.layer.open({
                         title: "查看/更新资讯",
                         type: 2,
-                        content: "news/informationUpd.html",
+                        content: "/page/news/informationUpd.html",
                         success: function (layero, index) {
                             const body = layui.layer.getChildFrame('body', index);
                             body.find("#demo1").attr("src", data.banner);  //封面图
@@ -129,7 +160,28 @@ layui.use(['form', 'layer', 'table'], function () {
                         layui.layer.full(window.sessionStorage.getItem("index"));
                     });
                     break;
+                case 'del'://删除
+                    layer.confirm('确定删除此资讯？', {icon: 3, title: '提示信息'}, function (index) {
+                        $.ajax({
+                            url:'/news',
+                            type: "post",
+                            data:{
+                                method:'delete',
+                                nid:data.nid,
+                                user:$.cookie('user'),
+                            },
+                            success: function (result) {
+                                layer.msg("删除成功");
+                                // window.location.href = "informationList.html";
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                // tableIns.reload();
+                                layer.close(index);
+                            }
+                        });
+                    });
+                    break;
             }
         });
     }
 );
+

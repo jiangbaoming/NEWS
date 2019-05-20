@@ -8,6 +8,7 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
         layer = layui.layer,
         treeSelect = layui.treeSelect;
     var modifyOid = $("#tree").val();
+
     //加载下拉Tree
     setTimeout(function () {
         treeSelect.render({
@@ -63,7 +64,8 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
                 "phone": field.phone,
                 "userName": field.userName,
                 /*"role": field.role,*/
-                "oid": modifyOid
+                "oid": modifyOid,
+                user:$.cookie('user'),
             },
             success: function (result) {
                 top.layer.close(index);

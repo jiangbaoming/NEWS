@@ -58,4 +58,11 @@ public class NewsTypeServiceImpl implements NewsTypeService {
         List<NewsType> list = newsTypeDao.getAllNewsType();
         return list;
     }
+
+    @Override
+    public String getTname(Integer tid) {
+        NewsTypeDao newsTypeDao = new NewsTypeDaoImpl();
+        String tname = newsTypeDao.getTname(tid);
+        return tname;
+    }
 }

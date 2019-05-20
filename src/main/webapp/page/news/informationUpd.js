@@ -13,6 +13,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
             dataType: "json",
             data: {
                 method: "getList",
+                user:$.cookie('user'),
             },
             success: function (result) {
                 if (result.code === 200) {
@@ -104,7 +105,8 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 banner: coverUrl,
                 introduction: $(".introduction").val(),
                 tid: $(".category").val(),
-                content: ue.getContent()
+                content: ue.getContent(),
+                user:$.cookie('user'),
             },
             success: function (result) {
                 if (result.code == 200) {

@@ -26,12 +26,14 @@
             </a>
         </h1>
         <p class="nav">
-            <a href="/index" class="active">最新</a>
+            <a href="/index">最新</a>
             <c:forEach items="${requestScope.newsTypes}" var="newsType">
-                <a href="/list?tid=${newsType.tid}">${newsType.tName}</a>
+
+                <a href="/list?tid=${newsType.tid}" <c:if test="${requestScope.tid==newsType.tid}">class="active" </c:if> >${newsType.tName}</a>
+
             </c:forEach>
         </p>
-        <div class="search-bar">
+        <%--<div class="search-bar">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -40,31 +42,33 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div>--%>
     </div>
 </div>
 
 
 <div class="micronews-container micronews-list-container w1000">
-    <h3>娱乐资讯</h3>
+    <h3>${tName}资讯</h3>
     <div class="layui-fluid">
         <div class="layui-row">
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
                 <div class="main">
                     <div class="list-item" id="LAY_demo2">
-                        <div class="item">
-                            <a href="details.html">
-                                <img src="/portal/static/images/news_img11.jpg">
-                            </a>
-                            <div class="item-info">
-                                <h4><a href="/details?">北京的卫生部门调查五星级酒店清洁 “丑闻” 已现场取样，还消费者真相</a></h4>
-                                <div class="b-txt">
-                                    <span class="label">娱乐</span>
-                                    <span class="icon message"><i class="layui-icon layui-icon-dialogue"></i>500条</span>
-                                    <span class="icon time"><i class="layui-icon layui-icon-log"></i>10分钟前</span>
+                        <c:forEach var="news" items="${list}">
+                            <div class="item">
+                                <a href="/details?nid=${news.nid}">
+                                    <img style="width: 160px; height: 100px" src="${news.banner}">
+                                </a>
+                                <div class="item-info">
+                                    <h4><a href="/details?nid=${news.nid}">${news.title}</a></h4>
+                                    <div class="b-txt">
+                                        <span class="label">${news.tName}</span>
+                                        <span class="icon message"><i class="layui-icon layui-icon-dialogue"></i>${news.times}</span>
+                                        <span class="icon time"><i class="layui-icon layui-icon-log"></i>${news.releaseDate}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -76,48 +80,11 @@
                         </div>
                         <div class="layui-card-body">
                             <ul class="list-box">
-                                <a href="details.html"><img src="/portal/static/images/news_img15.jpg" width="100%"> </a>
-                                <li class="list">
-
-                                    <a href="details.html">南非金砖会议再造十年辉煌</a>
-
-                                </li>
-                                <li class="list">
-
-                                    <a href="details.html">中流击水 奋楫者进_中共十九大</a>
-
-                                </li>
-                                <li class="list">
-
-                                    <a href="details.html">你好！新时代_2018全国两会</a>
-
-                                </li>
-                                <li class="list">
-
-                                    <a href="details.html">“日销40万”外卖料包厂被曝光，制作过程令人作呕</a>
-
-                                </li>
-                                <a href="details.html"><img src="/portal/static/images/news_img16.jpg" width="100%"></a>
-                                <li class="list">
-
-                                    <a href="details.html">韩国送的200吨橘子该怎么分？</a>
-
-                                </li>
-                                <li class="list">
-
-                                    <a href="details.html">中流击水 奋楫者进_中共十九大</a>
-
-                                </li>
-                                <li class="list">
-
-                                    <a href="details.html">你好！新时代_2018全国两会</a>
-
-                                </li>
-                                <li class="list">
-
-                                    <a href="details.html">“日销40万”外卖料包厂被曝光，制作过程令人作呕</a>
-
-                                </li>
+                                <c:forEach var="banner" items="${requestScope.bannerList}">
+                                    <li class="list">
+                                        <a href="/details?nid=${banner.nid}">${banner.title}</a><i class="heat-icon"></i>
+                                    </li>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>

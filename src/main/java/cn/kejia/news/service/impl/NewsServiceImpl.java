@@ -100,4 +100,22 @@ public class NewsServiceImpl implements NewsService {
         news.setuName(userDao.getUserById(news.getUid()).getUserName());
         return news;
     }
+
+    @Override
+    public boolean updateTimes(Integer nid, Integer num) {
+        NewsDao newsDao = new NewsDaoImpl();
+        return newsDao.updateTimes(nid, num);
+    }
+
+    @Override
+    public List<News> getListByTid(Integer tid) {
+        NewsDao newsDao = new NewsDaoImpl();
+        NewsTypeDao newsTypeDao=new NewsTypeDaoImpl();
+        List<News> list = newsDao.getListByTid(tid);
+        for (News news : list) {
+            String tname = newsTypeDao.getTname(news.getTid());
+            news.settName(tname);
+        }
+        return list;
+    }
 }

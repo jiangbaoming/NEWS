@@ -45,4 +45,8 @@ public interface NewsDao {
     int getTotalCount(Integer uid ,String title);
 
     News getNewsByNid(Integer nid);
+
+    boolean updateTimes(Integer nid, Integer num);
+
+    List<News> getListByTid(Integer tid);
 }

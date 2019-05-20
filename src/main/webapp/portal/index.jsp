@@ -6,13 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>新闻</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" type="text/css" href="/statics/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/portal/static/css/main.css">
 </head>
@@ -31,7 +32,7 @@
                 <a href="/list?tid=${newsType.tid}">${newsType.tName}</a>
             </c:forEach>
         </p>
-        <div class="search-bar">
+        <%--<div class="search-bar">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -40,7 +41,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div>--%>
     </div>
 </div>
 <div class="layui-fulid micronews-banner w1000">
@@ -49,31 +50,38 @@
             <c:forEach var="banner" items="${requestScope.bannerList}">
                 <div>
                     <p class="title">${banner.title}</p>
-                    <a href="/list"><img style="height: 300px; width: 1000px"  src="${banner.banner}"></a>
+                    <a href="/details?nid=${banner.nid}"><img style="height: 300px; width: 1000px" src="${banner.banner}"></a>
                 </div>
             </c:forEach>
         </div>
     </div>
 </div>
 
-
 <div class="micronews-container w1000">
     <div class="layui-fluid">
         <div class="layui-row">
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md8" style="width: 100%">
                 <div class="main">
                     <div class="list-item" id="LAY_demo2">
-                        <c:forEach items="${requestScope.bannerList}" var="banner">
-                            <div class="item">
-                                <a href="/details?nid=${banner.nid}">
-                                    <img style="width: 160px; height: 100px" src="${banner.banner}">
-                                </a>
-                                <div class="item-info">
-                                    <h4><a href="/details?nid=${banner.nid}">${banner.introduction}</a></h4>
-                                    <div class="b-txt">
-                                        <span class="label">${banner.tName}</span>
-                                        <span class="icon message"><i class="layui-icon layui-icon-dialogue"></i>${banner.times}</span>
-                                        <span class="icon time"><i class="layui-icon layui-icon-log"></i>${banner.releaseDate}</span>
+                        <c:forEach items="${requestScope.newsTypes}" var="newsType">
+                            <div style="float: left">
+                                <a href="/list?tid=${newsType.newsList[0].tid}"><h2 style="background-color: #01AAED; color: white ;width: 470px"><span>${newsType.tName}版块</span></h2></a>
+                                <div class="item">
+                                        <%--<a href="/list?tid=${newsType.newsList[0].tid}">
+                                            <c:choose>
+                                                <c:when test="${newsType.newsList[0].banner != null}">
+                                                    <img style="width: 160px; height: 100px" src="${newsType.newsList[0].banner}">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img style="width: 160px; height: 100px" src="/portal/static/images/news_img3.jpg">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </a>--%>
+                                    <div class="item-info" style="height: 150px;width: 470px ;float: left;margin-right: 5px">
+                                        <c:forEach items="${newsType.newsList}" var="news">
+                                            <h6 style="height: 19px ;padding-right: 5px;border-right: 1px gold solid"><a href="/details?nid=${news.nid}">${news.introduction}</a><span style="float: right">${news.releaseDate}</span></h6>
+                                            <hr>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -81,26 +89,17 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
-                <div class="popular-info">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <h3>热门资讯</h3>
-                        </div>
-                        <div class="layui-card-body">
-                            <ul class="list-box">
-                                <c:forEach var="banner" items="${requestScope.bannerList}">
-                                    <li class="list">
-                                        <a href="list.html">${banner.title}</a><i class="heat-icon"></i>
-                                    </li>
-                                </c:forEach>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
+    </div>
+    <div style="width: 100% ;height: 300px;" >
+        <h1 style="background-color: red; color: white ;width: 950px"><span>资讯推荐</span></h1>
+        <ul>
+            <c:forEach var="banner" items="${requestScope.bannerList}">
+                <li style="border-bottom: 1px gainsboro dashed;width: 950px;margin-top: 5px">
+                    <a style="font-size: 15px;color: red"href="/details?nid=${banner.nid}">${banner.title}</a><i class="heat-icon"></i>
+                </li>
+            </c:forEach>
+        </ul>
     </div>
 </div>
 <div class="micronews-footer-wrap">
@@ -130,7 +129,7 @@
 <script>
     layui.config({
         base: '/portal/static/js/'
-    }).use('index',function(){
+    }).use('index', function () {
         var index = layui.index;
         index.banner()
         index.seachBtn()

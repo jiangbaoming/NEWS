@@ -23,4 +23,8 @@ public interface NewsService {
     boolean delete(Integer nid);
 
     News getNewsByNid(Integer nid);
+
+    boolean updateTimes(Integer nid,Integer num);
+
+    List<News> getListByTid(Integer tid);
 }

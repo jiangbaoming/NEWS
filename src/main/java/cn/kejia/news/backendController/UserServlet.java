@@ -108,7 +108,7 @@ public class UserServlet extends BaseServlet {
         String phone = request.getParameter("phone");
         Integer oid = Integer.parseInt(request.getParameter("oid"));
         Integer role = Integer.parseInt(request.getParameter("role"));
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         User user = new User();
         user.setUserCode(userCode);
         user.setUserName(userName);
@@ -133,7 +133,7 @@ public class UserServlet extends BaseServlet {
         UserService userService = new UserServiceImpl();
         Integer role = Integer.parseInt(request.getParameter("role"));
         Integer id = Integer.parseInt(request.getParameter("id"));
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         boolean result = userService.changeRole(id, role, loginUser);
         if (result) {
             response.getWriter().write(JSON.toJSONString(NewsResult.success()));
@@ -166,7 +166,7 @@ public class UserServlet extends BaseServlet {
         Integer id = Integer.parseInt(request.getParameter("id"));
         Integer oid = Integer.parseInt(request.getParameter("oid"));
         /*Integer role = Integer.parseInt(request.getParameter("role"));*/
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         User user = new User();
         user.setId(id);
         user.setUserName(userName);
@@ -189,7 +189,7 @@ public class UserServlet extends BaseServlet {
         String userName = request.getParameter("userName");
         String phone = request.getParameter("phone");
         Integer id = Integer.parseInt(request.getParameter("id"));
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         User user = new User();
         user.setId(id);
         user.setUserName(userName);

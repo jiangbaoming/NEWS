@@ -1,6 +1,8 @@
 layui.use(['form', 'layer'], function () {
     const form = layui.form,
         layer = layui.layer;
+
+
     $(function () {
         $.ajax({
             url: "/user",

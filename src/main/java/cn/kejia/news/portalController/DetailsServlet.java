@@ -29,11 +29,15 @@ public class DetailsServlet extends HttpServlet {
         NewsTypeService newsTypeService = new NewsTypeServiceImpl();
         NewsService newsService = new NewsServiceImpl();
         List<NewsType> newsTypes = newsTypeService.getAll();
-        List<News> bannerList = newsService.getList(1, 5, null, null);
+        List<News> bannerList = newsService.getList(1, 10, null, null);
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("newsTypes", newsTypes);
         Integer nid = Integer.parseInt(request.getParameter("nid"));
         News news = newsService.getNewsByNid(nid);
+        Integer num=news.getTimes()+1;
+        newsService.updateTimes(news.getNid(), num);
+        news.setTimes(num);
+        request.setAttribute("bannerList", bannerList);
         request.setAttribute("news", news);
         request.getRequestDispatcher("/portal/details.jsp").forward(request, response);
     }

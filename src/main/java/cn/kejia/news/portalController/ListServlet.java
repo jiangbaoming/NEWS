@@ -26,12 +26,21 @@ public class ListServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("list");
-        NewsTypeService newsTypeService=new NewsTypeServiceImpl();
-        NewsService newsService=new NewsServiceImpl();
+        Integer tid = Integer.parseInt(request.getParameter("tid"));
+        NewsTypeService newsTypeService = new NewsTypeServiceImpl();
+        NewsService newsService = new NewsServiceImpl();
+        //导航分类
         List<NewsType> newsTypes = newsTypeService.getAll();
-        List<News> bannerList = newsService.getList(1, 5, null, null);
+        //分类列表
+        List<News> list = newsService.getListByTid(tid);
+        //资讯推荐
+        List<News> bannerList = newsService.getList(1, 10, null, null);
+        String tName = newsTypeService.getTname(tid);
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("newsTypes", newsTypes);
+        request.setAttribute("tid", tid);
+        request.setAttribute("tName", tName);
+        request.setAttribute("list", list);
         request.getRequestDispatcher("/portal/list.jsp").forward(request, response);
     }
 

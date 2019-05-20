@@ -28,7 +28,7 @@ public class NewsServlet extends BaseServlet {
 
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         NewsService newsService = new NewsServiceImpl();
         String content = request.getParameter("content");
         String title = request.getParameter("title");
@@ -57,7 +57,8 @@ public class NewsServlet extends BaseServlet {
         NewsService newsService = new NewsServiceImpl();
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
+        System.out.println(loginUser.toString());
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;
@@ -84,7 +85,7 @@ public class NewsServlet extends BaseServlet {
 
     public void update(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         NewsService newsService = new NewsServiceImpl();
         String content = request.getParameter("content");
         String title = request.getParameter("title");
@@ -114,7 +115,7 @@ public class NewsServlet extends BaseServlet {
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         String title = request.getParameter("title");
-        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;

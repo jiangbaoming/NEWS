@@ -9,7 +9,10 @@ layui.use(['form', 'layer', 'table'], function () {
     const tableIns = table.render({
         elem: '#list',
         url: '/user',
-        where: {method: 'getUsers'},
+        where: {
+            method: 'getUsers',
+            user:$.cookie('user'),
+        },
         method: "POST",
         request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
@@ -69,6 +72,7 @@ layui.use(['form', 'layer', 'table'], function () {
                     where: {
                         param: $(".searchVal").val(),
                         method: "search",
+                        user:$.cookie('user'),
                     }
                 });
                 break;
@@ -118,6 +122,7 @@ layui.use(['form', 'layer', 'table'], function () {
                         data:{
                             method:'delete',
                             id:data.id,
+                            user:$.cookie('user'),
                         },
                         type: "post",
                         dataType:"json",
@@ -145,7 +150,8 @@ layui.use(['form', 'layer', 'table'], function () {
             data:{
                 method:"changeRole",
                 id: data.value,
-                role: data.elem.checked ? "1" : "0"
+                role: data.elem.checked ? "1" : "0",
+                user:$.cookie('user'),
             },
             success: function (result) {
                 if (result.code === 200) {

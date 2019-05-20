@@ -23,4 +23,6 @@ public interface NewsTypeService {
     boolean delete(Integer tid);
 
     List<NewsType> getAll();
+
+    String getTname(Integer tid);
 }

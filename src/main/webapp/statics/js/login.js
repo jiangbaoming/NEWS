@@ -42,8 +42,9 @@ layui.use(['form', 'layer', 'jquery'], function () {
                             $.cookie('truename', result.data.userName, {path: '/'});
                             $.cookie('userRole', result.data.role, {path: '/'});
                             $.cookie('uid', result.data.id, {path: '/'});
+                            $.cookie('user',result.data);
                             setTimeout(function () {
-                                window.location.href = "index.html";
+                                window.location.href = "/index.html";
                             }, 1000);
                         } else {
                             layer.alert("登陆失败，"+result.msg, {icon: 7, anim: 6});
