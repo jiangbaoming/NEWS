@@ -23,8 +23,8 @@ import java.util.Map;
  * @Date:2019/05/19
  * @Modified By：
  */
-@WebServlet(name = "IndexServlet", urlPatterns = "/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet(name = "PortalIndexServlet", urlPatterns = "/index")
+public class PortalIndexServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("首页");

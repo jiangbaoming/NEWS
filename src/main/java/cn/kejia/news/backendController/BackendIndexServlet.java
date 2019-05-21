@@ -24,8 +24,8 @@ import java.util.Map;
  * @Date:2019/05/21
  * @Modified By：
  */
-@WebServlet(name = "IndexServlet", urlPatterns = "/backend/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet(name = "BackendIndexServlet", urlPatterns = "/backend/index")
+public class BackendIndexServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
