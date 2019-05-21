@@ -8,6 +8,9 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
         layer = layui.layer,
         treeSelect = layui.treeSelect;
 
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     //添加验证规则
     form.verify({
         password: function (value, item) {
@@ -38,7 +41,6 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
                 data: {
                     method: 'userCodeIsExit',
                     userCode: value,
-                    user:$.cookie('user'),
                 },
                 success: function (data) {
                     if (data.code !=200) {
@@ -104,7 +106,6 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
                 "oid": updataDid,
                 "phone": field.phone,
                 "role": field.role,
-                user:$.cookie('user'),
             },
             success: function (result) {
                 top.layer.close(index);

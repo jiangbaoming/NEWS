@@ -1,7 +1,9 @@
 layui.use(['form', 'layer'], function () {
     const form = layui.form,
         layer = layui.layer;
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     //提交
     form.on("submit(submit)", function (data) {
         const field = data.field;

@@ -5,7 +5,9 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         layedit = layui.layedit,
         $ = layui.jquery;
 
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
 
     //获取分类
     $.ajax({
@@ -104,7 +106,6 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     tid: $(".category").val(),
                     banner: coverUrl,
                     content: ue.getContent(),
-                    user:$.cookie('user'),
                 },
                 success: function (result) {
                     if (result.code ===200) {

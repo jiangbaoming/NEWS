@@ -65,4 +65,17 @@ public class NewsTypeServiceImpl implements NewsTypeService {
         String tname = newsTypeDao.getTname(tid);
         return tname;
     }
+
+    @Override
+    public boolean sort(Integer tid, Integer sort) {
+        NewsTypeDao newsTypeDao = new NewsTypeDaoImpl();
+        boolean result=newsTypeDao.sort(tid,sort);
+        return result;
+    }
+
+    @Override
+    public List<NewsType> getByPid(Integer tid) {
+        NewsTypeDao newsTypeDao = new NewsTypeDaoImpl();
+        return newsTypeDao.getByPid(tid);
+    }
 }

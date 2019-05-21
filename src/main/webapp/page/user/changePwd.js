@@ -3,8 +3,11 @@ layui.use(['form', 'layer'], function () {
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
 
-    $(".truename").attr("value", $.cookie("truename"));
 
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
+    $(".truename").attr("value", $.cookie("truename"));
     //添加验证规则
     form.verify({
         newPwd: function (value, item) {

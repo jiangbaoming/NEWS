@@ -27,4 +27,6 @@ public interface NewsService {
     boolean updateTimes(Integer nid,Integer num);
 
     List<News> getListByTid(Integer tid);
+
+    boolean sort(Integer nid, Integer sort);
 }

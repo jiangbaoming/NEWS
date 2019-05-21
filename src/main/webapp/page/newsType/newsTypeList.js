@@ -4,7 +4,9 @@ layui.use(['form', 'layer', 'table'], function () {
         $ = layui.jquery,
         table = layui.table;
 
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     //列表
     const tableIns = table.render({
         elem: '#list',
@@ -109,6 +111,21 @@ layui.use(['form', 'layer', 'table'], function () {
                             }
                         }
                     });
+                });
+                break;
+            case 'sort'://排序
+                const sort = layui.layer.open({
+                    title: "排序(1-5[最低-最高])",
+                    type: 2,
+                    area: ["500px", "250px"],
+                    content: "newsTypeSort.html",
+                    shadeClose: true,
+                    success: function (layero, index) {
+                        const body = layui.layer.getChildFrame('body', index);
+                        body.find("input[name=tid]").val(data.tid);
+                        body.find("select[name=sort]").val(data.tSorting);
+                        form.render();
+                    }
                 });
                 break;
         }

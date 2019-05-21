@@ -4,6 +4,7 @@ layui.use(['form', 'layer'], function () {
     if ($.cookie("truename") == null || $.cookie("truename") === "") {
         window.location.href = "/login.html";
     }
+    form.render('select');
     //提交
     form.on("submit(submit)", function (data) {
         const field = data.field;
@@ -14,13 +15,14 @@ layui.use(['form', 'layer'], function () {
             type: "POST",
             dataType: "json",
             data: {
-                "method": "add",
-                "tName": field.tName,
+                "method": "sort",
+                "tid":field.tid,
+                "sort": field.sort,
             },
             success: function (result) {
                 top.layer.close(index);
                 if (result.code === 200) {
-                    top.layer.msg("添加成功！");
+                    top.layer.msg("更改排序成功！");
                     layer.closeAll("iframe");
                     //刷新父页面
                     parent.location.reload();

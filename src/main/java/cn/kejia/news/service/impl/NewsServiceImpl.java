@@ -118,4 +118,11 @@ public class NewsServiceImpl implements NewsService {
         }
         return list;
     }
+
+    @Override
+    public boolean sort(Integer nid, Integer sort) {
+        NewsDao newsDao = new NewsDaoImpl();
+       boolean result= newsDao.sort(nid,sort);
+        return result;
+    }
 }

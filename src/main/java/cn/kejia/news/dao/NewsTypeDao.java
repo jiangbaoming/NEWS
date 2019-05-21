@@ -44,4 +44,8 @@ public interface NewsTypeDao {
     List<NewsType> getAllNewsType();
 
     String getTname(Integer tid);
+
+    boolean sort(Integer tid, Integer sort);
+
+    List<NewsType> getByPid(Integer tid);
 }

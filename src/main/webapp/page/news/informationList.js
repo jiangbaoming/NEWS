@@ -4,6 +4,11 @@ layui.use(['form', 'layer', 'table'], function () {
             $ = layui.jquery,
             table = layui.table;
 
+
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
+
         //根据用户角色获取不同的news列表
         //列表
         const tableIns = table.render({
@@ -11,7 +16,6 @@ layui.use(['form', 'layer', 'table'], function () {
             url: '/news',
             where: {
                 method:'getList',
-                user:$.cookie('user'),
             },
             method: "GET",
             request: {
@@ -37,19 +41,19 @@ layui.use(['form', 'layer', 'table'], function () {
                 {field: 'nid', title: 'ID', width: 90, align: 'center'},
                 {field: 'uName', title: '作者', width: 110, align: 'center'},
                 {
-                    field: 'title', title: '标题', minWidth: 200, align: "left", templet: function (d) {
+                    field: 'title', title: '标题', minWidth: 150, align: "left", templet: function (d) {
                         return '<a lay-event="edit" style="cursor:pointer;color: #01AAED">' + d.title + '</a>';
                     }
                 },
-                {field: 'introduction', title: '简介', minWidth: 300, align: 'left'},
+                {field: 'introduction', title: '简介', minWidth: 200, align: 'left'},
                 {field: 'tName', title: '文章类别', width: 90, align: 'center'},
                 {
-                    field: 'releaseDate', title: '发布时间', width: 200, align: "center", templet: function (d) {
+                    field: 'releaseDate', title: '发布时间', width: 150, align: "center", templet: function (d) {
                         return d.releaseDate;
                     }
                 },
                 {field: 'times', title: '浏览次数', width: 90, align: 'center'},
-                {title: '操作', width: 145, templet: '#userListBar', fixed: "right", align: "center"}
+                {title: '操作', width: 200, templet: '#userListBar', fixed: "right", align: "center"}
             ]]
         });
 
@@ -62,7 +66,6 @@ layui.use(['form', 'layer', 'table'], function () {
                         where: {
                             title: $(".searchVal").val(),
                             method: "search",
-                            user:$.cookie('user'),
                         }
                     });
                     break;
@@ -145,6 +148,21 @@ layui.use(['form', 'layer', 'table'], function () {
                                 layer.close(index);
                             }
                         });
+                    });
+                    break;
+                case 'sort'://排序
+                    const sort = layui.layer.open({
+                        title: "排序(1-5[最低-最高])",
+                        type: 2,
+                        area: ["500px", "250px"],
+                        content: "informationSort.html",
+                        shadeClose: true,
+                        success: function (layero, index) {
+                            const body = layui.layer.getChildFrame('body', index);
+                            body.find("input[name=nid]").val(data.nid);
+                            body.find("select[name=sort]").val(data.sorting);
+                            form.render();
+                        }
                     });
                     break;
             }

@@ -3,7 +3,9 @@ package cn.kejia.news.backendController;
 import cn.kejia.news.model.News;
 import cn.kejia.news.model.User;
 import cn.kejia.news.service.NewsService;
+import cn.kejia.news.service.NewsTypeService;
 import cn.kejia.news.service.impl.NewsServiceImpl;
+import cn.kejia.news.service.impl.NewsTypeServiceImpl;
 import cn.kejia.news.utils.NewsResult;
 import com.alibaba.fastjson.JSON;
 
@@ -28,7 +30,7 @@ public class NewsServlet extends BaseServlet {
 
     public void add(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         NewsService newsService = new NewsServiceImpl();
         String content = request.getParameter("content");
         String title = request.getParameter("title");
@@ -57,8 +59,7 @@ public class NewsServlet extends BaseServlet {
         NewsService newsService = new NewsServiceImpl();
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
-        System.out.println(loginUser.toString());
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;
@@ -85,7 +86,7 @@ public class NewsServlet extends BaseServlet {
 
     public void update(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         NewsService newsService = new NewsServiceImpl();
         String content = request.getParameter("content");
         String title = request.getParameter("title");
@@ -115,7 +116,7 @@ public class NewsServlet extends BaseServlet {
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         String title = request.getParameter("title");
-        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;
@@ -144,6 +145,18 @@ public class NewsServlet extends BaseServlet {
         NewsService newsService = new NewsServiceImpl();
         Integer nid = Integer.parseInt(request.getParameter("nid"));
         boolean result = newsService.delete(nid);
+        if (result) {
+            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+        } else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
+        }
+    }
+    public void sort(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NewsService newsService = new NewsServiceImpl();
+        Integer nid = Integer.parseInt(request.getParameter("nid"));
+        Integer sort=Integer.parseInt(request.getParameter("sort"));
+        boolean result = newsService.sort(nid,sort);
         if (result) {
             response.getWriter().write(JSON.toJSONString(NewsResult.success()));
         } else {

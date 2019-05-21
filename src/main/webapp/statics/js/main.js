@@ -35,7 +35,6 @@ layui.use(['form', 'layer', 'table'], function () {
     if ($.cookie("truename") == null || $.cookie("truename") === "") {
         window.location.href = "/login.html";
     }
-    $(".truename").append($.cookie("truename"));
         //根据用户角色获取不同的news列表
         //列表
         const tableIns = table.render({
@@ -81,7 +80,7 @@ layui.use(['form', 'layer', 'table'], function () {
                     }
                 },
                 {field: 'times', title: '浏览次数', width: 90, align: 'center'},
-                {title: '操作', width: 145, templet: '#userListBar', fixed: "right", align: "center"}
+                {title: '操作', width: 200, templet: '#userListBar', fixed: "right", align: "center"}
             ]]
         });
 
@@ -168,7 +167,6 @@ layui.use(['form', 'layer', 'table'], function () {
                             data:{
                                 method:'delete',
                                 nid:data.nid,
-                                user:$.cookie('user'),
                             },
                             success: function (result) {
                                 layer.msg("删除成功");
@@ -178,6 +176,21 @@ layui.use(['form', 'layer', 'table'], function () {
                                 layer.close(index);
                             }
                         });
+                    });
+                    break;
+                case 'sort'://排序
+                    const sort = layui.layer.open({
+                        title: "排序(1-5[最低-最高])",
+                        type: 2,
+                        area: ["500px", "250px"],
+                        content: "/page/news/informationSort.html",
+                        shadeClose: true,
+                        success: function (layero, index) {
+                            const body = layui.layer.getChildFrame('body', index);
+                            body.find("input[name=nid]").val(data.nid);
+                            body.find("select[name=sort]").val(data.sorting);
+                            form.render();
+                        }
                     });
                     break;
             }

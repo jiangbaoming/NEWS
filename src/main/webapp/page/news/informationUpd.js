@@ -4,7 +4,9 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         upload = layui.upload,
         layedit = layui.layedit,
         $ = layui.jquery;
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     //获取分类
     function getNewsType() {
         $.ajax({
@@ -13,7 +15,6 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
             dataType: "json",
             data: {
                 method: "getList",
-                user:$.cookie('user'),
             },
             success: function (result) {
                 if (result.code === 200) {
@@ -106,7 +107,6 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 introduction: $(".introduction").val(),
                 tid: $(".category").val(),
                 content: ue.getContent(),
-                user:$.cookie('user'),
             },
             success: function (result) {
                 if (result.code == 200) {

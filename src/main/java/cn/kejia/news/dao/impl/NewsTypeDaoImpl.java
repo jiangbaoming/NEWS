@@ -23,6 +23,7 @@ public class NewsTypeDaoImpl extends BaseDao implements NewsTypeDao {
         NewsType nt = new NewsType();
         nt.setTid(rs.getInt("tid"));
         nt.settName(rs.getString("tName"));
+        nt.settSorting(rs.getInt("tSorting"));
         return nt;
     }
 
@@ -52,7 +53,7 @@ public class NewsTypeDaoImpl extends BaseDao implements NewsTypeDao {
 
     @Override
     public List<NewsType> getAllNewsType(Integer pageNum, Integer pageSize) {
-        String sql = "select * from newstype limit ? ,?";
+        String sql = "select * from newstype order by tSorting desc limit ? ,?";
         Object[] params = {pageNum, pageSize};
         rs = executeQuriy(sql, params);
         NewsType newsType = null;
@@ -89,7 +90,7 @@ public class NewsTypeDaoImpl extends BaseDao implements NewsTypeDao {
 
     @Override
     public List<NewsType> getAllNewsType() {
-        String sql = "select * from newstype";
+        String sql = "select * from newstype order by tSorting desc";
         rs = executeQuriy(sql, null);
         NewsType newsType = null;
         List<NewsType> newsTypeList = new ArrayList<>();
@@ -122,5 +123,33 @@ public class NewsTypeDaoImpl extends BaseDao implements NewsTypeDao {
             closeConnection(conn, rs, pstmt);
         }
         return tName;
+    }
+
+    @Override
+    public boolean sort(Integer tid, Integer sort) {
+        String sql = "update newstype set tSorting = ?  where tid = ?";
+        Object[] params = {sort, tid};
+        int rows = executeUpdata(sql, params);
+        return rows>0;
+    }
+
+    @Override
+    public List<NewsType> getByPid(Integer tid) {
+        String sql = "select * from newstype where pid = ?";
+        Object[] params={tid};
+        rs = executeQuriy(sql, params);
+        NewsType newsType = null;
+        List<NewsType> newsTypeList = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                newsType = (NewsType) tableToObject(rs);
+                newsTypeList.add(newsType);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, rs, pstmt);
+        }
+        return newsTypeList;
     }
 }

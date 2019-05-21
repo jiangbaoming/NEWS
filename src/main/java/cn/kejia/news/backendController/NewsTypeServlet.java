@@ -84,4 +84,17 @@ public class NewsTypeServlet extends BaseServlet {
         List<NewsType> list=newsTypeService.getAll();
         response.getWriter().write(JSON.toJSONString(NewsResult.success(list)));
     }
+
+    public void sort(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NewsTypeService newsTypeService = new NewsTypeServiceImpl();
+        Integer tid=Integer.parseInt(request.getParameter("tid"));
+        Integer sort=Integer.parseInt(request.getParameter("sort"));
+        boolean result = newsTypeService.sort(tid,sort);
+        if (result) {
+            response.getWriter().write(JSON.toJSONString(NewsResult.success()));
+        } else {
+            response.getWriter().write(JSON.toJSONString(NewsResult.build(201, "服务器出错！")));
+        }
+    }
 }

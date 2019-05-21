@@ -13,7 +13,17 @@ public class NewsType {
 
     private Integer tid;//新闻分类ID
     private String tName;//分类名称
+
+    private Integer tSorting;//优先级
     private List<News> newsList;//该分类下的所有新闻
+
+    public Integer gettSorting() {
+        return tSorting;
+    }
+
+    public void settSorting(Integer tSorting) {
+        this.tSorting = tSorting;
+    }
 
     public List<News> getNewsList() {
         return newsList;

@@ -4,14 +4,15 @@ layui.use(['form', 'layer', 'table'], function () {
         $ = layui.jquery,
         table = layui.table;
 
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     //列表
     const tableIns = table.render({
         elem: '#list',
         url: '/user',
         where: {
             method: 'getUsers',
-            user:$.cookie('user'),
         },
         method: "POST",
         request: {
@@ -72,7 +73,6 @@ layui.use(['form', 'layer', 'table'], function () {
                     where: {
                         param: $(".searchVal").val(),
                         method: "search",
-                        user:$.cookie('user'),
                     }
                 });
                 break;
@@ -122,7 +122,6 @@ layui.use(['form', 'layer', 'table'], function () {
                         data:{
                             method:'delete',
                             id:data.id,
-                            user:$.cookie('user'),
                         },
                         type: "post",
                         dataType:"json",
@@ -151,7 +150,6 @@ layui.use(['form', 'layer', 'table'], function () {
                 method:"changeRole",
                 id: data.value,
                 role: data.elem.checked ? "1" : "0",
-                user:$.cookie('user'),
             },
             success: function (result) {
                 if (result.code === 200) {

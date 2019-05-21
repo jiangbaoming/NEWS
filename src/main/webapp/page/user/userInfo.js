@@ -1,8 +1,9 @@
 layui.use(['form', 'layer'], function () {
     const form = layui.form,
         layer = layui.layer;
-
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     $(function () {
         $.ajax({
             url: "/user",

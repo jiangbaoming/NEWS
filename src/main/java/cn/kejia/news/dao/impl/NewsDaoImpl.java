@@ -30,6 +30,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         news.setReleaseDate(rs.getDate("releaseDate"));
         news.setTimes(rs.getInt("times"));
         news.setIntroduction(rs.getString("introduction"));
+        news.setSorting(rs.getInt("sorting"));
         return news;
     }
 
@@ -65,19 +66,19 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
         List<News> newsList = new ArrayList<>();
         if (isAdmin) {
             if (null != title){
-                sql = "select * from news where title like \"%\"?\"%\"  order by releaseDate  desc limit ? ,?";
+                sql = "select * from news where title like \"%\"?\"%\"  releaseDate  desc ,sorting desc limit ? ,?";
                 params = new Object[]{title,pageNum, pageSize};
             }else {
-                sql = "select * from news order by releaseDate  desc limit ? ,?";
+                sql = "select * from news order by releaseDate  desc ,sorting desc limit ? ,?";
                 params = new Object[]{pageNum, pageSize};
             }
 
         } else {
             if (null != title){
-                sql = "select * from news where uid= ? and title like \"%\"?\"%\" order by releaseDate  desc limit ? , ?";
+                sql = "select * from news where uid= ? and title like \"%\"?\"%\" releaseDate  desc ,sorting desc limit ? , ?";
                 params = new Object[]{uid, title,pageNum, pageSize};
             }else {
-                sql = "select * from news where uid= ? order by releaseDate  desc limit ? , ?";
+                sql = "select * from news where uid= ? releaseDate  desc ,sorting desc limit ? , ?";
                 params = new Object[]{uid, pageNum, pageSize};
             }
 
@@ -160,7 +161,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
 
     @Override
     public List<News> getListByTid(Integer tid) {
-        String sql="select * from news where tid = ?";
+        String sql="select * from news where tid = ?  order by  releaseDate  desc ,sorting desc limit 0,5";
         Object[] params={tid};
         rs=executeQuriy(sql, params);
         List<News> newsList=new ArrayList<>();
@@ -176,5 +177,13 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
             closeConnection(conn, rs, pstmt);
         }
         return newsList;
+    }
+
+    @Override
+    public boolean sort(Integer nid, Integer sort) {
+        String sql = "update news set  sorting = ? WHERE nid = ? ";
+        Object[] params = {sort,nid};
+        int rows = executeUpdata(sql, params);
+        return rows > 0;
     }
 }

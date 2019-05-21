@@ -10,8 +10,8 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
     $ = layui.$;
     layer = parent.layer === undefined ? layui.layer : top.layer;
     tab = layui.bodyTab({
-        openTabNum: "10",  //最大可打开窗口数量
-        url: "/json/navs.json" //获取菜单json地址
+        openTabNum: "20",  //最大可打开窗口数量
+        url: "/backend/index" //获取菜单json地址
     });
 
     if ($.cookie("truename") == null || $.cookie("truename") === "") {
@@ -30,9 +30,12 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
 
 
     //通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
-    function getData(json) {
+    function getData() {
         $.getJSON(tab.tabConfig.url, function (data) {
-            if (json === "navs1") {
+            dataStr=data;
+            //重新渲染左侧菜单
+            tab.render();
+            /*if (json === "navs1") {
                 dataStr = data.navs1;
                 //重新渲染左侧菜单
                 tab.render();
@@ -48,9 +51,16 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
                 dataStr = data.navs4;
                 //重新渲染左侧菜单
                 tab.render();
-            }
+            }*/
         })
     };
+    getData();
+    //通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
+    /*if ($.cookie("userRole") == 1) {
+        getData("navs2");
+    } else {
+        getData("navs3");
+    }*/
 
     //隐藏左侧导航
     $(".hideMenu").click(function () {
@@ -63,12 +73,7 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
         tab.tabMove();
     });
 
-    //通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
-    if ($.cookie("userRole") == 1) {
-        getData("navs2");
-    } else {
-        getData("navs3");
-    }
+
     //手机设备的简单适配
     $('.site-tree-mobile').on('click', function () {
         $('body').addClass('site-mobile');

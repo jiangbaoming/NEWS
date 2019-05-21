@@ -85,7 +85,7 @@ public class OrganizationServlet extends BaseServlet {
         OrganizationService organizationService = new OrganizationServiceImpl();
         String oname=request.getParameter("oname");
         Organization oz=new Organization();
-        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         oz.setOname(oname);
         oz.setParentId(0);
         oz.setCreator(loginUser.getUserName());
@@ -105,7 +105,7 @@ public class OrganizationServlet extends BaseServlet {
         String oname=request.getParameter("oname");
         Integer pid=Integer.parseInt(request.getParameter("pid"));
         Organization oz=new Organization();
-        User loginUser = JSON.parseObject(request.getParameter("user"), User.class);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         oz.setOname(oname);
         oz.setParentId(pid);
         oz.setCreator(loginUser.getUserName());

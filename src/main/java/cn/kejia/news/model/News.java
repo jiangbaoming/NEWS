@@ -1,7 +1,6 @@
 package cn.kejia.news.model;
 
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * 新闻类
@@ -26,6 +25,16 @@ public class News {
     private String uName;//作者名
 
     private String tName;//分类名
+
+    private Integer sorting;//优先级
+
+    public Integer getSorting() {
+        return sorting;
+    }
+
+    public void setSorting(Integer sorting) {
+        this.sorting = sorting;
+    }
 
     public Integer getNid() {
         return nid;

@@ -11,7 +11,9 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
     var form = layui.form,
         elem = layui.element,
         table = layui.table;
-
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     function treeReload() {
         $.ajax({
             url: "/organization",
@@ -19,7 +21,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
             dataType: "json",
             data: {
                 "method": "getAll",
-                user:$.cookie('user'),
             },
             success: function (result) {
                 nodeData = result;
@@ -57,7 +58,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                     method: 'addChild',
                                     oname: text,
                                     pid: item.id,
-                                    user:$.cookie('user'),
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -85,7 +85,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                     method: 'reName',
                                     oname: text,
                                     oid: item.id,
-                                    user:$.cookie('user'),
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -116,7 +115,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                                 data: {
                                     method: 'delete',
                                     oid: item.id,
-                                    user:$.cookie('user'),
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -145,7 +143,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
             where: {
                 method: 'list',
                 pid: num,
-                user:$.cookie('user'),
             },
             method: "POST",
             request: {
@@ -188,7 +185,6 @@ layui.use(['jquery', 'layer', 'element', 'form', 'atree', 'table'], function () 
                 data: {
                     method: 'addParent',
                     oname: text,
-                    user:$.cookie('user'),
                 },
                 dataType: 'json',
                 type: 'post',

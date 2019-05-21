@@ -9,6 +9,9 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
         treeSelect = layui.treeSelect;
     var modifyOid = $("#tree").val();
 
+    if ($.cookie("truename") == null || $.cookie("truename") === "") {
+        window.location.href = "/login.html";
+    }
     //加载下拉Tree
     setTimeout(function () {
         treeSelect.render({
@@ -65,7 +68,6 @@ layui.use(['form', 'layer', 'treeSelect'], function () {
                 "userName": field.userName,
                 /*"role": field.role,*/
                 "oid": modifyOid,
-                user:$.cookie('user'),
             },
             success: function (result) {
                 top.layer.close(index);
