@@ -2,6 +2,7 @@ package cn.kejia.news.backendController;
 
 
 import cn.kejia.news.model.NewsType;
+import cn.kejia.news.model.User;
 import cn.kejia.news.service.NewsTypeService;
 import cn.kejia.news.service.impl.NewsTypeServiceImpl;
 import com.alibaba.fastjson.JSON;
@@ -31,31 +32,41 @@ public class BackendIndexServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         List<Map> navs = new ArrayList();
-        Map<String, Object> nav = new HashMap<>();
-        nav.put("title", "机构管理");
-        nav.put("icon", "&#xe60a;");
-        nav.put("href", "page/organization/organizationList.html");
-        nav.put("spread", false);
-        navs.add(nav);
-        Map<String, Object> nav1 = new HashMap<>();
-        nav1.put("title", "用户管理");
-        nav1.put("icon", "&#xe770;");
-        nav1.put("href", "page/admin/adminList.html");
-        nav1.put("spread", false);
-        navs.add(nav1);
-        Map<String, Object> nav2 = new HashMap<>();
-        nav2.put("title", "分类管理");
-        nav2.put("icon", "&#xe60a;");
-        nav2.put("href", "page/newsType/newsTypeList.html");
-        nav2.put("spread", false);
-        navs.add(nav2);
-        Map<String, Object> nav3 = new HashMap<>();
-        nav3.put("title", "文章管理");
-        nav3.put("icon", "&#xe60a;");
-        nav3.put("href", "");
-        nav3.put("spread", false);
-        nav3.put("children", getTypeList(0));
-        navs.add(nav3);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if (loginUser.getRole()>0){
+            Map<String, Object> nav = new HashMap<>();
+            nav.put("title", "机构管理");
+            nav.put("icon", "&#xe60a;");
+            nav.put("href", "page/organization/organizationList.html");
+            nav.put("spread", false);
+            navs.add(nav);
+            Map<String, Object> nav1 = new HashMap<>();
+            nav1.put("title", "用户管理");
+            nav1.put("icon", "&#xe770;");
+            nav1.put("href", "page/admin/adminList.html");
+            nav1.put("spread", false);
+            navs.add(nav1);
+            Map<String, Object> nav2 = new HashMap<>();
+            nav2.put("title", "分类管理");
+            nav2.put("icon", "&#xe60a;");
+            nav2.put("href", "page/newsType/newsTypeList.html");
+            nav2.put("spread", false);
+            navs.add(nav2);
+            Map<String, Object> nav3 = new HashMap<>();
+            nav3.put("title", "文章管理");
+            nav3.put("icon", "&#xe60a;");
+            nav3.put("href", "");
+            nav3.put("spread", false);
+            nav3.put("children", getTypeList(0));
+            navs.add(nav3);
+        }else {
+            Map<String, Object> nav3 = new HashMap<>();
+            nav3.put("title", "文章管理");
+            nav3.put("icon", "&#xe60a;");
+            nav3.put("href", "");
+            nav3.put("spread", false);
+            nav3.put("children", getTypeList(0));
+        }
         response.getWriter().write(JSON.toJSONString(navs));
     }
 

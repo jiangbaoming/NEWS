@@ -82,6 +82,7 @@ layui.define(["element", "jquery"], function (exports) {
     };
 
     function getNarTree(data){
+        var ulHtml = '';
         for (var i = 0; i < data.length; i++) {
             if (data[i].spread || data[i].spread == undefined) {
                 ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
@@ -89,6 +90,7 @@ layui.define(["element", "jquery"], function (exports) {
                 ulHtml += '<li class="layui-nav-item">';
             }
             if (data[i].children != undefined && data[i].children.length > 0) {
+                getNarTree(data[i].children);
                 ulHtml += '<a>';
                 if (data[i].icon != undefined && data[i].icon != '') {
                     if (data[i].icon.indexOf("icon-") != -1) {
