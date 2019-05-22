@@ -33,7 +33,7 @@ public class PortalIndexServlet extends HttpServlet {
         //导航分类
         List<NewsType> newsTypes = newsTypeService.getAll();
         //轮播图
-        List<News> bannerList = newsService.getList(1, 4, null, null);
+        List<News> bannerList = newsService.getList(1, 4, null, null,null);
         //栏目列表
         for (NewsType newsType : newsTypes) {
             List<News> listByTid = newsService.getListByTid(newsType.getTid());

@@ -42,7 +42,6 @@ layui.use(['form', 'layer', 'table'], function () {
             url: '/news',
             where: {
                 method:'getList',
-                user:$.cookie('user'),
             },
             method: "GET",
             request: {
@@ -93,7 +92,6 @@ layui.use(['form', 'layer', 'table'], function () {
                         where: {
                             title: $(".searchVal").val(),
                             method: "search",
-                            user:$.cookie('user'),
                         }
                     });
                     break;

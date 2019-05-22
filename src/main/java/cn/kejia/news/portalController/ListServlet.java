@@ -34,7 +34,7 @@ public class ListServlet extends HttpServlet {
         //分类列表
         List<News> list = newsService.getListByTid(tid);
         //资讯推荐
-        List<News> bannerList = newsService.getList(1, 10, null, null);
+        List<News> bannerList = newsService.getList(1, 10, null, null,null);
         String tName = newsTypeService.getTname(tid);
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("newsTypes", newsTypes);

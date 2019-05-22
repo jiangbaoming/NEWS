@@ -25,117 +25,166 @@ layui.define(["element", "jquery"], function (exports) {
         } else {
             data = strData;
         }
-        var ulHtml = '';
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].spread || data[i].spread == undefined) {
-                ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
-            } else {
-                ulHtml += '<li class="layui-nav-item">';
-            }
-            if (data[i].children != undefined && data[i].children.length > 0) {
-                ulHtml += '<a>';
-                if (data[i].icon != undefined && data[i].icon != '') {
-                    if (data[i].icon.indexOf("icon-") != -1) {
-                        ulHtml += '<i class="seraph ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
-                    } else {
-                        ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
-                    }
-                }
-                ulHtml += '<cite>' + data[i].title + '</cite>';
-                ulHtml += '<span class="layui-nav-more"></span>';
-                ulHtml += '</a>';
-                ulHtml += '<dl class="layui-nav-child">';
-                for (var j = 0; j < data[i].children.length; j++) {
-                    if (data[i].children[j].target == "_blank") {
-                        ulHtml += '<dd><a data-url="' + data[i].children[j].href + '" target="' + data[i].children[j].target + '">';
-                    } else {
-                        ulHtml += '<dd><a data-url="' + data[i].children[j].href + '">';
-                    }
-                    if (data[i].children[j].icon != undefined && data[i].children[j].icon != '') {
-                        if (data[i].children[j].icon.indexOf("icon-") != -1) {
-                            ulHtml += '<i class="seraph ' + data[i].children[j].icon + '" data-icon="' + data[i].children[j].icon + '"></i>';
-                        } else {
-                            ulHtml += '<i class="layui-icon" data-icon="' + data[i].children[j].icon + '">' + data[i].children[j].icon + '</i>';
-                        }
-                    }
-                    ulHtml += '<cite>' + data[i].children[j].title + '</cite></a></dd>';
-                }
-                ulHtml += "</dl>";
-            } else {
-                if (data[i].target == "_blank") {
-                    ulHtml += '<a data-url="' + data[i].href + '" target="' + data[i].target + '">';
-                } else {
-                    ulHtml += '<a data-url="' + data[i].href + '">';
-                }
-                if (data[i].icon != undefined && data[i].icon != '') {
-                    if (data[i].icon.indexOf("icon-") != -1) {
-                        ulHtml += '<i class="seraph ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
-                    } else {
-                        ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
-                    }
-                }
-                ulHtml += '<cite>' + data[i].title + '</cite></a>';
-            }
-            ulHtml += '</li>';
-        }
+        var ulHtml = loadMain(data);
+        /* for (var i = 0; i < data.length; i++) {
+             if (data[i].spread || data[i].spread == undefined) {
+                 ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
+             } else {
+                 ulHtml += '<li class="layui-nav-item">';
+             }
+             if (data[i].children != undefined && data[i].children.length > 0) {
+                 ulHtml += '<a>';
+                 if (data[i].icon != undefined && data[i].icon != '') {
+                     if (data[i].icon.indexOf("icon-") != -1) {
+                         ulHtml += '<i class="seraph ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
+                     } else {
+                         ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
+                     }
+                 }
+                 ulHtml += '<cite>' + data[i].title + '</cite>';
+                 ulHtml += '<span class="layui-nav-more"></span>';
+                 ulHtml += '</a>';
+                 ulHtml += '<dl class="layui-nav-child">';
+                 for (var j = 0; j < data[i].children.length; j++) {
+                     if (data[i].children[j].children!=undefined && data[i].children[j].children.length>0){
+                         ulHtml += '<a>';
+                         if (data[i].children[j].icon != undefined && data[i].children[j].icon != '') {
+                             if (data[i].children[j].icon.indexOf("icon-") != -1) {
+                                 ulHtml += '<i class="seraph ' + data[i].children[j].icon + '" data-icon="' + data[i].children[j].icon + '"></i>';
+                             } else {
+                                 ulHtml += '<i class="layui-icon" data-icon="' + data[i].children[j].icon + '">' + data[i].children[j].icon + '</i>';
+                             }
+                         }
+                         ulHtml += '<cite>' + data[i].children[j].title + '</cite>';
+                         ulHtml += '<span class="layui-nav-more"></span>';
+                         ulHtml += '</a>';
+                         ulHtml += '<dl class="layui-nav-child">';
+                         for (var k = 0; k < data[i].children[j].children.length; k++){
+                             if (data[i].children[j].children[k].target == "_blank") {
+                                 ulHtml += '<dd><a data-url="' + data[i].children[j].children[k].href + '" target="' + data[i].children[j].children[k].target + '">';
+                             } else {
+                                 ulHtml += '<dd><a data-url="' + data[i].children[j].children[k].href + '">';
+                             }
+                             if (data[i].children[j].children[k].icon != undefined && data[i].children[j].children[k].icon != '') {
+                                 if (data[i].children[j].icon.indexOf("icon-") != -1) {
+                                     ulHtml += '<i class="seraph ' + data[i].children[j].children[k].icon + '" data-icon="' + data[i].children[j].children[k].icon + '"></i>';
+                                 } else {
+                                     ulHtml += '<i class="layui-icon" data-icon="' + data[i].children[j].children[k].icon + '">' + data[i].children[j].children[k].icon + '</i>';
+                                 }
+                             }
+                             ulHtml += '<cite>' + data[i].children[j].children[k].title + '</cite></a></dd>';
+                         }
+                         ulHtml += '</dl>';
+                     }else {
+                         if (data[i].children[j].target == "_blank") {
+                             ulHtml += '<dd><a data-url="' + data[i].children[j].href + '" target="' + data[i].children[j].target + '">';
+                         } else {
+                             ulHtml += '<dd><a data-url="' + data[i].children[j].href + '">';
+                         }
+                         if (data[i].children[j].icon != undefined && data[i].children[j].icon != '') {
+                             if (data[i].children[j].icon.indexOf("icon-") != -1) {
+                                 ulHtml += '<i class="seraph ' + data[i].children[j].icon + '" data-icon="' + data[i].children[j].icon + '"></i>';
+                             } else {
+                                 ulHtml += '<i class="layui-icon" data-icon="' + data[i].children[j].icon + '">' + data[i].children[j].icon + '</i>';
+                             }
+                         }
+                         ulHtml += '<cite>' + data[i].children[j].title + '</cite></a></dd>';
+                     }
+                 }
+                 ulHtml += "</dl>";
+             } else {
+                 if (data[i].target == "_blank") {
+                     ulHtml += '<a data-url="' + data[i].href + '" target="' + data[i].target + '">';
+                 } else {
+                     ulHtml += '<a data-url="' + data[i].href + '">';
+                 }
+                 if (data[i].icon != undefined && data[i].icon != '') {
+                     if (data[i].icon.indexOf("icon-") != -1) {
+                         ulHtml += '<i class="seraph ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
+                     } else {
+                         ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
+                     }
+                 }
+                 ulHtml += '<cite>' + data[i].title + '</cite></a>';
+             }
+             ulHtml += '</li>';
+         }*/
         return ulHtml;
     };
 
-    function getNarTree(data){
-        var ulHtml = '';
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].spread || data[i].spread == undefined) {
-                ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
+    //拼接主菜单导航
+    function loadMain(data) {
+        var html = '';
+        $.each(data, function (i, obj) {
+            if (obj.spread || obj.spread == undefined) {
+                html += '<li class="layui-nav-item layui-nav-itemed">';
             } else {
-                ulHtml += '<li class="layui-nav-item">';
+                html += '<li class="layui-nav-item">';
             }
-            if (data[i].children != undefined && data[i].children.length > 0) {
-                ulHtml += '<a>';
-                if (data[i].icon != undefined && data[i].icon != '') {
-                    if (data[i].icon.indexOf("icon-") != -1) {
-                        ulHtml += '<i class="seraph ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
-                    } else {
-                        ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
-                    }
+            html += loadChild(obj);
+            html += '</li>';
+        });
+        return html;
+    }
+
+    //拼接子菜单导航
+    function loadChild(obj) {
+        if (obj == null) {
+            return;
+        }
+        var html = '';
+        if (obj.children != undefined && obj.children.length > 0) {
+            html += '<a>';
+            if (obj.icon != undefined && obj.icon != '') {
+                if (obj.icon.indexOf("icon-") != -1) {
+                    html += '<i class="seraph ' + obj.icon + '" data-icon="' + obj.icon + '"></i>';
+                } else {
+                    html += '<i class="layui-icon" data-icon="' + obj.icon + '">' + obj.icon + '</i>';
                 }
-                ulHtml += '<cite>' + data[i].title + '</cite>';
-                ulHtml += '<span class="layui-nav-more"></span>';
-                ulHtml += '</a>';
-                ulHtml += '<ul class="layui-nav-child">';
-                for (var j = 0; j < data[i].children.length; j++) {
-                    if (data[i].children[j].target == "_blank") {
-                        ulHtml += '<li><a data-url="' + data[i].children[j].href + '" target="' + data[i].children[j].target + '">';
+            }
+            html += '<cite>' + obj.title + '</cite>';
+            html += '<span class="layui-nav-more"></span>';
+            html += '</a>';
+            html += '<dl class="layui-nav-child">';
+            $.each(obj.children, function (i, node) {
+                if (node.children) {
+                    html += loadChild(node);
+                } else {
+                    if (node.target == "_blank") {
+                        html += '<dd><a data-url="' + node.href + '" tid="'+node.tid+'" target="' + node.target + '">';
                     } else {
-                        ulHtml += '<li><a data-url="' + data[i].children[j].href + '">';
+                        html += '<dd><a data-url="' + node.href + '" tid="'+node.tid+'" >';
                     }
-                    if (data[i].children[j].icon != undefined && data[i].children[j].icon != '') {
-                        if (data[i].children[j].icon.indexOf("icon-") != -1) {
-                            ulHtml += '<i class="seraph ' + data[i].children[j].icon + '" data-icon="' + data[i].children[j].icon + '"></i>';
+                    if (node.icon != undefined && node.icon != '') {
+                        if (node.icon.indexOf("icon-") != -1) {
+                            html += '<i class="seraph ' + node.icon + '" data-icon="' + node.icon + '"></i>';
                         } else {
-                            ulHtml += '<i class="layui-icon" data-icon="' + data[i].children[j].icon + '">' + data[i].children[j].icon + '</i>';
+                            html += '<i class="layui-icon" data-icon="' + node.icon + '">' + node.icon + '</i>';
                         }
                     }
-                    ulHtml += '<cite>' + data[i].children[j].title + '</cite></a></li>';
+                    html += '<cite>' + node.title + '</cite></a></dd>';
                 }
-                ulHtml += "</ul>";
+            });
+            html += '</dl>';
+        } else {
+            if (obj.target == "_blank") {
+                html += '<a data-url="' + obj.href + '" tid="'+obj.tid+'" target="' + obj.target + '">';
             } else {
-                if (data[i].target == "_blank") {
-                    ulHtml += '<a data-url="' + data[i].href + '" target="' + data[i].target + '">';
-                } else {
-                    ulHtml += '<a data-url="' + data[i].href + '">';
-                }
-                if (data[i].icon != undefined && data[i].icon != '') {
-                    if (data[i].icon.indexOf("icon-") != -1) {
-                        ulHtml += '<i class="seraph ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
-                    } else {
-                        ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
-                    }
-                }
-                ulHtml += '<cite>' + data[i].title + '</cite></a>';
+                html += '<a data-url="' + obj.href + '" tid="'+obj.tid+'">';
             }
-            ulHtml += '</li>';
+            if (obj.icon != undefined && obj.icon != '') {
+                if (obj.icon.indexOf("icon-") != -1) {
+                    html += '<i class="seraph ' + obj.icon + '" data-icon="' + obj.icon + '"></i>';
+                } else {
+                    html += '<i class="layui-icon" data-icon="' + obj.icon + '">' + obj.icon + '</i>';
+                }
+            }
+            html += '<cite>' + obj.title + '</cite></a>';
         }
+        return html;
     }
+
+
     //获取二级菜单数据
     Tab.prototype.render = function () {
         //显示左侧菜单
@@ -212,7 +261,7 @@ layui.define(["element", "jquery"], function (exports) {
                 title += '<i class="layui-icon layui-unselect layui-tab-close" data-id="' + tabIdIndex + '">&#x1006;</i>';
                 element.tabAdd(tabFilter, {
                     title: title,
-                    content: "<iframe src='" + _this.attr("data-url") + "' data-id='" + tabIdIndex + "'></frame>",
+                    content: "<iframe src='" + _this.attr("data-url") + "' tid = '" + _this.attr("tid") + "'  data-id='" + tabIdIndex + "'></frame>",
                     id: new Date().getTime()
                 });
                 //当前窗口内容
@@ -220,7 +269,8 @@ layui.define(["element", "jquery"], function (exports) {
                     "icon": _this.find("i.seraph").attr("data-icon") != undefined ? _this.find("i.seraph").attr("data-icon") : _this.find("i.layui-icon").attr("data-icon"),
                     "title": _this.find("cite").text(),
                     "href": _this.attr("data-url"),
-                    "layId": new Date().getTime()
+                    "layId": new Date().getTime(),
+                    "tid": _this.attr("tid"),
                 };
                 menu.push(curmenu);
                 window.sessionStorage.setItem("menu", JSON.stringify(menu)); //打开的窗口
@@ -232,7 +282,8 @@ layui.define(["element", "jquery"], function (exports) {
                 var curmenu = {
                     "icon": _this.find("i.seraph").attr("data-icon") != undefined ? _this.find("i.seraph").attr("data-icon") : _this.find("i.layui-icon").attr("data-icon"),
                     "title": _this.find("cite").text(),
-                    "href": _this.attr("data-url")
+                    "href": _this.attr("data-url"),
+                    "tid": _this.attr("tid"),
                 };
                 that.changeRegresh(_this.parent('.layui-nav-item').index());
                 window.sessionStorage.setItem("curmenu", JSON.stringify(curmenu));  //当前的窗口

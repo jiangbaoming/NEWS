@@ -66,6 +66,7 @@ public class BackendIndexServlet extends HttpServlet {
             nav3.put("href", "");
             nav3.put("spread", false);
             nav3.put("children", getTypeList(0));
+            navs.add(nav3);
         }
         response.getWriter().write(JSON.toJSONString(navs));
     }
@@ -84,6 +85,7 @@ public class BackendIndexServlet extends HttpServlet {
             nav3.put("title", newsType.gettName());
             nav3.put("icon", "&#xe60a;");
             nav3.put("spread", false);
+            nav3.put("tid", newsType.getTid());
             if (newsTypes.size()>0){
                 nav3.put("href", "");
                 nav3.put("children",getTypeList(newsType.getTid()));

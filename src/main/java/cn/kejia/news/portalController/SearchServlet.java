@@ -29,7 +29,7 @@ public class SearchServlet extends HttpServlet {
         NewsTypeService newsTypeService=new NewsTypeServiceImpl();
         NewsService newsService=new NewsServiceImpl();
         List<NewsType> newsTypes = newsTypeService.getAll();
-        List<News> bannerList = newsService.getList(1, 5, null, null);
+        List<News> bannerList = newsService.getList(1, 5, null, null,null);
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("newsTypes", newsTypes);
         request.getRequestDispatcher("/portal/search.jsp").forward(request, response);

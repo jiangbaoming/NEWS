@@ -29,7 +29,7 @@ public class DetailsServlet extends HttpServlet {
         NewsTypeService newsTypeService = new NewsTypeServiceImpl();
         NewsService newsService = new NewsServiceImpl();
         List<NewsType> newsTypes = newsTypeService.getAll();
-        List<News> bannerList = newsService.getList(1, 10, null, null);
+        List<News> bannerList = newsService.getList(1, 10, null, null,null);
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("newsTypes", newsTypes);
         Integer nid = Integer.parseInt(request.getParameter("nid"));

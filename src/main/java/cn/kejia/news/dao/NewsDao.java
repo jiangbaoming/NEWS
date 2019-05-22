@@ -38,11 +38,12 @@ public interface NewsDao {
      * @param pageSize  页容量
      * @param isAdmin  是否管理员
      * @param uid   当前登录用户ID
-     * @return
+     * @param tid 文章类型
+     * @return  文章列表
      */
-    List<News> getNewsList(Integer pageNum, Integer pageSize,boolean isAdmin,Integer uid,String title);
+    List<News> getNewsList(Integer pageNum, Integer pageSize,boolean isAdmin,Integer uid,String title,Integer tid);
 
-    int getTotalCount(Integer uid ,String title);
+    int getTotalCount(Integer uid ,String title,Integer tid);
 
     News getNewsByNid(Integer nid);
 

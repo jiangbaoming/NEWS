@@ -60,17 +60,22 @@ public class NewsServlet extends BaseServlet {
         Integer pageNum = Integer.parseInt(request.getParameter("pageNum"));
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         User loginUser = (User) request.getSession().getAttribute("loginUser");
+        String tidStr=request.getParameter("tid");
+        Integer tid=null;
+        if (null != tidStr && ! "".equals(tidStr)){
+            tid  =Integer.parseInt(tidStr);
+        }
         Integer userRole = loginUser.getRole();
         List<News> newsList = null;
         int totalCount = 0;
         switch (userRole) {
             case 1:
-                newsList = newsService.getList(pageNum, pageSize, null, null);
-                totalCount = newsService.getTotalCount(null, null);
+                newsList = newsService.getList(pageNum, pageSize, null, null,tid);
+                totalCount = newsService.getTotalCount(null, null,tid);
                 break;
             case 0:
-                newsList = newsService.getList(pageNum, pageSize, loginUser.getId(), null);
-                totalCount = newsService.getTotalCount(loginUser.getId(), null);
+                newsList = newsService.getList(pageNum, pageSize, loginUser.getId(), null,tid);
+                totalCount = newsService.getTotalCount(loginUser.getId(), null,tid);
                 break;
             default:
                 break;
@@ -122,12 +127,12 @@ public class NewsServlet extends BaseServlet {
         int totalCount = 0;
         switch (userRole) {
             case 1:
-                newsList = newsService.getList(pageNum, pageSize, null, title);
-                totalCount = newsService.getTotalCount(null, title);
+                newsList = newsService.getList(pageNum, pageSize, null, title,null);
+                totalCount = newsService.getTotalCount(null, title,null);
                 break;
             case 0:
-                newsList = newsService.getList(pageNum, pageSize, loginUser.getId(), title);
-                totalCount = newsService.getTotalCount(loginUser.getId(), title);
+                newsList = newsService.getList(pageNum, pageSize, loginUser.getId(), title,null);
+                totalCount = newsService.getTotalCount(loginUser.getId(), title,null);
                 break;
             default:
                 break;

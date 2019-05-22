@@ -15,6 +15,7 @@ public class NewsType {
     private String tName;//分类名称
 
     private Integer tSorting;//优先级
+
     private List<News> newsList;//该分类下的所有新闻
 
     public Integer gettSorting() {

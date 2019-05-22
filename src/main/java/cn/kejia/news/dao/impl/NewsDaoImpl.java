@@ -36,8 +36,8 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
 
     @Override
     public boolean add(News news) {
-        String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid,introduction)values(?,?,?,?,?,?,?,?)";
-        Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction()};
+        String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid,introduction,sorting)values(?,?,?,?,?,?,?,?)";
+        Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction(),news.getSorting()};
         int rows = executeUpdata(sql, params);
         return rows > 0;
     }
@@ -59,29 +59,48 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
     }
 
     @Override
-    public List<News> getNewsList(Integer pageNum, Integer pageSize, boolean isAdmin, Integer uid, String title) {
+    public List<News> getNewsList(Integer pageNum, Integer pageSize, boolean isAdmin, Integer uid, String title,Integer tid) {
         String sql = "";
         Object[] params = null;
         News news = null;
         List<News> newsList = new ArrayList<>();
         if (isAdmin) {
             if (null != title){
-                sql = "select * from news where title like \"%\"?\"%\"  releaseDate  desc ,sorting desc limit ? ,?";
-                params = new Object[]{title,pageNum, pageSize};
+                if (null != tid){
+                    sql = "select * from news where title like \"%\"?\"%\"  and tid = ? order by releaseDate  desc ,sorting desc limit ? ,?";
+                    params = new Object[]{title,tid,pageNum, pageSize};
+                }else {
+                    sql = "select * from news where title like \"%\"?\"%\" order by releaseDate  desc ,sorting desc limit ? ,?";
+                    params = new Object[]{title,pageNum, pageSize};
+                }
             }else {
-                sql = "select * from news order by releaseDate  desc ,sorting desc limit ? ,?";
-                params = new Object[]{pageNum, pageSize};
-            }
+                if (null != tid){
+                    sql = "select * from news where tid = ? order by releaseDate  desc ,sorting desc limit ? ,?";
+                    params = new Object[]{tid,pageNum, pageSize};
+                }else {
+                    sql = "select * from news  order by releaseDate  desc ,sorting desc limit ? ,?";
+                    params = new Object[]{pageNum, pageSize};
+                }
 
+            }
         } else {
             if (null != title){
-                sql = "select * from news where uid= ? and title like \"%\"?\"%\" releaseDate  desc ,sorting desc limit ? , ?";
-                params = new Object[]{uid, title,pageNum, pageSize};
+                if (null != tid){
+                    sql = "select * from news where uid= ? and tid= ? and title like \"%\"?\"%\"  order by releaseDate  desc ,sorting desc limit ? , ?";
+                    params = new Object[]{uid,tid,title,pageNum, pageSize};
+                }else {
+                    sql = "select * from news where uid= ? and title like \"%\"?\"%\"  order by releaseDate  desc ,sorting desc limit ? , ?";
+                    params = new Object[]{uid, title,pageNum, pageSize};
+                }
             }else {
-                sql = "select * from news where uid= ? releaseDate  desc ,sorting desc limit ? , ?";
-                params = new Object[]{uid, pageNum, pageSize};
+                if (null != tid){
+                    sql = "select * from news where uid= ? and tid = ? order by releaseDate  desc ,sorting desc limit ? , ?";
+                    params = new Object[]{uid,tid,pageNum, pageSize};
+                }else {
+                    sql = "select * from news where uid= ? order by releaseDate  desc ,sorting desc limit ? , ?";
+                    params = new Object[]{uid, pageNum, pageSize};
+                }
             }
-
         }
         rs = executeQuriy(sql, params);
         try {
@@ -98,7 +117,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
     }
 
     @Override
-    public int getTotalCount(Integer uid,String title) {
+    public int getTotalCount(Integer uid,String title,Integer tid) {
         String sql = "";
         Object[] params = null;
         int totalCount = 0;

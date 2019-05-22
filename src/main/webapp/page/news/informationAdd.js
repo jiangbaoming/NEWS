@@ -9,7 +9,13 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         window.location.href = "/login.html";
     }
 
-    //获取分类
+    //获取iframe
+    var iframeOBj = top.window.document.getElementsByClassName('layui-tab-item layui-show')[0].getElementsByTagName('iframe')[0];
+    var iframeOBj = $(iframeOBj);
+    //获取当前文章类型
+    var tid=iframeOBj.attr('tid');
+    console.log(iframeOBj.attr('tid'));
+    /*//获取分类
     $.ajax({
         url:"/newsType",
         type: "POST",
@@ -30,7 +36,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 form.render('select');
             } 
         }
-    });
+    });*/
 
     //创建一个编辑器
    /* const editIndex = layedit.build('news_content', {
@@ -103,7 +109,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     method:'add',
                     title: $(".articleTitle").val(),
                     introduction: $(".introduction").val(),
-                    tid: $(".category").val(),
+                    tid: tid,
                     banner: coverUrl,
                     content: ue.getContent(),
                 },
