@@ -16,7 +16,7 @@ import java.io.IOException;
  * @Date:2019/05/21
  * @Modified By：
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = "/news")
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/news","/newsType","/organization"})
 public class LoginFilter implements Filter {
     public void destroy() {
     }

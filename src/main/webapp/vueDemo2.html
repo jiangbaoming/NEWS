@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="statics/js/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+<div id='example-3'>
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
+</div>
+<hr/>
+<div id="example-4">
+    <select v-model="selected">
+        <option v-for="option in list" v-bind:value="option.tid">
+            {{ option.tName }}
+        </option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+</div>
+<hr/>
+<div id="example-5">
+    <select v-model="selected">
+        <option disabled value="">请选择</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+</div>
+<hr/>
+<div id="example6">
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var list;
+    $(function () {
+        // 定义一个名为 button-counter 的新组件
+        Vue.component('button-counter', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+        });
+        var example3 = new Vue({
+            el: '#example-3',
+            data: {
+                checkedNames: []
+            }
+        });
+        var example5 = new Vue({
+            el: '#example-5',
+            data: {
+                selected: ''
+            }
+        });
+        $.ajax({
+            url: '/newsType',
+            dataType: 'json',
+            type: 'post',
+            data: {
+                method: 'getList',
+            },
+            async:false,
+            success: function (data) {
+                list = data.data;
+                console.log(list);
+            }
+        });
+        var example4 = new Vue({
+            el: '#example-4',
+            data: {
+                selected: '10',
+                list: list,
+            }
+        });
+        var example6=new Vue({
+            el:'#example6',
+        });
+    })
+</script>
+</html>

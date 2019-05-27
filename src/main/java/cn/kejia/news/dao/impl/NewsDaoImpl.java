@@ -36,7 +36,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao {
 
     @Override
     public boolean add(News news) {
-        String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid,introduction,sorting)values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into news ( uid,title, banner,times,content,releaseDate,tid,introduction,sorting)values(?,?,?,?,?,?,?,?,?)";
         Object[] params = {news.getUid(), news.getTitle(), news.getBanner(), news.getTimes(), news.getContent(), news.getReleaseDate(), news.getTid(), news.getIntroduction(),news.getSorting()};
         int rows = executeUpdata(sql, params);
         return rows > 0;

@@ -7,6 +7,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     if ($.cookie("truename") == null || $.cookie("truename") === "") {
         window.location.href = "/login.html";
     }
+
     //获取分类
     function getNewsType() {
         $.ajax({
@@ -38,14 +39,15 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     }
 
 
-   /* //创建一个编辑器
-    const editIndex = layedit.build('content', {
-        height: 500,
-        uploadImage: {
-            url: "http://localhost:8080/uploadServlet"
-        }
-    });*/
-    var ue = UE.getEditor('content',{zIndex: 100});
+    /* //创建一个编辑器
+     const editIndex = layedit.build('content', {
+         height: 500,
+         uploadImage: {
+             url: "http://localhost:8080/uploadServlet"
+         }
+     });*/
+    var ue = UE.getEditor('content', {zIndex: 100, elementPathEnabled: false, wordCount: false});
+    ue.setContent();
     //封面图上传
     let coverUrl = $("#demo1").attr("src");
     console.log(coverUrl);
@@ -92,7 +94,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         }
     });
 
-    form.on("submit(addNews)", function (data) {
+    form.on("submit(updateNews)", function (data) {
         //弹出loading
         const index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         $.ajax({
@@ -128,7 +130,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     setTimeout(function () {
         getNewsType();
         ue.setContent($("#newsContent").val());
-       // layedit.setContent(editIndex, $("#newsContent").val());
+        // layedit.setContent(editIndex, $("#newsContent").val());
         /*$.ajax({
             url: '/news',
             type: "post",

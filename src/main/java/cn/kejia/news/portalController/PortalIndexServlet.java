@@ -12,8 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.HTMLDocument;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,19 +30,27 @@ public class PortalIndexServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("首页");
-        NewsTypeService newsTypeService=new NewsTypeServiceImpl();
-        NewsService newsService=new NewsServiceImpl();
+        NewsTypeService newsTypeService = new NewsTypeServiceImpl();
+        NewsService newsService = new NewsServiceImpl();
         //导航分类
-        List<NewsType> newsTypes = newsTypeService.getAll();
+        List<NewsType> navigations = newsTypeService.getByPid(0);
+        request.setAttribute("navigations", navigations);
         //轮播图
-        List<News> bannerList = newsService.getList(1, 4, null, null,null);
-        //栏目列表
-        for (NewsType newsType : newsTypes) {
-            List<News> listByTid = newsService.getListByTid(newsType.getTid());
-            newsType.setNewsList(listByTid);
-        }
+        List<News> bannerList = newsService.getList(1, 4, null, null, null);
         request.setAttribute("bannerList", bannerList);
-        request.setAttribute("newsTypes", newsTypes);
+        //栏目列表
+        List<NewsType> programaList = newsTypeService.getAll();
+        Iterator<NewsType> it = programaList.iterator();
+        while (it.hasNext()){
+            NewsType newsType = it.next();
+            List<News> listByTid = newsService.getListByTid(newsType.getTid());
+            if (listByTid.size() > 0) {
+                newsType.setNewsList(listByTid);
+            } else {
+                it.remove();
+            }
+        }
+        request.setAttribute("programaList", programaList);
         request.getRequestDispatcher("/portal/index.jsp").forward(request, response);
     }
 

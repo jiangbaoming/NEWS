@@ -12,8 +12,7 @@ layui.use(['form', 'layer', 'jquery'], function () {
             window.history.pushState('forward', null, '#');
             window.history.forward(1);
         });
-    }
-    ;
+    };
     if (window != top) {
         top.location.href = location.href
     }

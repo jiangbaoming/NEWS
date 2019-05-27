@@ -13,7 +13,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     var iframeOBj = top.window.document.getElementsByClassName('layui-tab-item layui-show')[0].getElementsByTagName('iframe')[0];
     var iframeOBj = $(iframeOBj);
     //获取当前文章类型
-    var tid=iframeOBj.attr('tid');
+    var tid = iframeOBj.attr('tid');
     console.log(iframeOBj.attr('tid'));
     /*//获取分类
     $.ajax({
@@ -39,13 +39,13 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
     });*/
 
     //创建一个编辑器
-   /* const editIndex = layedit.build('news_content', {
-        height: 500,
-        uploadImage: {
-            url: "http://localhost:8080/uploadServlet"
-        }
-    });*/
-    var ue = UE.getEditor('ueditor',{zIndex: 100});
+    /* const editIndex = layedit.build('news_content', {
+         height: 500,
+         uploadImage: {
+             url: "http://localhost:8080/uploadServlet"
+         }
+     });*/
+    var ue = UE.getEditor('ueditor', {zIndex: 100, elementPathEnabled: false, wordCount: false});
 
     //封面图上传
     let coverUrl = null;
@@ -90,8 +90,8 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                 return "简介内容过长";
             }
         },
-        type:function (val) {
-            if ($(".category").val()==''|| $(".category").val() ==null) {
+        type: function (val) {
+            if ($(".category").val() == '' || $(".category").val() == null) {
                 return "请选择栏目类别";
             }
         }
@@ -102,11 +102,11 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
         const index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         setTimeout(function () {
             $.ajax({
-                url:"/news",
+                url: "/news",
                 type: "POST",
                 dataType: "json",
                 data: {
-                    method:'add',
+                    method: 'add',
                     title: $(".articleTitle").val(),
                     introduction: $(".introduction").val(),
                     tid: tid,
@@ -114,7 +114,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     content: ue.getContent(),
                 },
                 success: function (result) {
-                    if (result.code ===200) {
+                    if (result.code === 200) {
                         layer.msg("新增成功");
                         setTimeout(function () {
                             top.layer.close(index);
@@ -127,7 +127,7 @@ layui.use(['form', 'layer', 'layedit', 'upload'], function () {
                     }
                 }
             });
-        },1000);
+        }, 1000);
         return false;
     });
 });

@@ -28,20 +28,10 @@
         </h1>
         <p class="nav">
             <a href="/index" class="active">最新</a>
-            <c:forEach items="${requestScope.newsTypes}" var="newsType">
-                <a href="/list?tid=${newsType.tid}">${newsType.tName}</a>
+            <c:forEach items="${requestScope.navigations}" var="navigation">
+                <a href="/list?tid=${navigation.tid}">${navigation.tName}</a>
             </c:forEach>
         </p>
-        <%--<div class="search-bar">
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <input type="text" name="title" placeholder="搜索你要的内容" autocomplete="off" class="layui-input">
-                        <button class="layui-btn search-btn"  formnovalidate><i class="layui-icon layui-icon-search"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>--%>
     </div>
 </div>
 <div class="layui-fulid micronews-banner w1000">
@@ -63,22 +53,12 @@
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md8" style="width: 100%">
                 <div class="main">
                     <div class="list-item" id="LAY_demo2">
-                        <c:forEach items="${requestScope.newsTypes}" var="newsType">
+                        <c:forEach items="${requestScope.programaList}" var="programa">
                             <div style="float: left">
-                                <a href="/list?tid=${newsType.newsList[0].tid}"><h2 style="background-color: #01AAED; color: white ;width: 470px"><span>${newsType.tName}版块</span></h2></a>
+                                <a href="/list?tid=${programa.newsList[0].tid}"><h2 style="background-color: #01AAED; color: white ;width: 470px"><span>${programa.tName}版块</span></h2></a>
                                 <div class="item">
-                                        <%--<a href="/list?tid=${newsType.newsList[0].tid}">
-                                            <c:choose>
-                                                <c:when test="${newsType.newsList[0].banner != null}">
-                                                    <img style="width: 160px; height: 100px" src="${newsType.newsList[0].banner}">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img style="width: 160px; height: 100px" src="/portal/static/images/news_img3.jpg">
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </a>--%>
                                     <div class="item-info" style="height: 150px;width: 470px ;float: left;margin-right: 5px">
-                                        <c:forEach items="${newsType.newsList}" var="news">
+                                        <c:forEach items="${programa.newsList}" var="news">
                                             <h6 style="height: 19px ;padding-right: 5px;border-right: 1px gold solid"><a href="/details?nid=${news.nid}">${news.introduction}</a><span style="float: right">${news.releaseDate}</span></h6>
                                             <hr>
                                         </c:forEach>
