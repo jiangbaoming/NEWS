@@ -28,15 +28,21 @@ public class DetailsServlet extends HttpServlet {
         System.out.println("details");
         NewsTypeService newsTypeService = new NewsTypeServiceImpl();
         NewsService newsService = new NewsServiceImpl();
-        List<NewsType> newsTypes = newsTypeService.getAll();
+        //导航分类
+        List<NewsType> navigations = newsTypeService.getByPid(0);
+        request.setAttribute("navigations", navigations);
+        //热门资讯
         List<News> bannerList = newsService.getList(1, 10, null, null,null);
         request.setAttribute("bannerList", bannerList);
-        request.setAttribute("newsTypes", newsTypes);
+
         Integer nid = Integer.parseInt(request.getParameter("nid"));
         News news = newsService.getNewsByNid(nid);
+        //浏览次数
         Integer num=news.getTimes()+1;
         newsService.updateTimes(news.getNid(), num);
         news.setTimes(num);
+        //文章类型
+        request.setAttribute("tid", news.getTid());
         request.setAttribute("bannerList", bannerList);
         request.setAttribute("news", news);
         request.getRequestDispatcher("/portal/details.jsp").forward(request, response);

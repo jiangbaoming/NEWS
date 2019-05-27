@@ -30,14 +30,14 @@ public class ListServlet extends HttpServlet {
         NewsTypeService newsTypeService = new NewsTypeServiceImpl();
         NewsService newsService = new NewsServiceImpl();
         //导航分类
-        List<NewsType> newsTypes = newsTypeService.getAll();
+        List<NewsType> navigations = newsTypeService.getByPid(0);
+        request.setAttribute("navigations", navigations);
         //分类列表
         List<News> list = newsService.getListByTid(tid);
         //资讯推荐
         List<News> bannerList = newsService.getList(1, 10, null, null,null);
-        String tName = newsTypeService.getTname(tid);
         request.setAttribute("bannerList", bannerList);
-        request.setAttribute("newsTypes", newsTypes);
+        String tName = newsTypeService.getTname(tid);
         request.setAttribute("tid", tid);
         request.setAttribute("tName", tName);
         request.setAttribute("list", list);

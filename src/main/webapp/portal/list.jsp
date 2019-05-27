@@ -27,9 +27,9 @@
         </h1>
         <p class="nav">
             <a href="/index">最新</a>
-            <c:forEach items="${requestScope.newsTypes}" var="newsType">
+            <c:forEach items="${requestScope.navigations}" var="navigation">
 
-                <a href="/list?tid=${newsType.tid}" <c:if test="${requestScope.tid==newsType.tid}">class="active" </c:if> >${newsType.tName}</a>
+                <a href="/list?tid=${navigation.tid}" <c:if test="${requestScope.tid==navigation.tid}">class="active" </c:if> >${navigation.tName}</a>
 
             </c:forEach>
         </p>
